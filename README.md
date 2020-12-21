@@ -45,9 +45,9 @@ For a list of quick keyboard shortcuts and other information see file [cheatshee
 
 # Authors
 
-* **fieserWolF/Abyss-Connection** - *Initial work* - [fieserWolF on github](https://github.com/fieserWolF) [fieserWolF on CSDB](https://csdb.dk/scener/?id=3623)
-* **Pararaum/The 7th Division** - *example image* - [Pararaum on CSDB](https://csdb.dk/scener/?id=31223)
-* **Mirage/Booze Design** - *example image* - [Mirage on CSDB](https://csdb.dk/scener/?id=739)
+* fieserWolF/Abyss-Connection - *Initial work* - [fieserWolF on github](https://github.com/fieserWolF) [fieserWolF on CSDB](https://csdb.dk/scener/?id=3623)
+* Pararaum/The 7th Division - *example image* - [Pararaum on CSDB](https://csdb.dk/scener/?id=31223)
+* Mirage/Booze Design - *example image* - [Mirage on CSDB](https://csdb.dk/scener/?id=739)
 
 
 
