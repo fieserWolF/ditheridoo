@@ -2,7 +2,7 @@
 
 MegaPixel is a multicolor bitmap editor for Commodore 64.
 It runs on 64 bit versions of Linux, MacOS and Windows.
-
+2
 
 # Getting Started
 
