@@ -41,13 +41,13 @@ apt-get install python3 python3-tk python3-pil
 For a list of quick keyboard shortcuts and other information see file [cheatsheet](cheatsheet.md).
 
 
-# expected file format
+# File Format
 
 The multicolor bitmap is stored in the widely-spread KoalaPainter (C64) format:
 
 * 2 bytes load address
 * 8000 bytes raw bitmap data
-* 1000 bytes raw "Video Matrix" data
+* 1000 bytes raw "Video Matrix" (screen) data
 * 1000 bytes raw "Color RAM" data
 * 1 byte background data
 
