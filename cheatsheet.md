@@ -2,23 +2,23 @@
 
 ## GUI controls
 
-|key|function|
-|----|----|
-| Alt+q | quit MegaPixel |
-| Alt+o | open file |
-| Alt+s | save file |
-| Alt+c | configure |
-| Alt+p | show preview window |
-| Alt+h | this help |
+key|function
+----|----
+Alt+q | quit MegaPixel
+Alt+o | open file
+Alt+s | save file
+Alt+c | configure
+Alt+p | show preview window
+Alt+h | this help
 
 ## mouse control
 
-|mouse action|function|
-|----|----|
-| right mouse button | set color
-| left mouse button | set other color
-| middle mouse button | scroll image
-| mouse wheel | zoom in and out
+mouse action|function
+----|----
+right mouse button | set color
+left mouse button | set other color
+middle mouse button | scroll image
+mouse wheel | zoom in and out
 
 ## editing
 
