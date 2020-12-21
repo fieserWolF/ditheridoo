@@ -4,26 +4,25 @@ MegaPixel is a multicolor bitmap editor for Commodore 64.
 
 
 
-## Getting Started
+# Getting Started
 
 MegaPixel comes in two flavours:
 
 - standalone executable for 64-bit systems Linux, MacOS/Darwin and Windows
 - Python3 script
 
-### Standalone executable
+## Standalone executable
 
 Just download your bundle and enjoy.
 
 
-### Python3 script
+## Python3 script prerequisites
 
 As MegaPixel is written in Python3 it depends a little on which OS you are starting it.
 On Linux and Mac OS you might want to install needed modules first (see Prerequisites).
 On Windows you may want to use the contents of the ZIP file and start the .exe.
 
-
-#### Prerequisites
+At least this is needed to run the script directly:
 
 - python 3
 - python tkinter module
