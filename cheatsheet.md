@@ -2,7 +2,7 @@
 
 ## GUI controls
 
-- ``Alt+q`` = quit MegaPixel
+- ''Alt+q'' = quit MegaPixel
 - Alt+o = open file
 - Alt+s = save file
 - Alt+c = configure
