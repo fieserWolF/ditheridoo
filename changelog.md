@@ -9,7 +9,7 @@
 - implement different pencil sizes
 
 Any help and support in any form is highly appreciated.
-If you have a feature request or if you want to offer help, please contact me:
+If you have a feature request, a bug report or if you want to offer help, please contact me:
 
 [http://csdb.dk/scener/?id=3623](http://csdb.dk/scener/?id=3623)
 or
