@@ -2,86 +2,51 @@
 
 MegaPixel is a multicolor bitmap editor for Commodore 64.
 
-# credits
+
+
+## Getting Started
+
+MegaPixel comes in two flavours:
+
+- standalone executable for 64-bit systems Linux, MacOS/Darwin and Windows
+- Python3 script
+
+### Standalone executable
+
+Just download your bundle and enjoy.
+
+
+### Python3 script
+
+As MegaPixel is written in Python3 it depends a little on which OS you are starting it.
+On Linux and Mac OS you might want to install needed modules first (see Prerequisites).
+On Windows you may want to use the contents of the ZIP file and start the .exe.
+
+
+#### Prerequisites
+
+- python 3
+- python tkinter module
+- python "The Python Imaging Library" (PIL)
+
+On my Debian machine I use apt-get to install everything needed:
+```
+apt-get update
+apt-get install python3 python3-tk python3-pil
+```
+
+# Usage
+
+For a list of quick keyboard shortcuts and other information see file [cheatsheet](cheatsheet).
+
+
+
+
+# Authors
 
 * **fieserWolF/Abyss-Connection** - *Initial work* - [fieserWolF on github](https://github.com/fieserWolF) [fieserWolF on CSDB](https://csdb.dk/scener/?id=3623)
 * **Pararaum/The 7th Division** - *example image* - [Pararaum on CSDB](https://csdb.dk/scener/?id=31223)
 * **Mirage/Booze Design** - *example image* - [Mirage on CSDB](https://csdb.dk/scener/?id=739)
-
-
-# cheatsheet
-
-## GUI controls
-
-- Alt+q = quit MegaPixel
-- Alt+o = open file
-- Alt+s = save file
-- Alt+c = configure
-- Alt+p = show preview window
-- Alt+h = this help
-
-## mouse control
-
-- right mouse button = set color
-- left mouse button = set other color
-- middle mouse button = scroll image
-- mouse wheel = zoom in and out
-
-## editing
-
-- Ctrl+z = undo (single pixel editing only, not for block-commands like cut or paste)
-- Ctrl+x = cut
-- Ctrl+c = copy
-- Ctrl+p = paste
-- m = set marker
-- Alt+n = normal pencil
-- Alt+b = checkerboard dither pencil
-- Alt+x = x-line dither pencil
-- Alt+y = y-line dither pencil
-- Alt+l = light dither pencil
-
-## editor visuals
-
-- plus/ minus = zoom in and out
-- cursor keys = scroll image
-
-## left mouse-button color
-
-- 0-9...a-f = select color
-- F1 = screen-color-1 of block
-- F2 = screen-color-2 of block
-- F3 = colorram of block
-- F4 = background
-
-## right mouse-button color
-
-- Shift+ 0-9...a-f = select color
-- Shift+F1 = screen-color-1 of block
-- Shift+F2 = screen-color-2 of block
-- Shift+F3 = colorram of block
-- Shift+F4 = background
-
-## color to replace (only when in draw mode 'select'):
-
-- F5 = screen-color-1 of block
-- F6 = screen-color-2 of block
-- F7 = colorram of block
-- F8 = background
-Space = no overwriting
-
-## notes: draw-modes
-
-Can be set in settings window.
-Behaviour if too many colors are used (color-clash):
-
-- keep color    = keep color if too many colors are used
-- replace color = replace color if too many colors are used
-- select color  = overwrite selected data: screen-color1, screen-color2, colorram or background
-- dye  = do not touch bitmap, only overwrite color
-
-
-
-
 
 
 
