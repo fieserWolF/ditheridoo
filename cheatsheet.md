@@ -56,7 +56,7 @@
 - F6 = screen-color-2 of block
 - F7 = colorram of block
 - F8 = background
-Space = no overwriting
+- Space = no overwriting
 
 ## notes: draw-modes
 
