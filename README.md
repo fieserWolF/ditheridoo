@@ -84,8 +84,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 See the [LICENSE](LICENSE) file for details.
 
 For futher questions, please contact me at
-http://csdb.dk/scener/?id=3623
+[http://csdb.dk/scener/?id=3623](http://csdb.dk/scener/?id=3623)
 or
-wolf@abyss-connection.de
+[wolf@abyss-connection.de](wolf@abyss-connection.de)
 
 For Python3, The Python Imaging Library (PIL), Tcl/Tk and other used source licenses see file [LICENSE_OTHERS](LICENSE_OTHERS).
