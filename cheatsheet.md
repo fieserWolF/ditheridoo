@@ -2,12 +2,15 @@
 
 ## GUI controls
 
-- Alt+q = quit MegaPixel
-- Alt+o = open file
-- Alt+s = save file
-- Alt+c = configure
-- Alt+p = show preview window
-- Alt+h = this help
+|key|function|
+--------------
+|Alt+q | quit MegaPixel |
+| Alt+o | open file |
+| Alt+s | save file |
+| Alt+c | configure |
+| Alt+p | show preview window |
+| Alt+h | this help |
+---------------------
 
 ## mouse control
 
