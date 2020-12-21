@@ -13,14 +13,16 @@ MegaPixel comes in two flavours:
 
 ## Standalone executable
 
-Just download your bundle and enjoy.
+Just download your bundle and enjoy. Keep in mind that only 64bit systems are supported as I could not find a 32bit system to generate the bundle.
+
+Note on Windows users: If some antivirus scanner puts MegaPixel into quanartine because it suspects a trojan or virus, simply put it out there again.
+It isn`t harmful, I used PyInstaller to bundle the standalone executable for you.
+Unfortunately, the PyInstaller bootloader triggers a false alarm on some systems.
+I even tried my best and re-compiled the PyInstaller bootloader so that this should not happen anymore. Keep your fingers crossed ;)
+
 
 
 ## Python3 script prerequisites
-
-As MegaPixel is written in Python3 it depends a little on which OS you are starting it.
-On Linux and Mac OS you might want to install needed modules first (see Prerequisites).
-On Windows you may want to use the contents of the ZIP file and start the .exe.
 
 At least this is needed to run the script directly:
 
@@ -28,7 +30,7 @@ At least this is needed to run the script directly:
 - python tkinter module
 - python "The Python Imaging Library" (PIL)
 
-On my Debian machine I use apt-get to install everything needed:
+On my Debian GNU/Linux machine I use apt-get to install everything needed:
 ```
 apt-get update
 apt-get install python3 python3-tk python3-pil
@@ -36,7 +38,7 @@ apt-get install python3 python3-tk python3-pil
 
 # Usage
 
-For a list of quick keyboard shortcuts and other information see file [cheatsheet](cheatsheet).
+For a list of quick keyboard shortcuts and other information see file [cheatsheet](cheatsheet.md).
 
 
 
