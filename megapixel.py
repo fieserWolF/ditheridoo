@@ -2931,7 +2931,7 @@ def root_refresh() :
     
     
 
-def create_gui_settings_editorsize (
+def create_gui_preferences_editorsize (
 	root,
     _row,
     _column
@@ -2997,7 +2997,7 @@ def create_gui_settings_editorsize (
             sticky=tk.W+tk.E
         )
 
-def create_gui_settings_previewsize (
+def create_gui_preferences_previewsize (
 	root,
     _row,
     _column
@@ -3065,7 +3065,7 @@ def create_gui_settings_previewsize (
 
 
 
-def create_gui_settings_palette (
+def create_gui_preferences_palette (
 	root,
     _row,
     _column
@@ -3206,7 +3206,7 @@ def create_gui_pencil (
 
 
 
-def create_gui_settings_startaddress (
+def create_gui_preferences_startaddress (
 	root,
     _row,
     _column
@@ -3949,12 +3949,11 @@ def create_gui_help (self) :
     msg_text = """\
 GUI controls
 ------------
-Alt+q = quit MegaPixel
-Alt+o = open file
-Alt+s = save file
-Alt+c = configure
-Alt+p = show preview window
-Alt+h = this help
+Control+q = quit MegaPixel
+Control+o = open file
+Control+s = save file
+Control+p = preferences
+Control+h = this help
 
 mouse control
 -------------
@@ -3970,11 +3969,11 @@ Ctrl+x = cut
 Ctrl+c = copy
 Ctrl+p = paste
 m = set marker
-Alt+n = normal pencil
-Alt+b = checkerboard dither pencil
-Alt+x = x-line dither pencil
-Alt+y = y-line dither pencil
-Alt+l = light dither pencil
+Control+n = normal pencil
+Control+b = checkerboard dither pencil
+Control+d = x-line dither pencil
+Control+y = y-line dither pencil
+Control+l = light dither pencil
 
 editor visuals
 --------------
@@ -4110,53 +4109,53 @@ Behaviour if too many colors are used (color-clash):
 
 
 
-def create_gui_settings_from_menu () :
-    create_gui_settings(None)
+def create_gui_preferences_from_menu () :
+    create_gui_preferences(None)
     
-def create_gui_settings (self) :
+def create_gui_preferences (self) :
     _padx = 10
     _pady = 10
     
 	#http://effbot.org/tkbook/toplevel.htm
-    config_window = tk.Toplevel(
+    preferences_window = tk.Toplevel(
         bd=10
     )
-    config_window.title("Configure Settings")
-    config_window.iconphoto(False, tk.PhotoImage(data=icon_graphic))
-    config_window.configure(background=BGCOLOR)
+    preferences_window.title("Configure Settings")
+    preferences_window.iconphoto(False, tk.PhotoImage(data=icon_graphic))
+    preferences_window.configure(background=BGCOLOR)
 
-    create_gui_settings_palette(
-        config_window,
+    create_gui_preferences_palette(
+        preferences_window,
         0,  #row
         0   #column
     )
 
-    create_gui_settings_startaddress(
-        config_window,
+    create_gui_preferences_startaddress(
+        preferences_window,
         1,  #row
         0   #column
     )
 
 
-    create_gui_settings_editorsize(
-        config_window,
+    create_gui_preferences_editorsize(
+        preferences_window,
         0,  #row
         1   #column
     )
 
-    create_gui_settings_previewsize(
-        config_window,
+    create_gui_preferences_previewsize(
+        preferences_window,
         1,  #row
         1   #column
     )
 
     #button
     button = tk.Button(
-        config_window,
+        preferences_window,
         text="OK",
         bg=BGCOLOR,
         activebackground=ACTIVECOLOR,
-        command=config_window.destroy,
+        command=preferences_window.destroy,
         padx=_padx,
         pady=_pady,
         cursor=CURSOR_HAND,
@@ -4229,13 +4228,13 @@ def create_drop_down_menu (
     filemenu = tk.Menu(menu, tearoff=0)
     filemenu.add_command(label="new", command=draw_new_image)
     filemenu.add_separator()
-    filemenu.add_command(label="open...", command=action_OpenFile_from_menu, underline=0, accelerator="Alt+o")
-    filemenu.add_command(label="save...", command=action_SaveFile_from_menu, underline=0, accelerator="Alt+s")
+    filemenu.add_command(label="open...", command=action_OpenFile_from_menu, underline=0, accelerator="Control+o")
+    filemenu.add_command(label="save...", command=action_SaveFile_from_menu, underline=0, accelerator="Control+s")
     filemenu.add_separator()
-    filemenu.add_command(label="configure", command=create_gui_settings_from_menu, underline=0, accelerator="Alt+c")
-    filemenu.add_command(label="show preview", command=create_gui_preview_image_from_menu, underline=0, accelerator="Alt+p")
+    filemenu.add_command(label="preferences", command=create_gui_preferences_from_menu, underline=0, accelerator="Control+p")
+    filemenu.add_command(label="show preview", command=create_gui_preview_image_from_menu)
     filemenu.add_separator()
-    filemenu.add_command(label="quit", command=root.quit, underline=0, accelerator="Alt+q")
+    filemenu.add_command(label="quit", command=root.quit, underline=0, accelerator="Control+q")
 
     editmenu = tk.Menu(menu, tearoff=0)
     editmenu.add_command(label="undo", command=undo_undo_from_menu, accelerator="Ctrl+z")
@@ -4248,7 +4247,7 @@ def create_drop_down_menu (
 
     infomenu = tk.Menu(menu, tearoff=0)
     infomenu.add_command(label="about", command=create_gui_about)
-    infomenu.add_command(label="help", command=create_gui_help_from_menu, underline=0, accelerator="Alt+h")
+    infomenu.add_command(label="help", command=create_gui_help_from_menu, underline=0, accelerator="Control+h")
 
     #add all menus
     menu.add_cascade(label="menu", menu=filemenu)
@@ -4483,15 +4482,15 @@ def user_set_drawcolor_right(number):
     if (number==2) : user_drawcolor_right.set(used_color_col2.get()); return None
     if (number==3) : user_drawcolor_right.set(used_color_col3.get()); return None
 
-def keyboard_alt_n(self):
+def keyboard_control_n(self):
     user_pencil.set("normal")
-def keyboard_alt_b(self):
+def keyboard_control_b(self):
     user_pencil.set("checkerboard")
-def keyboard_alt_x(self):
+def keyboard_control_d(self):
     user_pencil.set("xline")
-def keyboard_alt_y(self):
+def keyboard_control_y(self):
     user_pencil.set("yline")
-def keyboard_alt_l(self):
+def keyboard_control_l(self):
     user_pencil.set("light")
 def keyboard_shift_f1(self):
     user_set_drawcolor_right(1)
@@ -4734,25 +4733,24 @@ def _main_procedure() :
     root.config(cursor=CURSOR_NOTHING)
 
     root.bind_all("<Key>", keyboard_all)
-    root.bind_all("<Alt_L><q>", keyboard_quit)
-    root.bind_all("<Alt_L><o>", action_OpenFile)
-    root.bind_all("<Alt_L><s>", action_SaveFile)
-    root.bind_all("<Alt_L><c>", create_gui_settings)
-    root.bind_all("<Alt_L><p>", create_gui_preview_image)
-    root.bind_all("<Alt_L><h>", create_gui_help)
+    root.bind_all("<Control-b>", keyboard_control_b)
     root.bind_all("<Control-c>", buffer_copy)
+    root.bind_all("<Control-d>", keyboard_control_d)
+    root.bind_all("<Control-h>", create_gui_help)
+    root.bind_all("<Control-n>", keyboard_control_n)
+    root.bind_all("<Control-l>", keyboard_control_l)
+    root.bind_all("<Control-p>", create_gui_preferences)
+    root.bind_all("<Control-q>", keyboard_quit)
+    root.bind_all("<Control-o>", action_OpenFile)
+    root.bind_all("<Control-s>", action_SaveFile)
     root.bind_all("<Control-v>", buffer_paste)
     root.bind_all("<Control-x>", buffer_cut)
+    root.bind_all("<Control-y>", keyboard_control_y)
     root.bind_all("<Control-z>", undo_undo)
     root.bind_all("<Shift-F1>", keyboard_shift_f1)
     root.bind_all("<Shift-F2>", keyboard_shift_f2)
     root.bind_all("<Shift-F3>", keyboard_shift_f3)
     root.bind_all("<Shift-F4>", keyboard_shift_f4)
-    root.bind_all("<Alt-n>", keyboard_alt_n)
-    root.bind_all("<Alt-b>", keyboard_alt_b)
-    root.bind_all("<Alt-x>", keyboard_alt_x)
-    root.bind_all("<Alt-y>", keyboard_alt_y)
-    root.bind_all("<Alt-l>", keyboard_alt_l)
 
     draw_grids()
     draw_background()
