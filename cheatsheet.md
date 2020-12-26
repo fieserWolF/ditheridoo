@@ -1,10 +1,10 @@
-# MegaPixel Cheatsheet
+# Ditheridoo Cheatsheet
 
 ## GUI controls
 
 key | function
 ---|---
-Alt+q | quit MegaPixel
+Alt+q | quit
 Alt+o | open file
 Alt+s | save file
 Alt+c | configure

@@ -1,11 +1,13 @@
-# MegaPixel
+# Ditheridoo
 
-MegaPixel is a multicolor bitmap editor for Commodore 64.
+**Pixel By Pixel**
+
+Ditheridoo is a multicolor bitmap editor for Commodore 64.
 It runs on 64 bit versions of Linux, MacOS and Windows.
 
 # Getting Started
 
-MegaPixel comes in two flavours:
+Ditheridoo comes in two flavours:
 
 - standalone executable for 64-bit systems Linux, MacOS/Darwin and Windows
 - Python3 script
@@ -14,7 +16,7 @@ MegaPixel comes in two flavours:
 
 Just download your bundle and enjoy. Keep in mind that only 64bit systems are supported as I could not find a 32bit system to generate the bundle.
 
-Note on Windows users: If some antivirus scanner puts MegaPixel into quanartine because it suspects a trojan or virus, simply put it out there again.
+Note on Windows users: If some antivirus scanner puts Ditheridoo into quanartine because it suspects a trojan or virus, simply put it out there again.
 It isn`t harmful, I used PyInstaller to bundle the standalone executable for you.
 Unfortunately, the PyInstaller bootloader triggers a false alarm on some systems.
 I even tried my best and re-compiled the PyInstaller bootloader so that this should not happen anymore. Keep your fingers crossed ;)
@@ -63,7 +65,7 @@ The multicolor bitmap is stored in the widely-spread KoalaPainter (C64) format:
 
 # License
 
-MegaPixel Commodore 64 graphics converter
+Ditheridoo multicolor bitmap editor for Commodore 64.
 
 Copyright (C) 2020 fieserWolF / Abyss-Connection
 
@@ -83,3 +85,5 @@ or
 [wolf@abyss-connection.de](wolf@abyss-connection.de)
 
 For Python3, The Python Imaging Library (PIL), Tcl/Tk and other used source licenses see file [LICENSE_OTHERS](LICENSE_OTHERS).
+
+

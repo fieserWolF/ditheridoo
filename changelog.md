@@ -2,6 +2,9 @@
 
 ## Future plans
 
+- include new logo graphic (png with real transparency)
+- new name: icon, small_icon, logo, about_picture : Pixel me like one of your French girls, DitherKing, pixeltron 3000
+- resources in seperata files: icon, small_icon, logo, about_picture, config file with version
 - adjust help and about text according to window size
 - implement sanity check: accept only standard koala format files
 - implement real undo for all functions
