@@ -9,7 +9,7 @@ It runs on 64 bit versions of Linux, MacOS and Windows.
 
 # Usage
 
-For a list of quick keyboard shortcuts and other information see file [cheatsheet](cheatsheet.md).
+For a list of quick keyboard shortcuts and other information see file [cheatsheet.md](cheatsheet.md) or the full documentation in /docs.
 
 
 
@@ -115,15 +115,16 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 See the GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with this program.  If not, see [http://www.gnu.org/licenses/](http://www.gnu.org/licenses/).
+You should have received a copy of the GNU General Public License along with this program.
+If not, see [http://www.gnu.org/licenses/](http://www.gnu.org/licenses/).
 
-See the [gnu-gpl-v3.0.md](gnu-gpl-v3.0.md) file for details.
+See the [LICENSE](LICENSE) file for details.
 
 For futher questions, please contact me at
 [http://csdb.dk/scener/?id=3623](http://csdb.dk/scener/?id=3623)
 or
 [wolf@abyss-connection.de](wolf@abyss-connection.de)
 
-For Python3, The Python Imaging Library (PIL), Tcl/Tk and other used source licenses see file [license_others.md](license_others.md).
+For Python3, The Python Imaging Library (PIL), Tcl/Tk and other used source licenses see file [LICENSE_OTHERS](LICENSE_OTHERS).
 
 
