@@ -1,3 +1,38 @@
+# Ditheridoo
+
+**Pixel By Pixel**
+
+Ditheridoo is a multicolor bitmap editor for Commodore 64.
+It runs on 64 bit versions of Linux, MacOS and Windows.
+
+
+
+# Usage
+
+For a list of quick keyboard shortcuts and other information see file [cheatsheet](cheatsheet.md).
+
+
+
+# File Format
+
+The multicolor bitmap is stored in the widely-spread KoalaPainter (C64) format:
+
+* 2 bytes load address
+* 8000 bytes raw bitmap data
+* 1000 bytes raw "Video Matrix" (screen) data
+* 1000 bytes raw "Color RAM" data
+* 1 byte background data
+
+
+
+# Authors
+
+* fieserWolF/Abyss-Connection - *code, graphics* - [https://github.com/fieserWolF](https://github.com/fieserWolF) [https://csdb.dk/scener/?id=3623](https://csdb.dk/scener/?id=3623)
+* The Mysterious Art/Abyss-Connection - *graphics* - [https://csdb.dk/scener/?id=3501](https://csdb.dk/scener/?id=3501)
+* Pararaum/The 7th Division - *example image* - [https://csdb.dk/scener/?id=31223](https://csdb.dk/scener/?id=31223)
+* Mirage/Booze Design - *example image* - [https://csdb.dk/scener/?id=739](https://csdb.dk/scener/?id=739)
+
+
 # Getting Started
 
 Ditheridoo comes in two flavours:
