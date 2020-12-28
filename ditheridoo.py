@@ -42,8 +42,6 @@ import platform
 def _global_constants():
         return None
 PROGNAME = 'Ditheridoo';
-VERSION = '1.0';
-DATUM = '22.12.2020';
 
 #BGCOLOR="#ff0000"
 BGCOLOR="#d9d9d9"
@@ -56,9 +54,16 @@ def resource_path(relative_path):
     base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
     return os.path.join(base_path, relative_path)
     
+RES_VERSION = resource_path('resources/version.txt')
 RES_GFX_ICON = resource_path('resources/icon.png')
+RES_GFX_AC = resource_path('resources/ac.png')
 RES_GFX_LOGO = resource_path('resources/logo.png')
 RES_GFX_ABOUT = resource_path('resources/about.png')
+RES_DOC_ABOUT = resource_path('resources/about.txt')
+RES_DOC_HELP = resource_path('resources/help.txt')
+
+VERSION = open(RES_VERSION).read().rstrip()
+
 
 C64_CHAR_HEIGHT=25  #200/8
 C64_CHAR_WIDTH=40   #320/8
@@ -202,6 +207,12 @@ root = tk.Tk()
 
 preview_window = None
 preview_window_open = False
+preferences_window = None
+preferences_window_open = False
+help_window = None
+help_window_open = False
+about_window = None
+about_window_open = False
 
 frame_replace_color = tk.Frame()
 
@@ -2503,6 +2514,24 @@ def create_gui_color_right (
 
 
 def create_gui_about () :
+
+    def close_window():
+        global about_window
+        global about_window_open
+        
+        if (about_window_open == True) :
+            about_window.destroy()
+            about_window_open = False
+
+    def close_window_key(self):
+        close_window()
+
+
+    global about_window
+    global about_window_open
+    if (about_window_open == True) : return None
+    about_window_open = True
+
     _padx = 10
     _pady = 10
     
@@ -2512,53 +2541,74 @@ def create_gui_about () :
     )
     about_window.title("About")
     about_window.iconphoto(False, tk.PhotoImage(file=RES_GFX_ICON))
+    about_window.protocol("WM_DELETE_WINDOW", close_window)
+    about_window.bind("<Escape>", close_window_key)
     about_window.configure(background=BGCOLOR)
     about_window.resizable(0, 0)
 
 
-    msg_text = """\
-This is %s
-Version %s [%s]
-by fieserWolF / Abyss-Connection
+    #top
+    frame_top = tk.Frame( about_window)
+    frame_top.grid(
+        row=0,
+        column=0,
+        sticky=tk.N
+    )
 
-For feature requests or bug reports
-feel free to contact me:
-http://csdb.dk/scener/?id=3623
-wolf@abyss-connection.de
+    #label with image: http://effbot.org/tkbook/photoimage.htm
+    photo = tk.PhotoImage(file=RES_GFX_LOGO)
+    label_logo = tk.Label(
+        frame_top,
+        bg=BGCOLOR,
+        bd=0,
+        image=photo,
+        padx=0,
+        pady=0
+    )
+    label_logo.image = photo # keep a reference!
 
-I know this is far from being complete,
-so look out for new versions!
+    label_version = tk.Label(
+        frame_top,
+        bg=BGCOLOR,
+        bd=0,
+        text="build "+VERSION,
+        padx=0,
+        pady=0
+    )
 
-wolf
+    label_logo.grid(
+        row=0,
+        column=0,
+        sticky=tk.W+tk.S+tk.W+tk.E
+    )
+
+    label_version.grid(
+        row=1,
+        column=0,
+        sticky=tk.W+tk.S+tk.W+tk.E
+    )
 
 
-Ditheridoo - multicolor bitmap editor for Commodore 64
-Copyright (C) 2020 fieserWolF / Abyss-Connection
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+    #bottom
+    frame_bottom = tk.Frame( about_window)
+    frame_bottom.configure(background=BGCOLOR)
+    frame_bottom.grid(
+        row=1,
+        column=0,
+        sticky=tk.S
+    )
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-For futher questions, please contact me at
-http://csdb.dk/scener/?id=3623 or wolf@abyss-connection.de
-
-For Python3, The Python Imaging Library (PIL), Numpy, Tcl/Tk and other used source licenses see file "LICENSE_OTHERS".\
-    """ % (PROGNAME, VERSION, DATUM)
-
-    frame_left = tk.Frame( about_window)
-    frame_right = tk.Frame( about_window)
+    # right frame
+    frame_right = tk.Frame( frame_bottom)
+    frame_right.grid(
+        row=0,
+        column=1,
+        sticky=tk.W
+    )
 
     #http://effbot.org/tkbook/message.htm
-    #text
     msg = tk.Text(
         frame_right,
         bg=TEXTBOXCOLOR,
@@ -2575,60 +2625,10 @@ For Python3, The Python Imaging Library (PIL), Numpy, Tcl/Tk and other used sour
     )
     msg_scrollBar.config(command=msg.yview)
     msg.config(yscrollcommand=msg_scrollBar.set)
-
-    #label with image
-    #http://effbot.org/tkbook/photoimage.htm
-    #image = Image.open("wolf.jpg")
-    #photo = ImageTk.PhotoImage(image)
-    photo = tk.PhotoImage(file=RES_GFX_ABOUT)
-    label_image = tk.Label(
-        frame_left,
-        bg=BGCOLOR,
-#        bd=10,
-        image=photo,
-        padx=_padx,
-        pady=_pady
-    )
-    label_image.image = photo # keep a reference!
-
-    #button
-    button = tk.Button(
-        frame_left,
-        bg=BGCOLOR,
-        activebackground=ACTIVECOLOR,
-        text="OK",
-        command=about_window.destroy,
-        padx=_padx,
-        pady=_pady,
-        cursor=CURSOR_HAND,
-    )
-
-
-
+    msg.insert(tk.END, open(RES_DOC_ABOUT, encoding="utf_8").read())
+    msg.config(state=tk.DISABLED)
 
     #placement in grid
-    frame_left.grid(
-        row=0,
-        column=0,
-        sticky=tk.W
-    )
-    frame_right.grid(
-        row=0,
-        column=1,
-        sticky=tk.W
-    )
-    
-    label_image.grid(
-        row=0,
-        column=0,
-        sticky=tk.W
-    )
-    button.grid(
-        row=1,
-        column=0,
-        sticky=tk.W+tk.E
-    )
-
     msg.grid(
         row=0,
         column=0,
@@ -2642,8 +2642,53 @@ For Python3, The Python Imaging Library (PIL), Numpy, Tcl/Tk and other used sour
 
 
 
-    msg.insert(tk.END, msg_text)
-    msg.config(state=tk.DISABLED)
+
+    # left frame
+    frame_left = tk.Frame( frame_bottom)
+    frame_left.grid(
+        row=0,
+        column=0,
+        sticky=tk.W
+    )
+
+    #label with image: http://effbot.org/tkbook/photoimage.htm
+    photo = tk.PhotoImage(file=RES_GFX_ABOUT)
+    label_image = tk.Label(
+        frame_left,
+        bg=BGCOLOR,
+#        bd=10,
+        image=photo,
+        padx=_padx,
+        pady=_pady
+    )
+    label_image.image = photo # keep a reference!
+
+
+    #button
+    button = tk.Button(
+        frame_left,
+        bg=BGCOLOR,
+        activebackground=ACTIVECOLOR,
+        text="OK",
+        command=close_window,
+        padx=_padx,
+        pady=_pady,
+        cursor=CURSOR_HAND,
+    )
+
+    #placement in grid
+    label_image.grid(
+        row=0,
+        column=0,
+        sticky=tk.W
+    )
+    button.grid(
+        row=1,
+        column=0,
+        sticky=tk.W+tk.E
+    )
+
+
 
 
 
@@ -2652,92 +2697,46 @@ def create_gui_help_from_menu () :
     create_gui_help(None)
     
 def create_gui_help (self) :
+
+    def close_window():
+        global help_window
+        global help_window_open
+        
+        if (help_window_open == True) :
+            help_window.destroy()
+            help_window_open = False
+
+    def close_window_key(self):
+        close_window()
+
+
+
+    global help_window
+    global help_window_open
+    if (help_window_open == True) : return None
+    help_window_open = True
+
     _padx = 10
     _pady = 10
     
 	#http://effbot.org/tkbook/toplevel.htm
-    help_window = tk.Toplevel(
-        bd=10
-    )
+    help_window = tk.Toplevel(bd=10)
     help_window.title("Help")
     help_window.iconphoto(False, tk.PhotoImage(file=RES_GFX_ICON))
+    help_window.protocol("WM_DELETE_WINDOW", close_window)
+    help_window.bind("<Escape>", close_window_key)
     help_window.configure(background=BGCOLOR)
     help_window.resizable(0, 0)
-    
-    msg_text = """\
-GUI controls
-------------
-Control+q = quit
-Control+o = open file
-Control+s = save file
-Control+p = preferences
-Control+h = this help
 
-mouse control
--------------
-right mouse button = set color
-left mouse button = set other color
-middle mouse button = scroll image
-mouse wheel = zoom in and out
-
-editing
--------
-Ctrl+z = undo (single pixel editing only, not for block-commands like cut or paste)
-Ctrl+x = cut
-Ctrl+c = copy
-Ctrl+p = paste
-m = set marker
-Control+n = normal pencil
-Control+b = checkerboard dither pencil
-Control+d = x-line dither pencil
-Control+y = y-line dither pencil
-Control+l = light dither pencil
-
-editor visuals
---------------
-plus/ minus = zoom in and out
-cursor keys = scroll image
-
-left mouse-button color
------------------------
-0-9...a-f = select color
-F1 = screen-color-1 of block
-F2 = screen-color-2 of block
-F3 = colorram of block
-F4 = background
-
-right mouse-button color
-------------------------
-Shift+ 0-9...a-f = select color
-Shift+F1 = screen-color-1 of block
-Shift+F2 = screen-color-2 of block
-Shift+F3 = colorram of block
-Shift+F4 = background
-
-color to replace (only when in draw mode 'select'):
----------------------------------------------------
-F5 = screen-color-1 of block
-F6 = screen-color-2 of block
-F7 = colorram of block
-F8 = background
-Space = no overwriting
-
-notes: draw-modes
------------------
-Can be set in settings window.
-Behaviour if too many colors are used (color-clash):
-- keep color    = keep color if too many colors are used
-- replace color = replace color if too many colors are used
-- select color  = overwrite selected data: screen-color1, screen-color2, colorram or background
-- dye  = do not touch bitmap, only overwrite color
-\
-    """
-
-    frame_left = tk.Frame( help_window)
+    # right frame
     frame_right = tk.Frame( help_window)
+    frame_right.grid(
+        row=0,
+        column=1,
+        sticky=tk.W+tk.E+tk.S+tk.N
+    )
 
     #http://effbot.org/tkbook/message.htm
-    #text
     msg = tk.Text(
         frame_right,
         bg=TEXTBOXCOLOR,
@@ -2747,16 +2746,35 @@ Behaviour if too many colors are used (color-clash):
     )
 
     #scrollbar
-    msg_scrollBar = tk.Scrollbar(
-        frame_right
-    )
+    msg_scrollBar = tk.Scrollbar(frame_right)
     msg_scrollBar.config(command=msg.yview)
     msg.config(yscrollcommand=msg_scrollBar.set)
+    msg.insert(tk.END, open(RES_DOC_HELP, encoding="utf_8").read())
+    msg.config(state=tk.DISABLED)
 
-    #label with image
-    #http://effbot.org/tkbook/photoimage.htm
-    #image = Image.open("wolf.jpg")
-    #photo = ImageTk.PhotoImage(image)
+    # placement in grid
+    msg.grid(
+        row=0,
+        column=0,
+        sticky=tk.W+tk.E+tk.S+tk.N
+    )
+    msg_scrollBar.grid(
+        row=0,
+        column=1,
+        sticky=tk.W+tk.E+tk.S+tk.N
+    )
+
+
+
+    # left frame
+    frame_left = tk.Frame( help_window)
+    frame_left.grid(
+        row=0,
+        column=0,
+        sticky=tk.W
+    )
+
+    #label with image: http://effbot.org/tkbook/photoimage.htm
     photo = tk.PhotoImage(file=RES_GFX_ICON)
     label_image = tk.Label(
         frame_left,
@@ -2774,55 +2792,26 @@ Behaviour if too many colors are used (color-clash):
         bg=BGCOLOR,
         activebackground=ACTIVECOLOR,
         text="OK",
-        command=help_window.destroy,
+        command=close_window,
         padx=_padx,
         pady=_pady,
         cursor=CURSOR_HAND,
     )
 
-
-
-
-    #placement in grid
-    frame_left.grid(
-        row=0,
-        column=0,
-        sticky=tk.W+tk.E+tk.S+tk.N
-    )
-    frame_right.grid(
-        row=0,
-        column=1,
-        sticky=tk.W+tk.E+tk.S+tk.N
-    )
-    
+    # placement in grid
     label_image.grid(
         row=0,
         column=0,
-        sticky=tk.W+tk.E+tk.S+tk.N
+        sticky=tk.W
     )
     button.grid(
         row=1,
         column=0,
-        sticky=tk.W+tk.E+tk.S+tk.N
-    )
-
-    msg.grid(
-        row=0,
-        column=0,
-        sticky=tk.W+tk.E+tk.S+tk.N
-    )
-    msg_scrollBar.grid(
-        row=0,
-        column=1,
-        sticky=tk.W+tk.E+tk.S+tk.N
+        sticky=tk.W+tk.E
     )
 
 
 
-    msg.insert(tk.END, msg_text)
-    msg.config(state=tk.DISABLED)
-
-    return None
 
 
 
@@ -2831,6 +2820,24 @@ def create_gui_preferences_from_menu () :
     create_gui_preferences(None)
     
 def create_gui_preferences (self) :
+
+    def close_window():
+        global preferences_window
+        global preferences_window_open
+        
+        if (preferences_window_open == True) :
+            preferences_window.destroy()
+            preferences_window_open = False
+
+    def close_window_key(self):
+        close_window()
+
+
+    global preferences_window
+    global preferences_window_open
+    if (preferences_window_open == True) : return None
+    preferences_window_open = True
+
     _padx = 10
     _pady = 10
     
@@ -2840,6 +2847,8 @@ def create_gui_preferences (self) :
     )
     preferences_window.title("Configure Settings")
     preferences_window.iconphoto(False, tk.PhotoImage(file=RES_GFX_ICON))
+    preferences_window.protocol("WM_DELETE_WINDOW", close_window)
+    preferences_window.bind("<Escape>", close_window_key)
     preferences_window.configure(background=BGCOLOR)
     preferences_window.resizable(0, 0)
 
@@ -2874,7 +2883,7 @@ def create_gui_preferences (self) :
         text="OK",
         bg=BGCOLOR,
         activebackground=ACTIVECOLOR,
-        command=preferences_window.destroy,
+        command=close_window,
         padx=_padx,
         pady=_pady,
         cursor=CURSOR_HAND,
@@ -2886,6 +2895,7 @@ def create_gui_preferences (self) :
         columnspan=2
     )
 
+
     
 
 
@@ -2894,26 +2904,29 @@ def create_gui_preview_image_from_menu () :
     create_gui_preview_image(None)
     
 
-def preview_window_on_closing():
-    global preview_window
-    global preview_window_open
-    
-    if (preview_window_open == True) :
-        preview_window.destroy()
-        preview_window_open = False
     
     
 def create_gui_preview_image (self) :
+
+    def close_window():
+        global preview_window
+        global preview_window_open
+        
+        if (preview_window_open == True) :
+            preview_window.destroy()
+            preview_window_open = False
+
     global label_preview_image
     global preview_window
     global preview_window_open
     
     if (preview_window_open == True) :
         return None
+    preview_window_open = True
         
     preview_window = tk.Toplevel(bd=10)
     preview_window.title("preview")
-    preview_window.protocol("WM_DELETE_WINDOW", preview_window_on_closing)
+    preview_window.protocol("WM_DELETE_WINDOW", close_window)
     preview_window.iconphoto(False, tk.PhotoImage(file=RES_GFX_ICON))
     preview_window.configure(background=BGCOLOR)
     preview_window.resizable(0, 0)
@@ -2931,12 +2944,9 @@ def create_gui_preview_image (self) :
     )
 
     label_preview_image.bind('<Button-1>', input_mouse_left_button_preview)
-    
-    preview_window_open = True
-        
+            
     action_image_refresh_show()
 
-    return None
 	
 
 def create_drop_down_menu (
@@ -2970,9 +2980,9 @@ def create_drop_down_menu (
     infomenu.add_command(label="help", command=create_gui_help_from_menu, underline=0, accelerator="Control+h")
 
     #add all menus
-    menu.add_cascade(label="menu", menu=filemenu)
-    menu.add_cascade(label="edit", menu=editmenu)
-    menu.add_cascade(label="info", menu=infomenu)
+    menu.add_cascade(label="File", menu=filemenu)
+    menu.add_cascade(label="Edit", menu=editmenu)
+    menu.add_cascade(label="Info", menu=infomenu)
 
 
 
@@ -3126,7 +3136,7 @@ def create_gui_top (
         column=_column
     )
 
-    photo = tk.PhotoImage(file=RES_GFX_LOGO)
+    photo = tk.PhotoImage(file=RES_GFX_AC)
     label_logo = tk.Label(frame_border, image = photo)
     label_logo.image = photo # keep a reference!
     label_logo.grid( row=0, column=0)
@@ -3437,7 +3447,7 @@ def create_gui_main ():
     
 
 def _main_procedure() :
-    print("%s v%s [%s] *** by WolF"% (PROGNAME, VERSION, DATUM))
+    print("%s [build %s] *** by WolF"% (PROGNAME, VERSION))
 
     #print(RES_GFX_ICON)
     #while (1==1) :
