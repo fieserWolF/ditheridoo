@@ -9,7 +9,7 @@ It runs on 64 bit versions of Linux, MacOS and Windows.
 
 # Usage
 
-For a list of quick keyboard shortcuts and other information see file [cheatsheet.md](cheatsheet.md) or the full documentation in /docs.
+For a list of quick keyboard shortcuts and other information see file [cheatsheet.md](cheatsheet.md) or the full documentation in /doc.
 
 
 
