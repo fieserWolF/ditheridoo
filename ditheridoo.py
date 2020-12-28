@@ -62,7 +62,7 @@ RES_GFX_ABOUT = resource_path('resources/about.png')
 RES_DOC_ABOUT = resource_path('resources/about.txt')
 RES_DOC_HELP = resource_path('resources/help.txt')
 
-VERSION = open(RES_VERSION).read().rstrip()
+VERSION = open(RES_VERSION, encoding="utf_8").read().rstrip()
 
 
 C64_CHAR_HEIGHT=25  #200/8
@@ -215,6 +215,8 @@ about_window = None
 about_window_open = False
 
 frame_replace_color = tk.Frame()
+
+special_modifier_pressed = False
 
 
 editor_mode = 'edit'
@@ -2571,7 +2573,7 @@ def create_gui_about () :
         frame_top,
         bg=BGCOLOR,
         bd=0,
-        text="build "+VERSION,
+        text=VERSION,
         padx=0,
         pady=0
     )
@@ -3240,6 +3242,12 @@ def keyboard_shift_f7(self):
 def keyboard_shift_f8(self):
     user_replace_color.set(0)
 
+def keyboard_special_modifier_pressed(self):
+    global special_modifier_pressed
+    special_modifier_pressed = True
+def keyboard_special_modifier_released(self):
+    global special_modifier_pressed
+    special_modifier_pressed = False
 
 
 #keyboard shortcuts
@@ -3323,8 +3331,30 @@ def keyboard_all(event):
         'Up' : (scroll_down,0),
         'Down' : (scroll_up,0),
     }
-    
-    val = switcher.get(event.keysym)
+
+    switcher_special = {
+        '0' : (user_drawcolor_right.set,0),
+        '1' : (user_drawcolor_right.set,1),
+        '2' : (user_drawcolor_right.set,2),
+        '3' : (user_drawcolor_right.set,3),
+        '4' : (user_drawcolor_right.set,4),
+        '5' : (user_drawcolor_right.set,5),
+        '6' : (user_drawcolor_right.set,6),
+        '7' : (user_drawcolor_right.set,7),
+        '8' : (user_drawcolor_right.set,8),
+        '9' : (user_drawcolor_right.set,9),
+        'a' : (user_drawcolor_right.set,10),
+        'b' : (user_drawcolor_right.set,11),
+        'c' : (user_drawcolor_right.set,12),
+        'd' : (user_drawcolor_right.set,13),
+        'e' : (user_drawcolor_right.set,14),
+        'f' : (user_drawcolor_right.set,15),
+    }
+
+    if (special_modifier_pressed == False) :
+        val = switcher.get(event.keysym)
+    else :
+        val = switcher_special.get(event.keysym)
 
     #if (val == None) : print ('unknown key: char=\"'+event.char+'\" keysym=\"'+event.keysym+'\" num=\"'+event.num+'\"')
     if (val != None) : val[0](val[1])
@@ -3447,7 +3477,7 @@ def create_gui_main ():
     
 
 def _main_procedure() :
-    print("%s [build %s] *** by WolF"% (PROGNAME, VERSION))
+    print("%s %s *** by WolF"% (PROGNAME, VERSION))
 
     #print(RES_GFX_ICON)
     #while (1==1) :
@@ -3485,6 +3515,14 @@ def _main_procedure() :
     root.bind_all("<Shift-F2>", keyboard_shift_f2)
     root.bind_all("<Shift-F3>", keyboard_shift_f3)
     root.bind_all("<Shift-F4>", keyboard_shift_f4)
+    root.bind( "<KeyPress-Meta_L>", keyboard_special_modifier_pressed )
+    root.bind( "<KeyRelease-Meta_L>", keyboard_special_modifier_released )
+    root.bind( "<KeyPress-Menu>", keyboard_special_modifier_pressed )
+    root.bind( "<KeyRelease-Menu>", keyboard_special_modifier_released )
+    root.bind( "<KeyPress-Super_L>", keyboard_special_modifier_pressed )
+    root.bind( "<KeyRelease-Super_L>", keyboard_special_modifier_released )
+    #root.bind( "<KeyPress-Win_L>", keyboard_special_modifier_pressed )
+    #root.bind( "<KeyRelease-Win_L>", keyboard_special_modifier_released )
 
     draw_grids()
     draw_background()

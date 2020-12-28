@@ -40,7 +40,7 @@ editing
 +-----------------------------------+-----------------------------------+
 | Ctrl+c                            | copy                              |
 +-----------------------------------+-----------------------------------+
-| Ctrl+p                            | paste                             |
+| Ctrl+v                            | paste                             |
 +-----------------------------------+-----------------------------------+
 | m                                 | set marker                        |
 +-----------------------------------+-----------------------------------+
@@ -48,9 +48,9 @@ editing
 +-----------------------------------+-----------------------------------+
 | Ctrl+b                            | checkerboard dither pencil        |
 +-----------------------------------+-----------------------------------+
-| Ctrl+x                            | x-line dither pencil              |
+| Ctrl+d                            | x-line dither pencil              |
 +-----------------------------------+-----------------------------------+
-| Ctrl+d                            | y-line dither pencil              |
+| Ctrl+y                            | y-line dither pencil              |
 +-----------------------------------+-----------------------------------+
 | Ctrl+l                            | light dither pencil               |
 +-----------------------------------+-----------------------------------+
@@ -91,6 +91,10 @@ Shift+F3       colorram of block
 Shift+F4       background
 ============== =======================
 
+Note: If shift does not work for you, please, try out some other
+modifier that works with your keyboard layout like Apple-key, fn-key or
+whatever.
+
 color to replace (only when in draw mode ‘select’):
 ---------------------------------------------------
 
@@ -107,7 +111,7 @@ Space no overwriting
 notes: draw-modes
 -----------------
 
-Can be set in settings window. Behaviour if too many colors are used
+Can be set in settings window. Behavior if too many colors are used
 (color-clash):
 
 +-----------------------------------+-----------------------------------+

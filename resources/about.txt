@@ -1,7 +1,7 @@
 Ditheridoo
 ==========
 
-**Pixel By Pixel**
+**Dither me like one of your French girls.**
 
 Ditheridoo is a multicolor bitmap editor for Commodore 64. It runs on 64
 bit versions of Linux, MacOS and Windows.
@@ -10,7 +10,7 @@ Usage
 =====
 
 For a list of quick keyboard shortcuts and other information see file
-`cheatsheet <cheatsheet.md>`__.
+`cheatsheet.md <cheatsheet.md>`__ or the full documentation in /doc.
 
 File Format
 ===========
@@ -46,11 +46,15 @@ Future plans
 -  implement real undo for all functions
 -  implement hires drawing mode
 -  implement different pencil sizes
+-  implement: freely adjustable edit window
+-  maybe: preview window: indicate current view with a visible frame
+-  maybe: preview window: move visible frame by dragging the mouse
+-  maybe: “draw mode: select”: avoid moving of the controls
 
 Any help and support in any form is highly appreciated.
 
 If you have a feature request, a bug report or if you want to offer
-help, please contact me:
+help, please, contact me:
 
 http://csdb.dk/scener/?id=3623 or
 `wolf@abyss-connection.de <wolf@abyss-connection.de>`__
@@ -80,14 +84,14 @@ Public License for more details.
 You should have received a copy of the GNU General Public License along
 with this program. If not, see http://www.gnu.org/licenses/.
 
-See the `gnu-gpl-v3.0.md <gnu-gpl-v3.0.md>`__ file for details.
+See the `LICENSE <LICENSE>`__ file for details.
 
-For futher questions, please contact me at
+For further questions, please contact me at
 http://csdb.dk/scener/?id=3623 or
 `wolf@abyss-connection.de <wolf@abyss-connection.de>`__
 
 For Python3, The Python Imaging Library (PIL), Tcl/Tk and other used
-source licenses see file `license_others.md <license_others.md>`__.
+source licenses see file `LICENSE_OTHERS <LICENSE_OTHERS>`__.
 
 GNU General Public License
 ==========================
@@ -831,8 +835,10 @@ Python 3 license
 8. By copying, installing or otherwise using Python, Licensee agrees to
    be bound by the terms and conditions of this License Agreement.
 
+The Python Imaging Library (PIL)
+================================
+
 The Python Imaging Library (PIL) is
-===================================
 
 *Copyright © 1997-2011 by Secret Labs AB*
 

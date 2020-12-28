@@ -1,6 +1,6 @@
 # Ditheridoo
 
-**Pixel By Pixel**
+**Dither me like one of your French girls.**
 
 Ditheridoo is a multicolor bitmap editor for Commodore 64.
 It runs on 64 bit versions of Linux, MacOS and Windows.
@@ -35,7 +35,7 @@ The multicolor bitmap is stored in the widely-spread KoalaPainter (C64) format:
 
 # Getting Started
 
-Ditheridoo comes in two flavours:
+Ditheridoo comes in two flavors:
 
 - standalone executable for 64-bit systems Linux, MacOS/Darwin and Windows
 - Python3 script
@@ -46,7 +46,7 @@ Just download your bundle and enjoy. Keep in mind that only 64bit systems are su
 
 ### Note for Windows users
 
-If some antivirus scanner puts Ditheridoo into quanartine because it suspects a trojan or virus, simply put it out there again.
+If some antivirus scanner puts Ditheridoo into quarantine because it suspects a trojan or virus, simply put it out there again.
 It isn`t harmful, I used PyInstaller to bundle the standalone executable for you.
 Unfortunately, the PyInstaller bootloader triggers a false alarm on some systems.
 I even tried my best and re-compiled the PyInstaller bootloader so that this should not happen anymore. Keep your fingers crossed ;)
@@ -88,10 +88,15 @@ apt-get install python3 python3-tk python3-pil
 - implement real undo for all functions
 - implement hires drawing mode
 - implement different pencil sizes
+- implement: freely adjustable edit window
+- maybe: preview window: indicate current view with a visible frame
+- maybe: preview window: move visible frame by dragging the mouse
+- maybe: "draw mode: select": avoid moving of the controls
+
 
 Any help and support in any form is highly appreciated.
 
-If you have a feature request, a bug report or if you want to offer help, please contact me:
+If you have a feature request, a bug report or if you want to offer help, please, contact me:
 
 [http://csdb.dk/scener/?id=3623](http://csdb.dk/scener/?id=3623)
 or
@@ -120,7 +125,7 @@ If not, see [http://www.gnu.org/licenses/](http://www.gnu.org/licenses/).
 
 See the [LICENSE](LICENSE) file for details.
 
-For futher questions, please contact me at
+For further questions, please contact me at
 [http://csdb.dk/scener/?id=3623](http://csdb.dk/scener/?id=3623)
 or
 [wolf@abyss-connection.de](wolf@abyss-connection.de)

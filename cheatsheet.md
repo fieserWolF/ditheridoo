@@ -26,12 +26,12 @@ key | function
 Ctrl+z | undo (single pixel editing only, not for block-commands like cut or paste)
 Ctrl+x | cut
 Ctrl+c | copy
-Ctrl+p | paste
+Ctrl+v | paste
 m | set marker
 Ctrl+n | normal pencil
 Ctrl+b | checkerboard dither pencil
-Ctrl+x | x-line dither pencil
-Ctrl+d | y-line dither pencil
+Ctrl+d | x-line dither pencil
+Ctrl+y | y-line dither pencil
 Ctrl+l | light dither pencil
 
 ## editor visuals
@@ -61,6 +61,8 @@ Shift+F2 | screen-color-2 of block
 Shift+F3 | colorram of block
 Shift+F4 | background
 
+Note: If shift does not work for you, please, try out some other modifier that works with your keyboard layout like Apple-key, fn-key or whatever.
+
 ## color to replace (only when in draw mode 'select'):
 
 key | function
@@ -74,7 +76,7 @@ Space | no overwriting
 ## notes: draw-modes
 
 Can be set in settings window.
-Behaviour if too many colors are used (color-clash):
+Behavior if too many colors are used (color-clash):
 
 mode | description
 ---|---
