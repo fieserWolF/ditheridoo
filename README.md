@@ -6,6 +6,15 @@ Ditheridoo is a multicolor bitmap editor for Commodore 64.
 It runs on 64 bit versions of Linux, MacOS and Windows.
 
 
+# Why Ditheridoo?
+
+reason | description
+---|---
+open source | easy to modify and to improve, any useful contribution is highly welcome
+portable | available on Linux, MacOS, Darwin and any other system supported by Python3
+easy dithering | checkerboard, x-line, y-line, light dither modes available, more might be implemented in the future
+interesting for coders | total control which values are set in draw-modes "select color" and "dye", see built-in help or [cheatsheet.md](cheatsheet.md) for details
+
 
 # Usage
 
@@ -112,7 +121,7 @@ or
 
 _Ditheridoo multicolor bitmap editor for Commodore 64._
 
-_Copyright (C) 2020 fieserWolF / Abyss-Connection_
+_Copyright (C) 2021 fieserWolF / Abyss-Connection_
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 

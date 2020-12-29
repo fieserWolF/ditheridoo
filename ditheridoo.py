@@ -2515,7 +2515,10 @@ def create_gui_color_right (
 
 
 
+
 def create_gui_about () :
+
+    TEXT_HEIGHT=30
 
     def close_window():
         global about_window
@@ -2528,6 +2531,17 @@ def create_gui_about () :
     def close_window_key(self):
         close_window()
 
+    def keyboard_up(event):
+        msg.yview_scroll(-1,"units")
+
+    def keyboard_down(event):
+        msg.yview_scroll(1,"units")
+
+    def keyboard_pageup(event):
+        msg.yview_scroll(TEXT_HEIGHT,"units")
+
+    def keyboard_pagedown(event):
+        msg.yview_scroll(TEXT_HEIGHT*-1,"units")
 
     global about_window
     global about_window_open
@@ -2617,7 +2631,7 @@ def create_gui_about () :
 #        bd=10,
         relief=tk.FLAT,
         width=80,
-        height=30
+        height=TEXT_HEIGHT
     )
 
     #scrollbar
@@ -2690,7 +2704,10 @@ def create_gui_about () :
         sticky=tk.W+tk.E
     )
 
-
+    about_window.bind('<Up>', keyboard_up) 
+    about_window.bind('<Down>', keyboard_down) 
+    about_window.bind('<Next>', keyboard_pageup) 
+    about_window.bind('<Prior>', keyboard_pagedown) 
 
 
 
@@ -2699,6 +2716,8 @@ def create_gui_help_from_menu () :
     create_gui_help(None)
     
 def create_gui_help (self) :
+
+    TEXT_HEIGHT=30
 
     def close_window():
         global help_window
@@ -2711,6 +2730,18 @@ def create_gui_help (self) :
     def close_window_key(self):
         close_window()
 
+
+    def keyboard_up(event):
+        msg.yview_scroll(-1,"units")
+
+    def keyboard_down(event):
+        msg.yview_scroll(1,"units")
+
+    def keyboard_pageup(event):
+        msg.yview_scroll(TEXT_HEIGHT,"units")
+
+    def keyboard_pagedown(event):
+        msg.yview_scroll(TEXT_HEIGHT*-1,"units")
 
 
     global help_window
@@ -2744,7 +2775,7 @@ def create_gui_help (self) :
         bg=TEXTBOXCOLOR,
         relief=tk.FLAT,
         width=80,
-        height=30
+        height=TEXT_HEIGHT
     )
 
     #scrollbar
@@ -2812,6 +2843,10 @@ def create_gui_help (self) :
         sticky=tk.W+tk.E
     )
 
+    help_window.bind('<Up>', keyboard_up) 
+    help_window.bind('<Down>', keyboard_down) 
+    help_window.bind('<Next>', keyboard_pageup) 
+    help_window.bind('<Prior>', keyboard_pagedown) 
 
 
 
@@ -3521,6 +3556,8 @@ def _main_procedure() :
     root.bind( "<KeyRelease-Menu>", keyboard_special_modifier_released )
     root.bind( "<KeyPress-Super_L>", keyboard_special_modifier_pressed )
     root.bind( "<KeyRelease-Super_L>", keyboard_special_modifier_released )
+    root.bind( "<KeyPress-Alt_L>", keyboard_special_modifier_pressed )
+    root.bind( "<KeyRelease-Alt_L>", keyboard_special_modifier_released )
     #root.bind( "<KeyPress-Win_L>", keyboard_special_modifier_pressed )
     #root.bind( "<KeyRelease-Win_L>", keyboard_special_modifier_released )
 
