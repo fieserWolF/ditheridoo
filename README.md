@@ -11,7 +11,7 @@ It runs on 64 bit versions of Linux, MacOS and Windows.
 reason | description
 ---|---
 open source | easy to modify and to improve, any useful contribution is highly welcome
-portable | available on Linux, MacOS, Darwin and any other system supported by Python3
+portable | available on Linux, MacOS, Windows and any other system supported by Python3
 easy dithering | checkerboard, x-line, y-line, light dither modes available, more might be implemented in the future
 interesting for coders | total control which values are set in draw-modes "select color" and "dye", see built-in help or [cheatsheet.md](cheatsheet.md) for details
 
@@ -81,6 +81,11 @@ At least this is needed to run the script directly:
 - python 3
 - python tkinter module
 - python "The Python Imaging Library" (PIL)
+
+Normally, you would use pip like this:
+```
+pip install tkinter pillow
+```
 
 On my Debian GNU/Linux machine I use apt-get to install everything needed:
 ```
