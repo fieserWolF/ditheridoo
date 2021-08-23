@@ -46,12 +46,14 @@ The multicolor bitmap is stored in the widely-spread KoalaPainter (C64) format:
 
 Ditheridoo comes in two flavors:
 
-- standalone executable for 64-bit systems Linux, MacOS/Darwin and Windows
+- standalone executable for 64-bit systems Linux, MacOS/Darwin and Windows (see [releases](https://github.com/fieserWolF/ditheridoo/releases))
 - Python3 script
 
 ## Run the standalone executable
 
-Just download your bundle and enjoy. Keep in mind that only 64bit systems are supported as I could not find a 32bit system to generate the bundle.
+Just download your bundle at [releases](https://github.com/fieserWolF/ditheridoo/releases) and enjoy.
+Keep in mind that only 64bit systems are supported as I could not find a 32bit system to generate the bundle.
+
 
 ### Note for Windows users
 
@@ -59,6 +61,7 @@ If some antivirus scanner puts Ditheridoo into quarantine because it suspects a 
 It isn`t harmful, I used PyInstaller to bundle the standalone executable for you.
 Unfortunately, the PyInstaller bootloader triggers a false alarm on some systems.
 I even tried my best and re-compiled the PyInstaller bootloader so that this should not happen anymore. Keep your fingers crossed ;)
+
 
 ### Note for MacOS users
 
