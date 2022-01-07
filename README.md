@@ -5,6 +5,7 @@
 Ditheridoo is a multicolor bitmap editor for Commodore 64.
 It runs on 64 bit versions of Linux, MacOS, Windows and other systems supported by Python. 
 
+![screenshot](./screenshot.png)
 
 # Why Ditheridoo?
 
