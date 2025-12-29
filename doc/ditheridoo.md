@@ -122,6 +122,14 @@ or
 [wolf@abyss-connection.de](wolf@abyss-connection.de)
 
 
+## Changes in 1.1
+
+(next release candidate)
+
+- mostly rewritten code, split up into segments
+- bug fixes
+
+
 ## Changes in 1.0
 
 - initial release

@@ -7,6 +7,7 @@ It runs on 64 bit versions of Linux, MacOS, Windows and other systems supported 
 
 ![screenshot](./screenshot.png)
 
+
 # Why Ditheridoo?
 
 reason | description
@@ -119,6 +120,14 @@ If you have a feature request, a bug report or if you want to offer help, please
 [http://csdb.dk/scener/?id=3623](http://csdb.dk/scener/?id=3623)
 or
 [wolf@abyss-connection.de](wolf@abyss-connection.de)
+
+
+## Changes in 1.1
+
+(next release candidate)
+
+- mostly rewritten code, split up into segments
+- bug fixes
 
 
 ## Changes in 1.0
