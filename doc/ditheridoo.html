@@ -31,8 +31,7 @@
 <h1 id="ditheridoo">Ditheridoo</h1>
 <p><strong>Dither me like one of your French girls.</strong></p>
 <p>Ditheridoo is a multicolor bitmap editor for Commodore 64. It runs on
-64 bit versions of Linux, MacOS, Windows and other systems supported by
-Python.</p>
+Linux, MacOS, Windows and other systems supported by Python.</p>
 <figure>
 <img src="./screenshot.png" alt="screenshot" />
 <figcaption aria-hidden="true">screenshot</figcaption>
@@ -77,6 +76,18 @@ for details</td>
 <p>For a list of quick keyboard shortcuts and other information see file
 <a href="cheatsheet.md">cheatsheet.md</a> or the full documentation in
 /doc.</p>
+<h1 id="commandline-options">Commandline options</h1>
+<pre><code>Ditheridoo v1.1.0 [build 251229-234134] *** by WolF
+usage: ditheridoo.py [-h] [-i IMAGE_FILENAME]
+
+Ditheridoo is a multicolor bitmap editor for Commodore 64.
+
+options:
+  -h, --help            show this help message and exit
+  -i, --image IMAGE_FILENAME
+                        koala image filename
+
+Example: ./ditheridoo.py -i image.koa</code></pre>
 <h1 id="file-format">File Format</h1>
 <p>The multicolor bitmap is stored in the widely-spread KoalaPainter
 (C64) format:</p>
@@ -103,8 +114,7 @@ href="https://csdb.dk/scener/?id=739">https://csdb.dk/scener/?id=739</a></li>
 <h1 id="getting-started">Getting Started</h1>
 <p>Ditheridoo comes in two flavors:</p>
 <ul>
-<li>standalone executable for 64-bit systems Linux, MacOS/Darwin and
-Windows (see <a
+<li>standalone executable for Linux, MacOS/Darwin and Windows (see <a
 href="https://github.com/fieserWolF/ditheridoo/releases">releases</a>)</li>
 <li>Python3 script</li>
 </ul>
@@ -112,8 +122,7 @@ href="https://github.com/fieserWolF/ditheridoo/releases">releases</a>)</li>
 executable</h2>
 <p>Just download your bundle at <a
 href="https://github.com/fieserWolF/ditheridoo/releases">releases</a>
-and enjoy. Keep in mind that only 64bit systems are supported as I could
-not find a 32bit system to generate the bundle.</p>
+and enjoy.</p>
 <h3 id="note-for-windows-users">Note for Windows users</h3>
 <p>If some antivirus scanner puts Ditheridoo into quarantine because it
 suspects a trojan or virus, simply put it out there again. It isn`t
@@ -133,18 +142,34 @@ directly</h2>
 <p>Download <em>ditheridoo.py</em> and the whole <em>resource</em> -
 directory into the same folder on your computer.</p>
 <h3 id="prerequisites">Prerequisites</h3>
-<p>At least this is needed to run the script directly:</p>
+<p>Python3 is needed to run PetPet. Everything else needed should be
+provided in your Python3 installation by default:</p>
 <ul>
-<li>python 3</li>
-<li>python tkinter module</li>
-<li>python “The Python Imaging Library” (PIL)</li>
+<li>tkinter</li>
+<li>argparse</li>
+<li>“The Python Imaging Library” (PIL)</li>
 </ul>
-<p>Normally, you would use pip like this:</p>
-<pre><code>pip3 install tk pillow</code></pre>
-<p>On my Debian GNU/Linux machine I use apt-get to install everything
+<h3 id="install-python-on-windows-or-mac">Install Python on Windows or
+Mac</h3>
+<ul>
+<li>Download Python from <a
+href="https://www.python.org">https://www.python.org</a>.</li>
+<li>Install Python on your computer.</li>
+</ul>
+<h3 id="install-python-on-linux">Install Python on Linux</h3>
+<p>On my Debian GNU/Linux machine I use apt to install everything
 needed:</p>
-<pre><code>apt-get update
-apt-get install python3 python3-tk python3-pil python3-pil.imagetk</code></pre>
+<pre><code>apt update
+apt install python3 python3-tk python3-pil python3-pil.imagetk</code></pre>
+<p>Alternatively, you can use pip to install missing modules:</p>
+<pre><code>pip3 install tk pillow argparse</code></pre>
+<h3 id="download-ditheridoo">Download Ditheridoo</h3>
+<ul>
+<li>Go to <a
+href="https://github.com/fieserWolF/ditheridoo">https://github.com/fieserWolF/ditheridoo</a>.</li>
+<li>Click on the green “Code” button and “Download ZIP”.</li>
+<li>Extract the downloaded ZIP-file to any folder.</li>
+</ul>
 <h1 id="ditheridoo-cheatsheet">Ditheridoo Cheatsheet</h1>
 <h2 id="gui-controls">GUI controls</h2>
 <table>
@@ -433,6 +458,7 @@ or <a href="wolf@abyss-connection.de">wolf@abyss-connection.de</a></p>
 <p>(next release candidate)</p>
 <ul>
 <li>mostly rewritten code, split up into segments</li>
+<li>commandline options</li>
 <li>bug fixes</li>
 </ul>
 <h2 id="changes-in-1.0">Changes in 1.0</h2>

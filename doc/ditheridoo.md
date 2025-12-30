@@ -3,7 +3,7 @@
 **Dither me like one of your French girls.**
 
 Ditheridoo is a multicolor bitmap editor for Commodore 64.
-It runs on 64 bit versions of Linux, MacOS, Windows and other systems supported by Python. 
+It runs on Linux, MacOS, Windows and other systems supported by Python. 
 
 ![screenshot](./screenshot.png)
 
@@ -24,6 +24,22 @@ For a list of quick keyboard shortcuts and other information see file [cheatshee
 
 
 
+# Commandline options
+
+	Ditheridoo v1.1.0 [build 251229-234134] *** by WolF
+	usage: ditheridoo.py [-h] [-i IMAGE_FILENAME]
+
+	Ditheridoo is a multicolor bitmap editor for Commodore 64.
+
+	options:
+	  -h, --help            show this help message and exit
+	  -i, --image IMAGE_FILENAME
+							koala image filename
+
+	Example: ./ditheridoo.py -i image.koa
+
+
+
 # File Format
 
 The multicolor bitmap is stored in the widely-spread KoalaPainter (C64) format:
@@ -33,6 +49,7 @@ The multicolor bitmap is stored in the widely-spread KoalaPainter (C64) format:
 * 1000 bytes raw "Video Matrix" (screen) data
 * 1000 bytes raw "Color RAM" data
 * 1 byte background data
+
 
 
 
@@ -48,13 +65,12 @@ The multicolor bitmap is stored in the widely-spread KoalaPainter (C64) format:
 
 Ditheridoo comes in two flavors:
 
-- standalone executable for 64-bit systems Linux, MacOS/Darwin and Windows (see [releases](https://github.com/fieserWolF/ditheridoo/releases))
+- standalone executable for Linux, MacOS/Darwin and Windows (see [releases](https://github.com/fieserWolF/ditheridoo/releases))
 - Python3 script
 
 ## Run the standalone executable
 
 Just download your bundle at [releases](https://github.com/fieserWolF/ditheridoo/releases) and enjoy.
-Keep in mind that only 64bit systems are supported as I could not find a 32bit system to generate the bundle.
 
 
 ### Note for Windows users
@@ -81,22 +97,36 @@ Download _ditheridoo.py_ and the whole _resource_ - directory into the same fold
 
 ### Prerequisites
 
-At least this is needed to run the script directly:
+Python3 is needed to run PetPet. Everything else needed should be provided in your Python3 installation by default:
 
-- python 3
-- python tkinter module
-- python "The Python Imaging Library" (PIL)
+- tkinter
+- argparse
+- "The Python Imaging Library" (PIL)
 
-Normally, you would use pip like this:
+
+### Install Python on Windows or Mac
+
+* Download Python from [https://www.python.org](https://www.python.org).
+* Install Python on your computer.
+
+### Install Python on Linux
+
+On my Debian GNU/Linux machine I use apt to install everything needed:
 ```
-pip3 install tk pillow
+apt update
+apt install python3 python3-tk python3-pil python3-pil.imagetk
 ```
 
-On my Debian GNU/Linux machine I use apt-get to install everything needed:
+Alternatively, you can use pip to install missing modules:
 ```
-apt-get update
-apt-get install python3 python3-tk python3-pil python3-pil.imagetk
+pip3 install tk pillow argparse
 ```
+
+### Download Ditheridoo
+
+* Go to [https://github.com/fieserWolF/ditheridoo](https://github.com/fieserWolF/ditheridoo).
+* Click on the green "Code" button and "Download ZIP".
+* Extract the downloaded ZIP-file to any folder.
 
 
 # Changelog
@@ -127,6 +157,7 @@ or
 (next release candidate)
 
 - mostly rewritten code, split up into segments
+- commandline options
 - bug fixes
 
 
