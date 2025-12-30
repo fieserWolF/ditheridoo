@@ -1,19 +1,8 @@
 import code.myGlobals as myGlobals
-#import os
-#import sys
-#import hitherdither
-#import struct
 from PIL import ImageTk, ImageDraw
 import PIL.Image as PilImage    #we need another name, as it collides with tkinter.Image otherwise
-#from tkinter import *
 from tkinter.filedialog import askopenfilename, asksaveasfilename
-#import json
-
-#from tkinter import ttk
-#ttk.Style().theme_use('clam')
-
 import struct
-
 import tkinter as tk
 import os
 
@@ -948,10 +937,10 @@ def action_OpenFile(self):
 
 
 def shorten_filename (filename) :
-    if (len(myGlobals.current_filename) > 20) :
-        return "..."+myGlobals.current_filename[-20:]
+    if (len(filename) > 20) :
+        return "..."+filename[-20:]
     else :
-        return myGlobals.current_filename
+        return filename
 
 def set_title():
     myGlobals.root.title(myGlobals.PROGNAME+" \""+shorten_filename(myGlobals.current_filename)+"\"")

@@ -152,9 +152,7 @@ or
 [wolf@abyss-connection.de](wolf@abyss-connection.de)
 
 
-## Changes in 1.1
-
-(next release candidate)
+## Changes in 1.1 (at Dream210 Party 2025)
 
 - mostly rewritten code, split up into segments
 - commandline options

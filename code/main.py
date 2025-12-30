@@ -8,29 +8,25 @@ import code.action as action
 import code.gui_help as gui_help
 import code.gui_about as gui_about
 import sys
-
 import tkinter as tk
 import argparse
 
 
 
-"""
-import os
-import sys
-import struct
-from PIL import ImageTk
-import PIL.Image as PilImage    #we need another name, as it collides with tk.Image otherwise
-import PIL.ImageDraw as ImageDraw
-import tkinter as tk
-from tkinter.filedialog import askopenfilename, asksaveasfilename
-#import json
-import platform
-"""
-
-
-
 def _main_procedure() :
     print("%s %s *** by WolF"% (myGlobals.PROGNAME, myGlobals.VERSION))
+
+    #https://docs.python.org/3/library/argparse.html
+    parser = argparse.ArgumentParser(
+        description='Ditheridoo is a multicolor bitmap editor for Commodore 64.',
+        epilog='Example: '+sys.argv[0]+' -i image.koa'
+    )
+    parser.add_argument('-i', '--image', dest='image_filename', help='koala image filename')
+    #parser.add_argument('-p', '--petscii_file', dest='petscii_filename', help='petscii filename (.json)')
+    #parser.add_argument('-c', '--config_file', dest='config_filename', help='name of configuration file (.json) default: "'+myGlobals.RES_CONFIG+'"', default=myGlobals.RES_CONFIG)
+    #parser.add_argument('-f', '--font_file', dest='font_filename', help='name of font (2048 bytes) default: "'+myGlobals.CHARROM_UPPERCASE+'"', default=myGlobals.CHARROM_UPPERCASE)
+    myGlobals.args = parser.parse_args()
+
 
     #print(RES_GFX_ICON)
     #while (1==1) :
@@ -81,9 +77,10 @@ def _main_procedure() :
 
     action.draw_grids()
     action.draw_background()
-    
-    if (len(sys.argv) == 2) :
-        action.loadFile(sys.argv[1])
+
+
+    if (myGlobals.args.image_filename) :
+        action.loadFile(myGlobals.args.image_filename)
     else :
         #loadFile(resource_path('new.koa'))
         action.draw_new_image()
