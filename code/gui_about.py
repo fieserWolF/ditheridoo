@@ -1,6 +1,5 @@
 import code.myGlobals as myGlobals
-import tkinter as tk
-
+import tkinter
 
 
 def create_gui_about () :
@@ -39,11 +38,11 @@ def create_gui_about () :
     _pady = 10
     
 	#http://effbot.org/tkbook/toplevel.htm
-    myGlobals.about_window = tk.Toplevel(
+    myGlobals.about_window = tkinter.Toplevel(
         bd=10
     )
     myGlobals.about_window.title("About")
-    myGlobals.about_window.iconphoto(False, tk.PhotoImage(file=myGlobals.RES_GFX_ICON))
+    myGlobals.about_window.iconphoto(False, tkinter.PhotoImage(file=myGlobals.RES_GFX_ICON))
     myGlobals.about_window.protocol("WM_DELETE_WINDOW", close_window)
     myGlobals.about_window.bind("<Escape>", close_window_key)
     myGlobals.about_window.configure(background=myGlobals.BGCOLOR)
@@ -51,16 +50,16 @@ def create_gui_about () :
 
 
     #top
-    frame_top = tk.Frame( myGlobals.about_window)
+    frame_top = tkinter.Frame( myGlobals.about_window)
     frame_top.grid(
         row=0,
         column=0,
-        sticky=tk.N
+        sticky=tkinter.N
     )
 
     #label with image: http://effbot.org/tkbook/photoimage.htm
-    photo = tk.PhotoImage(file=myGlobals.RES_GFX_LOGO)
-    label_logo = tk.Label(
+    photo = tkinter.PhotoImage(file=myGlobals.RES_GFX_LOGO)
+    label_logo = tkinter.Label(
         frame_top,
         bg=myGlobals.BGCOLOR,
         bd=0,
@@ -70,7 +69,7 @@ def create_gui_about () :
     )
     label_logo.image = photo # keep a reference!
 
-    label_version = tk.Label(
+    label_version = tkinter.Label(
         frame_top,
         bg=myGlobals.BGCOLOR,
         bd=0,
@@ -82,81 +81,81 @@ def create_gui_about () :
     label_logo.grid(
         row=0,
         column=0,
-        sticky=tk.W+tk.S+tk.W+tk.E
+        sticky=tkinter.W+tkinter.S+tkinter.W+tkinter.E
     )
 
     label_version.grid(
         row=1,
         column=0,
-        sticky=tk.W+tk.S+tk.W+tk.E
+        sticky=tkinter.W+tkinter.S+tkinter.W+tkinter.E
     )
 
 
 
 
     #bottom
-    frame_bottom = tk.Frame( myGlobals.about_window)
+    frame_bottom = tkinter.Frame( myGlobals.about_window)
     frame_bottom.configure(background=myGlobals.BGCOLOR)
     frame_bottom.grid(
         row=1,
         column=0,
-        sticky=tk.S
+        sticky=tkinter.S
     )
 
     # right frame
-    frame_right = tk.Frame( frame_bottom)
+    frame_right = tkinter.Frame( frame_bottom)
     frame_right.grid(
         row=0,
         column=1,
-        sticky=tk.W
+        sticky=tkinter.W
     )
 
     #http://effbot.org/tkbook/message.htm
-    msg = tk.Text(
+    msg = tkinter.Text(
         frame_right,
         bg=myGlobals.TEXTBOXCOLOR,
 #        bd=10,
-        relief=tk.FLAT,
+        relief=tkinter.FLAT,
         width=80,
         height=TEXT_HEIGHT
     )
 
     #scrollbar
-    msg_scrollBar = tk.Scrollbar(
+    msg_scrollBar = tkinter.Scrollbar(
         frame_right,
         bg=myGlobals.BGCOLOR,
     )
     msg_scrollBar.config(command=msg.yview)
     msg.config(yscrollcommand=msg_scrollBar.set)
-    msg.insert(tk.END, open(myGlobals.RES_DOC_ABOUT, encoding="utf_8").read())
-    msg.config(state=tk.DISABLED)
+    msg.insert(tkinter.END, open(myGlobals.RES_DOC_ABOUT, encoding="utf_8").read())
+    msg.config(state=tkinter.DISABLED)
 
     #placement in grid
     msg.grid(
         row=0,
         column=0,
-        sticky=tk.W
+        sticky=tkinter.W
     )
     msg_scrollBar.grid(
         row=0,
         column=1,
-        sticky=tk.N+tk.S
+        sticky=tkinter.N+tkinter.S
     )
 
 
 
 
     # left frame
-    frame_left = tk.Frame( frame_bottom)
+    frame_left = tkinter.Frame( frame_bottom)
     frame_left.grid(
         row=0,
         column=0,
-        sticky=tk.W
+        sticky=tkinter.W
     )
 
     #label with image: http://effbot.org/tkbook/photoimage.htm
-    photo = tk.PhotoImage(file=myGlobals.RES_GFX_ABOUT)
-    label_image = tk.Label(
+    photo = tkinter.PhotoImage(file=myGlobals.RES_GFX_ABOUT)
+    label_image = tkinter.Label(
         frame_left,
         bg=myGlobals.BGCOLOR,
 #        bd=10,
@@ -168,7 +167,7 @@ def create_gui_about () :
 
 
     #button
-    button = tk.Button(
+    button = tkinter.Button(
         frame_left,
         bg=myGlobals.BGCOLOR,
         activebackground=myGlobals.ACTIVECOLOR,
@@ -183,12 +182,12 @@ def create_gui_about () :
     label_image.grid(
         row=0,
         column=0,
-        sticky=tk.W
+        sticky=tkinter.W
     )
     button.grid(
         row=1,
         column=0,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
 
     myGlobals.about_window.bind('<Up>', keyboard_up) 

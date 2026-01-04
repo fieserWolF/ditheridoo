@@ -1,12 +1,6 @@
 import code.myGlobals as myGlobals
 import code.action as action
-import tkinter as tk
-
-
-
-
-
-
+import tkinter
 
 
 def create_gui_preferences_from_menu () :
@@ -35,11 +29,11 @@ def create_gui_preferences (self) :
     _pady = 10
     
 	#http://effbot.org/tkbook/toplevel.htm
-    myGlobals.preferences_window = tk.Toplevel(
+    myGlobals.preferences_window = tkinter.Toplevel(
         bd=10
     )
     myGlobals.preferences_window.title("Configure Settings")
-    myGlobals.preferences_window.iconphoto(False, tk.PhotoImage(file=myGlobals.RES_GFX_ICON))
+    myGlobals.preferences_window.iconphoto(False, tkinter.PhotoImage(file=myGlobals.RES_GFX_ICON))
     myGlobals.preferences_window.protocol("WM_DELETE_WINDOW", close_window)
     myGlobals.preferences_window.bind("<Escape>", close_window_key)
     myGlobals.preferences_window.configure(background=myGlobals.BGCOLOR)
@@ -71,7 +65,7 @@ def create_gui_preferences (self) :
     )
 
     #button
-    button = tk.Button(
+    button = tkinter.Button(
         myGlobals.preferences_window,
         text="OK",
         bg=myGlobals.BGCOLOR,
@@ -84,7 +78,7 @@ def create_gui_preferences (self) :
     button.grid(
         row=2,
         column=0,
-        sticky=tk.N,
+        sticky=tkinter.N,
         columnspan=2
     )
 
@@ -96,7 +90,7 @@ def create_gui_preferences_editorsize (
     _row,
     _column
 ) :
-    frame_border = tk.Frame(
+    frame_border = tkinter.Frame(
         root,
         bg=myGlobals.BGCOLOR,
         bd=myGlobals._bd,
@@ -105,20 +99,20 @@ def create_gui_preferences_editorsize (
         row=_row,
         column=_column
     )
-    frame_inner = tk.Frame(
+    frame_inner = tkinter.Frame(
         frame_border,
         bg=myGlobals.BGCOLOR,
         bd=1,
         padx = myGlobals._padx,
         pady = myGlobals._pady,
-        relief=tk.RAISED
+        relief=tkinter.RAISED
         )
     frame_inner.grid()
-    frame_inner.grid_columnconfigure(0, weight=1)
-    frame_inner.grid_rowconfigure(0, weight=1)
+    #frame_inner.grid_columnconfigure(0, weight=1)
+    #frame_inner.grid_rowconfigure(0, weight=1)
 
     _row = 0
-    label = tk.Label(
+    label = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
         text="editor size",
@@ -130,7 +124,7 @@ def create_gui_preferences_editorsize (
     label.grid(
         row=_row,
         column=1,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
     MODES = [
             (myGlobals.EDITORSIZE_TEXT[0], 0),
@@ -138,7 +132,7 @@ def create_gui_preferences_editorsize (
         ]
 
     for text, mode in MODES:
-        radiobutton = tk.Radiobutton(
+        radiobutton = tkinter.Radiobutton(
             frame_inner,
             bg=myGlobals.BGCOLOR,
             activebackground=myGlobals.ACTIVECOLOR,
@@ -148,21 +142,23 @@ def create_gui_preferences_editorsize (
             indicatoron=0,
             variable=myGlobals.user_editorsize,
             cursor=myGlobals.CURSOR_HAND,
-            command=action.action_image_refresh_prepare
+            command=action.refresh_prepare
         )
         _row += 1
         radiobutton.grid(
             row=_row,
             column=1,
-            sticky=tk.W+tk.E
+            sticky=tkinter.W+tkinter.E
         )
+
+
 
 def create_gui_preferences_previewsize (
 	root,
     _row,
     _column
 ) :
-    frame_border = tk.Frame(
+    frame_border = tkinter.Frame(
         root,
         bg=myGlobals.BGCOLOR,
         bd=myGlobals._bd,
@@ -171,20 +167,20 @@ def create_gui_preferences_previewsize (
         row=_row,
         column=_column
     )
-    frame_inner = tk.Frame(
+    frame_inner = tkinter.Frame(
         frame_border,
         bg=myGlobals.BGCOLOR,
         bd=1,
         padx = myGlobals._padx,
         pady = myGlobals._pady,
-        relief=tk.RAISED
+        relief=tkinter.RAISED
         )
     frame_inner.grid()
-    frame_inner.grid_columnconfigure(0, weight=1)
-    frame_inner.grid_rowconfigure(0, weight=1)
+    #frame_inner.grid_columnconfigure(0, weight=1)
+    #frame_inner.grid_rowconfigure(0, weight=1)
 
     _row = 0
-    label = tk.Label(
+    label = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
         text="preview size",
@@ -196,7 +192,7 @@ def create_gui_preferences_previewsize (
     label.grid(
         row=_row,
         column=1,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
     MODES = [
             (myGlobals.PREVIEWSIZE_TEXT[0], 0),
@@ -204,7 +200,7 @@ def create_gui_preferences_previewsize (
         ]
 
     for text, mode in MODES:
-        radiobutton = tk.Radiobutton(
+        radiobutton = tkinter.Radiobutton(
             frame_inner,
             bg=myGlobals.BGCOLOR,
             activebackground=myGlobals.ACTIVECOLOR,
@@ -214,13 +210,13 @@ def create_gui_preferences_previewsize (
             indicatoron=0,
             variable=myGlobals.user_previewsize,
             cursor=myGlobals.CURSOR_HAND,
-            command=action.action_image_refresh_prepare
+            command=action.refresh_prepare
         )
         _row += 1
         radiobutton.grid(
             row=_row,
             column=1,
-            sticky=tk.W+tk.E
+            sticky=tkinter.W+tkinter.E
         )
 
 
@@ -232,7 +228,7 @@ def create_gui_preferences_palette (
 ) :
 #palette radiobuttons
 #http://effbot.org/tkbook/radiobutton.htm
-    frame_border = tk.Frame(
+    frame_border = tkinter.Frame(
         root,
         bg=myGlobals.BGCOLOR,
         bd=myGlobals._bd,
@@ -241,20 +237,20 @@ def create_gui_preferences_palette (
         row=_row,
         column=_column
     )
-    frame_inner = tk.Frame(
+    frame_inner = tkinter.Frame(
         frame_border,
         bg=myGlobals.BGCOLOR,
         bd=1,
         padx = myGlobals._padx,
         pady = myGlobals._pady,
-        relief=tk.RAISED
+        relief=tkinter.RAISED
         )
     frame_inner.grid()
-    frame_inner.grid_columnconfigure(0, weight=1)
-    frame_inner.grid_rowconfigure(0, weight=1)
+    #frame_inner.grid_columnconfigure(0, weight=1)
+    #frame_inner.grid_rowconfigure(0, weight=1)
 
     _row = 0
-    label = tk.Label(
+    label = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
         text="palette",
@@ -266,7 +262,7 @@ def create_gui_preferences_palette (
     label.grid(
         row=_row,
         column=1,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
     MODES = [
             ("colodore", "colodore"),
@@ -274,7 +270,7 @@ def create_gui_preferences_palette (
         ]
 
     for text, mode in MODES:
-        radiobutton_user_mode = tk.Radiobutton(
+        radiobutton_user_mode = tkinter.Radiobutton(
             frame_inner,
             bg=myGlobals.BGCOLOR,
             activebackground=myGlobals.ACTIVECOLOR,
@@ -284,13 +280,13 @@ def create_gui_preferences_palette (
             indicatoron=0,
             variable=myGlobals.user_palette,
             cursor=myGlobals.CURSOR_HAND,
-            command=action.action_image_refresh_prepare
+            command=action.refresh_prepare
         )
         _row += 1
         radiobutton_user_mode.grid(
             row=_row,
             column=1,
-            sticky=tk.W+tk.E
+            sticky=tkinter.W+tkinter.E
         )
 
         
@@ -301,7 +297,7 @@ def create_gui_preferences_startaddress (
     _row,
     _column
 ) :
-    frame_border = tk.Frame(
+    frame_border = tkinter.Frame(
         root,
         bg=myGlobals.BGCOLOR,
         bd=myGlobals._bd,
@@ -310,38 +306,38 @@ def create_gui_preferences_startaddress (
         row=_row,
         column=_column
     )
-    frame_inner = tk.Frame(
+    frame_inner = tkinter.Frame(
         frame_border,
         bg=myGlobals.BGCOLOR,
         bd=1,
         padx = myGlobals._padx,
         pady = myGlobals._pady,
-        relief=tk.RAISED
+        relief=tkinter.RAISED
         )
     frame_inner.grid()
-    frame_inner.grid_columnconfigure(0, weight=1)
-    frame_inner.grid_rowconfigure(0, weight=1)
+    #frame_inner.grid_columnconfigure(0, weight=1)
+    #frame_inner.grid_rowconfigure(0, weight=1)
     
-    label_start_address_title = tk.Label(
+    label_start_address_title = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
         text="start address in hex:",
         anchor='c',
         fg="#000088"
     )
-    checkbutton_start_address = tk.Checkbutton(
+    checkbutton_start_address = tkinter.Checkbutton(
         frame_inner,
         bg=myGlobals.BGCOLOR,
         variable = myGlobals.user_start_address_checkbutton,
         cursor=myGlobals.CURSOR_HAND,
         )
-    label_start_address = tk.Label(
+    label_start_address = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
         text="values $0-$ffff $",
         anchor='c'
     )
-    entry_start_address= tk.Entry(
+    entry_start_address= tkinter.Entry(
         frame_inner,
         bg=myGlobals.TEXTBOXCOLOR,
         width=8,
@@ -352,23 +348,23 @@ def create_gui_preferences_startaddress (
     label_start_address_title.grid(
         row=0,
         column=0,
-        sticky=tk.W+tk.E,
+        sticky=tkinter.W+tkinter.E,
         columnspan=3
     )
     checkbutton_start_address.grid(
         row=1,
         column=0,
-        sticky=tk.W
+        sticky=tkinter.W
     )
     label_start_address.grid(
         row=1,
         column=1,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
     entry_start_address.grid(
         row=1,
         column=2,
-        sticky=tk.E
+        sticky=tkinter.E
     )
 
 

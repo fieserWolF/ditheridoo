@@ -1,8 +1,5 @@
 import code.myGlobals as myGlobals
-import tkinter as tk
-
-
-
+import tkinter
 
 
 def create_gui_help_from_menu () :
@@ -46,63 +43,63 @@ def create_gui_help (self) :
     _pady = 10
     
 	#http://effbot.org/tkbook/toplevel.htm
-    myGlobals.help_window = tk.Toplevel(bd=10)
+    myGlobals.help_window = tkinter.Toplevel(bd=10)
     myGlobals.help_window.title("Help")
-    myGlobals.help_window.iconphoto(False, tk.PhotoImage(file=myGlobals.RES_GFX_ICON))
+    myGlobals.help_window.iconphoto(False, tkinter.PhotoImage(file=myGlobals.RES_GFX_ICON))
     myGlobals.help_window.protocol("WM_DELETE_WINDOW", close_window)
     myGlobals.help_window.bind("<Escape>", close_window_key)
     myGlobals.help_window.configure(background=myGlobals.BGCOLOR)
     myGlobals.help_window.resizable(0, 0)
 
     # right frame
-    frame_right = tk.Frame( myGlobals.help_window)
+    frame_right = tkinter.Frame( myGlobals.help_window)
     frame_right.grid(
         row=0,
         column=1,
-        sticky=tk.W+tk.E+tk.S+tk.N
+        sticky=tkinter.W+tkinter.E+tkinter.S+tkinter.N
     )
 
     #http://effbot.org/tkbook/message.htm
-    msg = tk.Text(
+    msg = tkinter.Text(
         frame_right,
         bg=myGlobals.TEXTBOXCOLOR,
-        relief=tk.FLAT,
+        relief=tkinter.FLAT,
         width=80,
         height=TEXT_HEIGHT
     )
 
     #scrollbar
-    msg_scrollBar = tk.Scrollbar(frame_right)
+    msg_scrollBar = tkinter.Scrollbar(frame_right)
     msg_scrollBar.config(command=msg.yview)
     msg.config(yscrollcommand=msg_scrollBar.set)
-    msg.insert(tk.END, open(myGlobals.RES_DOC_HELP, encoding="utf_8").read())
-    msg.config(state=tk.DISABLED)
+    msg.insert(tkinter.END, open(myGlobals.RES_DOC_HELP, encoding="utf_8").read())
+    msg.config(state=tkinter.DISABLED)
 
     # placement in grid
     msg.grid(
         row=0,
         column=0,
-        sticky=tk.W+tk.E+tk.S+tk.N
+        sticky=tkinter.W+tkinter.E+tkinter.S+tkinter.N
     )
     msg_scrollBar.grid(
         row=0,
         column=1,
-        sticky=tk.W+tk.E+tk.S+tk.N
+        sticky=tkinter.W+tkinter.E+tkinter.S+tkinter.N
     )
 
 
 
     # left frame
-    frame_left = tk.Frame( myGlobals.help_window)
+    frame_left = tkinter.Frame( myGlobals.help_window)
     frame_left.grid(
         row=0,
         column=0,
-        sticky=tk.W
+        sticky=tkinter.W
     )
 
     #label with image: http://effbot.org/tkbook/photoimage.htm
-    photo = tk.PhotoImage(file=myGlobals.RES_GFX_ICON)
-    label_image = tk.Label(
+    photo = tkinter.PhotoImage(file=myGlobals.RES_GFX_ICON)
+    label_image = tkinter.Label(
         frame_left,
         bg=myGlobals.BGCOLOR,
 #        bd=10,
@@ -113,7 +110,7 @@ def create_gui_help (self) :
     label_image.image = photo # keep a reference!
 
     #button
-    button = tk.Button(
+    button = tkinter.Button(
         frame_left,
         bg=myGlobals.BGCOLOR,
         activebackground=myGlobals.ACTIVECOLOR,
@@ -128,12 +125,12 @@ def create_gui_help (self) :
     label_image.grid(
         row=0,
         column=0,
-        sticky=tk.W
+        sticky=tkinter.W
     )
     button.grid(
         row=1,
         column=0,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
 
     myGlobals.help_window.bind('<Up>', keyboard_up) 

@@ -1,67 +1,80 @@
 import code.myGlobals as myGlobals
 import code.action as action
-
-import tkinter as tk
-
-
-
-
-
-
-
-def create_gui_preview_image_from_menu () :
-    create_gui_preview_image(None)
-    
+import tkinter
 
     
-    
-def create_gui_preview_image (self) :
+def create_gui_preview_image () :
 
     def close_window():
-        #global preview_window
-        #global preview_window_open
+        #writes: myGlobals.preview_window
+        #writes: myGlobals.preview_window_open
         
         if (myGlobals.preview_window_open == True) :
             myGlobals.preview_window.destroy()
             myGlobals.preview_window_open = False
 
-    #global label_preview_image
-    #global preview_window
-    #global preview_window_open
+    #writes: myGlobals.canvas_preview
+    #writes: myGlobals.preview_window
+    #writes: myGlobals.preview_window_open
     
     if (myGlobals.preview_window_open == True) :
         return None
     myGlobals.preview_window_open = True
         
-    myGlobals.preview_window = tk.Toplevel(bd=10)
+    myGlobals.preview_window = tkinter.Toplevel(bd=10)
     myGlobals.preview_window.title("preview")
     myGlobals.preview_window.protocol("WM_DELETE_WINDOW", close_window)
-    myGlobals.preview_window.iconphoto(False, tk.PhotoImage(file=myGlobals.RES_GFX_ICON))
+    myGlobals.preview_window.iconphoto(False, tkinter.PhotoImage(file=myGlobals.RES_GFX_ICON))
     myGlobals.preview_window.configure(background=myGlobals.BGCOLOR)
     myGlobals.preview_window.resizable(0, 0)
+    #myGlobals.preview_window.resizable(1, 1)
 
+    photo = tkinter.PhotoImage()
 
-    myGlobals.label_preview_image = tk.Label(
+    myGlobals.label_preview_image = tkinter.Label(myGlobals.preview_window, width=myGlobals.preview_width, height=myGlobals.preview_height, background="#000000")
+    #myGlobals.canvas_preview = tkinter.Canvas(myGlobals.preview_window, width=myGlobals.preview_width, height=myGlobals.preview_height, background="#000000")
+    #myGlobals.canvas_preview.delete("all")
+    
+    #https://anzeljg.github.io/rin2/book2/2405/docs/tkinter/create_rectangle.html
+    #myGlobals.canvas_draw.create_rectangle(0, 0, myGlobals.FULL_SCREEN_WIDTH, myGlobals.FULL_SCREEN_HEIGHT, fill='#000000', tags='border')
+    
+    #https://anzeljg.github.io/rin2/book2/2405/docs/tkinter/create_image.html
+    #myGlobals.canvas_preview.create_image(0, 0, image=myGlobals.preview_image, anchor=tkinter.NW, tags='preview_image')
+
+    #myGlobals.canvas_preview.create_image(1, 1, anchor=tkinter.NW, tags='preview_image')
+    #myGlobals.label_preview.create_image(1, 1, anchor=tkinter.NW, tags='preview_image')
+
+    myGlobals.label_preview_image = tkinter.Label(
         myGlobals.preview_window,
-        bg=myGlobals.BGCOLOR
+        bg=myGlobals.BGCOLOR,
+        bd=0,
+        image=photo,
+        padx=0,
+        pady=0
     )
+    myGlobals.label_preview_image.image = photo # keep a reference!
 
+
+    #myGlobals.canvas_preview.grid(
     myGlobals.label_preview_image.grid(
         row=0,
         column=0,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E+tkinter.N+tkinter.S
     )
+    #myGlobals.label_preview_image.grid_columnconfigure(0, weight=1)
+    #myGlobals.label_preview_image.grid_rowconfigure(0, weight=1)
 
-    myGlobals.label_preview_image.bind('<Button-1>', input_mouse_left_button_preview)
+    myGlobals.label_preview_image.bind('<Button-1>', mouse_left_button_preview)
+    #myGlobals.canvas_preview.bind('<Button-1>', mouse_left_button_preview)
             
-    action.action_image_refresh_show()
+    #action.refresh_show()
 
 
 
 
-def input_mouse_left_button_preview(event):
-    #global mouse_posx, mouse_posy
+def mouse_left_button_preview(event):
+    #writes: myGlobals.global mouse_posx, myGlobals.mouse_posy
     myGlobals.mouse_posx, myGlobals.mouse_posy = event.x, event.y
-    update_infos_preview()
-    zoom_perform()
-    action.action_image_refresh_show()
+    action.update_infos_preview()
+    action.zoom_perform()
+    action.refresh_show()

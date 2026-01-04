@@ -1,87 +1,227 @@
 import code.myGlobals as myGlobals
-from PIL import ImageTk, ImageDraw
-import PIL.Image as PilImage    #we need another name, as it collides with tkinter.Image otherwise
-from tkinter.filedialog import askopenfilename, asksaveasfilename
 import struct
-import tkinter as tk
 import os
+import tkinter.filedialog
+
+def convert_to_photo_image(
+    my_width,
+    my_height,
+    my_data
+) :
+    #https://tkdocs.com/pyref/photoimage.html
+
+    #https://en.wikipedia.org/wiki/Netpbm#Description
+    #"PPM" portable pixmap
+    #header
+    #picture data (an array of bytes)
+    
+    #https://www.programiz.com/python-programming/methods/string/encode
+    #https://www.programiz.com/python-programming/methods/built-in/bytearray
+    tmp_ppm = ('P6 '+str(my_width)+' '+str(my_height)+' 255 ').encode(encoding='UTF-8',errors='strict') + bytearray(my_data)
+
+    return tkinter.PhotoImage(width=my_width, height=my_height, data=tmp_ppm, format='PPM')
+
+
+def convert_to_photo_image_data(
+    my_width,
+    my_height,
+    my_data
+) :
+    #https://tkdocs.com/pyref/photoimage.html
+
+    #https://en.wikipedia.org/wiki/Netpbm#Description
+    #"PPM" portable pixmap
+    #header
+    #picture data (an array of bytes)
+    
+    #https://www.programiz.com/python-programming/methods/string/encode
+    #https://www.programiz.com/python-programming/methods/built-in/bytearray
+    tmp_ppm = ('P6 '+str(my_width)+' '+str(my_height)+' 255 ').encode(encoding='UTF-8',errors='strict') + bytearray(my_data)
+
+    return tmp_ppm
+
+
+def save_ppm(filename):
+    switcher_palette = {
+        'pepto': myGlobals.PALETTEDATA_PEPTO,
+        'colodore': myGlobals.PALETTEDATA_COLODORE,
+    }
+    my_palettedata = switcher_palette.get(myGlobals.user_palette.get(), myGlobals.PALETTEDATA_PEPTO)
+    
+    #indexed image to RGB image
+    my_bytes = []
+    for i in myGlobals.koala_colorindex_data :
+        my_bytes.append(my_palettedata[i*3+0])  #r
+        my_bytes.append(my_palettedata[i*3+1])  #g
+        my_bytes.append(my_palettedata[i*3+2])  #b
+
+        #koala: double pixels
+        my_bytes.append(my_palettedata[i*3+0])  #r  
+        my_bytes.append(my_palettedata[i*3+1])  #g
+        my_bytes.append(my_palettedata[i*3+2])  #b
+
+    my_data = ('P6 '+str(myGlobals.KOALA_WIDTH*2)+' '+str(myGlobals.KOALA_HEIGHT)+' 255 ').encode(encoding='UTF-8',errors='strict') + bytearray(my_bytes)
+    save_some_data(filename, my_data)
+
+
+
+def save_some_data(
+    filename,
+    data
+):
+    print ('    Opening file "%s" for writing data (%d ($%04x) bytes)...' % (filename, len(data), len(data)))
+    try:
+        file_out = open(filename , 'wb')
+    except IOError as err:
+        print('I/O error: {0}'.format(err))
+        return None
+    file_out.write(bytearray(data))
+    file_out.close()
 
 
 
 def draw_background():
-    #global background_image
-
-    myGlobals.background_image = PilImage.new("RGBA", (myGlobals.editor_width, myGlobals.editor_height), "#888888ff")
-    draw = ImageDraw.Draw(myGlobals.background_image)
-
+    #is only called at the start and if editor size is changed
     CHECKER_SIZE = 32
+    CHECKER_COLOR1="#777777"
+    CHECKER_COLOR2="#555555"
+    MY_STATE='normal'
+    #MY_STATE='hidden'
+
+    #https://anzeljg.github.io/rin2/book2/2405/docs/tkinter/create_rectangle.html
+    myGlobals.canvas_editor.create_rectangle(
+        0,0,
+        myGlobals.editor_width,
+        myGlobals.editor_height,
+        fill=CHECKER_COLOR2,
+        width=0,
+        tags='background',
+        state=MY_STATE
+    )
 
     a = 0
     for y in range(0,myGlobals.editor_height,CHECKER_SIZE) :
         for x in range(0,myGlobals.editor_width,CHECKER_SIZE) :
             if ( a%2 == 0) :
-                #https://pillow.readthedocs.io/en/stable/reference/ImageDraw.html#PIL.ImageDraw.ImageDraw.rectangle
-                draw.rectangle( ( (x,y) , (x+CHECKER_SIZE-1,y+CHECKER_SIZE-1) ), fill="#777777ff")
+                myGlobals.canvas_editor.create_rectangle(
+                x,y,
+                x+CHECKER_SIZE,
+                y+CHECKER_SIZE,
+                fill=CHECKER_COLOR1,
+                width=0,
+                tags='background',
+                state=MY_STATE)
             a += 1
         a += 1
 
+    
+def draw_marker(
+    colorindex_data
+):
+    MARKER_COLOR=1  #C64 color index
+        
+    startx = (myGlobals.marker_posx)*4
+    starty = (myGlobals.marker_posy)*8
+    endx = (myGlobals.marker_posx+myGlobals.marker_width+1)*4
+    endy = (myGlobals.marker_posy+myGlobals.marker_height+1)*8
+    for x in range(startx,endx) :
+        colorindex_data[(starty*myGlobals.KOALA_WIDTH)+x] = MARKER_COLOR
+        colorindex_data[((endy-1)*myGlobals.KOALA_WIDTH)+x] = MARKER_COLOR
+    for y in range(starty+1,endy-1) :
+        colorindex_data[(y*myGlobals.KOALA_WIDTH)+startx] = MARKER_COLOR
+        colorindex_data[(y*myGlobals.KOALA_WIDTH)+endx-1] = MARKER_COLOR
+    
+    return colorindex_data
 
-    
-    
-    
+
 def draw_grids():
-    #global draw1, draw2, draw3, draw4
-    #global grid1_image, grid2_image, grid3_image, grid4_image
+    #multi = myGlobals.EDITORSIZE_MULTIPLY[myGlobals.user_editorsize.get()]
+    multi = 2
+    #print("create_draw_canvas_grid()")
+    GRID_COLOR = '#888888'
+    #MY_STATE='normal'
+    MY_STATE='hidden'
 
-    myGlobals.grid1_image = PilImage.new("RGBA", (myGlobals.editor_width, myGlobals.editor_height))
-    myGlobals.grid2_image = PilImage.new("RGBA", (myGlobals.editor_width, myGlobals.editor_height))
-    myGlobals.grid3_image = PilImage.new("RGBA", (myGlobals.editor_width, myGlobals.editor_height))
-    myGlobals.grid4_image = PilImage.new("RGBA", (myGlobals.editor_width, myGlobals.editor_height))
+    myGlobals.canvas_editor.delete('grid1')
+    myGlobals.canvas_editor.delete('grid2')
+    myGlobals.canvas_editor.delete('grid3')
+    myGlobals.canvas_editor.delete('grid4')
 
-    myGlobals.draw1 = ImageDraw.Draw(myGlobals.grid1_image, 'RGBA')
-    myGlobals.draw2 = ImageDraw.Draw(myGlobals.grid2_image, 'RGBA')
-    myGlobals.draw3 = ImageDraw.Draw(myGlobals.grid3_image, 'RGBA')
-    myGlobals.draw4 = ImageDraw.Draw(myGlobals.grid4_image, 'RGBA')
-
-    multi = myGlobals.EDITORSIZE_MULTIPLY[myGlobals.user_editorsize.get()]
-
+    #https://anzeljg.github.io/rin2/book2/2405/docs/tkinter/create_line.html
     #y-axis
-    for y in range(0,myGlobals.editor_height,(myGlobals.GRID_SIZE[1] * multi)) : myGlobals.draw1.line((0,y,myGlobals.editor_width,y), fill="#88888888")
-    for y in range(0,myGlobals.editor_height,(myGlobals.GRID_SIZE[2] * multi)) : myGlobals.draw2.line((0,y,myGlobals.editor_width,y), fill="#88888888")
-    for y in range(0,myGlobals.editor_height,(myGlobals.GRID_SIZE[3] * multi)) : myGlobals.draw3.line((0,y,myGlobals.editor_width,y), fill="#88888888")
-    for y in range(0,myGlobals.editor_height,(myGlobals.GRID_SIZE[4] * multi)) : myGlobals.draw4.line((0,y,myGlobals.editor_width,y), fill="#88888888")
+    for y in range(0,myGlobals.editor_height,(myGlobals.GRID_SIZE[1] * multi)) : myGlobals.canvas_editor.create_line(0,y,myGlobals.editor_width,y,fill=GRID_COLOR,tags='grid1', state=MY_STATE)
+    for y in range(0,myGlobals.editor_height,(myGlobals.GRID_SIZE[2] * multi)) : myGlobals.canvas_editor.create_line(0,y,myGlobals.editor_width,y,fill=GRID_COLOR,tags='grid2', state=MY_STATE)
+    for y in range(0,myGlobals.editor_height,(myGlobals.GRID_SIZE[3] * multi)) : myGlobals.canvas_editor.create_line(0,y,myGlobals.editor_width,y,fill=GRID_COLOR,tags='grid3', state=MY_STATE)
+    for y in range(0,myGlobals.editor_height,(myGlobals.GRID_SIZE[4] * multi)) : myGlobals.canvas_editor.create_line(0,y,myGlobals.editor_width,y,fill=GRID_COLOR,tags='grid4', state=MY_STATE)
 
     #x-axis
-    for x in range(0,myGlobals.editor_width,(myGlobals.GRID_SIZE[1] * multi)) : myGlobals.draw1.line((x,0,x,myGlobals.editor_height), fill="#88888888")
-    for x in range(0,myGlobals.editor_width,(myGlobals.GRID_SIZE[2] * multi)) : myGlobals.draw2.line((x,0,x,myGlobals.editor_height), fill="#88888888")
-    for x in range(0,myGlobals.editor_width,(myGlobals.GRID_SIZE[3] * multi)) : myGlobals.draw3.line((x,0,x,myGlobals.editor_height), fill="#88888888")
-    for x in range(0,myGlobals.editor_width,(myGlobals.GRID_SIZE[4] * multi)) : myGlobals.draw4.line((x,0,x,myGlobals.editor_height), fill="#88888888")
-
-
-
+    for x in range(0,myGlobals.editor_width,(myGlobals.GRID_SIZE[1] * multi)) : myGlobals.canvas_editor.create_line(x,0,x,myGlobals.editor_height,fill=GRID_COLOR,tags='grid1', state=MY_STATE)
+    for x in range(0,myGlobals.editor_width,(myGlobals.GRID_SIZE[2] * multi)) : myGlobals.canvas_editor.create_line(x,0,x,myGlobals.editor_height,fill=GRID_COLOR,tags='grid2', state=MY_STATE)
+    for x in range(0,myGlobals.editor_width,(myGlobals.GRID_SIZE[3] * multi)) : myGlobals.canvas_editor.create_line(x,0,x,myGlobals.editor_height,fill=GRID_COLOR,tags='grid3', state=MY_STATE)
+    for x in range(0,myGlobals.editor_width,(myGlobals.GRID_SIZE[4] * multi)) : myGlobals.canvas_editor.create_line(x,0,x,myGlobals.editor_height,fill=GRID_COLOR,tags='grid4', state=MY_STATE)
 
 
     
-    
-def action_image_refresh_prepare():
-        #global koala_image
+def refresh_prepare():
+        #writes: myGlobals.koala_image
 
+        #apply the correct colors
         switcher_palette = {
             'pepto': myGlobals.PALETTEDATA_PEPTO,
             'colodore': myGlobals.PALETTEDATA_COLODORE,
         }
         my_palettedata = switcher_palette.get(myGlobals.user_palette.get(), myGlobals.PALETTEDATA_PEPTO)
-        myGlobals.koala_image.putpalette(my_palettedata)
 
-        myGlobals.koala_image.putdata(myGlobals.koala_colorindex_data)
+        
+        #koala indexed image to RGB image byte_array
+        my_bytes = []
+        for i in myGlobals.koala_colorindex_data :
+            my_bytes.append(my_palettedata[i*3+0])
+            my_bytes.append(my_palettedata[i*3+1])
+            my_bytes.append(my_palettedata[i*3+2])
 
-        action_image_refresh_show()
+        #apply to myGlobals.preview_photoimage (a tkinter.PhotoImage)
+        multiply_preview = myGlobals.PREVIEWSIZE_MULTIPLY[myGlobals.user_previewsize.get()]
+        if (myGlobals.preview_window_open == True) :
+            #myGlobals.preview_photoimage = convert_to_photo_image(myGlobals.KOALA_WIDTH,myGlobals.KOALA_HEIGHT, my_bytes).zoom(multiply_preview*2,multiply_preview)
+            myGlobals.preview_photoimage.config(
+                width=myGlobals.KOALA_WIDTH,
+                height=myGlobals.KOALA_HEIGHT,
+                data=convert_to_photo_image_data(myGlobals.KOALA_WIDTH,myGlobals.KOALA_HEIGHT, my_bytes),
+                format='PPM'
+            )
+            #.zoom(multiply_preview*2,multiply_preview)
 
-        return None
+
+        #koala_photoimage: indexed image to RGB image
+        #multiply_editor = myGlobals.EDITORSIZE_MULTIPLY[myGlobals.user_editorsize.get()]
+        if ((myGlobals.marker_height > 0) & (myGlobals.marker_width > 0) ) :
+            #if we have a marker-box: prepare new my_bytes[] with markers
+            koala_with_markers_colorindex_data = draw_marker(myGlobals.koala_colorindex_data)
+            my_bytes = []
+            for i in koala_with_markers_colorindex_data :
+                my_bytes.append(my_palettedata[i*3+0])
+                my_bytes.append(my_palettedata[i*3+1])
+                my_bytes.append(my_palettedata[i*3+2])
+        #apply to myGlobals.koala_photoimage (a tkinter.PhotoImage)
+        #https://tkdocs.com/pyref/photoimage.html
+        #myGlobals.koala_photoimage = convert_to_photo_image(myGlobals.KOALA_WIDTH,myGlobals.KOALA_HEIGHT, my_bytes)
+        #myGlobals.koala_photoimage = tkinter.PhotoImage(width=my_width, height=my_height, data=tmp_ppm, format='PPM')
+        myGlobals.koala_photoimage.config(
+            width=myGlobals.KOALA_WIDTH,
+            height=myGlobals.KOALA_HEIGHT,
+            data=convert_to_photo_image_data(myGlobals.KOALA_WIDTH,myGlobals.KOALA_HEIGHT, my_bytes),
+            format='PPM'
+        )
+
+        #print(myGlobals.koala_photoimage)
+        #myGlobals.koala_photoimage = tmp.copy()
+
+        refresh_show()
         
 
 def editorimage_pos_sanity_check() :
-        #global editorimage_posx, editorimage_posy
+        #writes: myGlobals.editorimage_posx, myGlobals.editorimage_posy
         
         #sanity checks
         if (myGlobals.editorimage_posx < myGlobals.C64_CHAR_WIDTH*-1+1) : myGlobals.editorimage_posx = myGlobals.C64_CHAR_WIDTH*-1+1
@@ -97,111 +237,104 @@ def editorimage_pos_sanity_check() :
             myGlobals.editorimage_posx = 0
             myGlobals.editorimage_posy = 0
         
-        
-def action_image_refresh_show():
-        #copy, move and zoom: koala_image to editor_image
-        #global editor_width, editor_height
-        #global editor_image
-        #global label_editor_image, label_preview_image
-        #global marker_image
+def resize_edit_window(
+):
+    myGlobals.editor_width   = myGlobals.KOALA_WIDTH*2 * myGlobals.EDITORSIZE_MULTIPLY[myGlobals.user_editorsize.get()]
+    myGlobals.editor_height  = myGlobals.KOALA_HEIGHT * myGlobals.EDITORSIZE_MULTIPLY[myGlobals.user_editorsize.get()]
+    myGlobals.user_editorsize.get()
+    
+    
 
-        #draw marker
-        myGlobals.marker_image = myGlobals.koala_image.copy()
-        if ((myGlobals.marker_height > 0) & (myGlobals.marker_width > 0) ) :
-            startx = (myGlobals.marker_posx)*4
-            starty = (myGlobals.marker_posy)*8
-            endx = (myGlobals.marker_posx+myGlobals.marker_width+1)*4
-            endy = (myGlobals.marker_posy+myGlobals.marker_height+1)*8
-            for x in range(startx,endx) :
-                myGlobals.marker_image.putpixel((x,starty),4)
-                myGlobals.marker_image.putpixel((x,endy-1),4)
-            for y in range(starty+1,endy-1) :
-                myGlobals.marker_image.putpixel((startx,y),4)
-                myGlobals.marker_image.putpixel((endx-1,y),4)
+def refresh_show():
+        #copy, move and zoom: koala_image to editor_image
+        #writes
+        #myGlobals.editor_width, myGlobals.editor_height
+        #myGlobals.editor_image
+        #myGlobals.label_editor_image, myGlobals.label_preview_image
+        #myGlobals.marker_image
 
         # update dimensions
+        # only if new editor size is selected in preferences window
         editor_width_old = myGlobals.editor_width
         myGlobals.editor_width   = myGlobals.KOALA_WIDTH*2 * myGlobals.EDITORSIZE_MULTIPLY[myGlobals.user_editorsize.get()]
         myGlobals.editor_height  = myGlobals.KOALA_HEIGHT * myGlobals.EDITORSIZE_MULTIPLY[myGlobals.user_editorsize.get()]
         if (myGlobals.editor_width != editor_width_old) :
-            draw_grids()
             draw_background()
-
-        myGlobals.editor_image = myGlobals.background_image.copy()
-
-        editorimage_pos_sanity_check()
-
-        scale_startx = 0
-        scale_starty = 0
-        scale_endx = myGlobals.C64_CHAR_WIDTH
-        scale_endy = myGlobals.C64_CHAR_HEIGHT
-        box_startx = myGlobals.editorimage_posx
-        box_starty = myGlobals.editorimage_posy
-        box_endx = myGlobals.editorimage_posx+myGlobals.C64_CHAR_WIDTH
-        box_endy = myGlobals.editorimage_posy+myGlobals.C64_CHAR_HEIGHT
-
-       
-        if (box_startx < 0) :
-            scale_startx = abs(box_startx)
-            scale_endx = myGlobals.C64_CHAR_WIDTH - scale_startx
-            box_endx = myGlobals.C64_CHAR_WIDTH - scale_startx
-            box_startx = 0
-        if (box_starty < 0) :
-            scale_starty = abs(box_starty)
-            scale_endy = myGlobals.C64_CHAR_HEIGHT - scale_starty
-            box_endy = myGlobals.C64_CHAR_HEIGHT - scale_starty
-            box_starty = 0
-            
-        if (box_endx > myGlobals.C64_CHAR_WIDTH) :
-            scale_endx = myGlobals.C64_CHAR_WIDTH - box_startx
-            box_endx = myGlobals.C64_CHAR_WIDTH
-        if (box_endy > myGlobals.C64_CHAR_HEIGHT) :
-            scale_endy = myGlobals.C64_CHAR_HEIGHT - box_starty
-            box_endy = myGlobals.C64_CHAR_HEIGHT
+            draw_grids()
+            myGlobals.canvas_editor.configure(
+                width=myGlobals.editor_width,
+                height=myGlobals.editor_height)
 
 
 
-        #copy, crop and resize
-        box = (
-            int(box_startx*myGlobals.BITMAP_PIXEL_X),
-            int(box_starty*myGlobals.BITMAP_PIXEL_Y),
-            int(box_endx*myGlobals.BITMAP_PIXEL_X),
-            int(box_endy*myGlobals.BITMAP_PIXEL_Y)
+
+        #show correct offset
+        #https://ccia.ugr.es/mgsilvente/tkinterbook/canvas.htm#tkinter.Canvas.move-method
+        #editor_multi = 4 * myGlobals.EDITORSIZE_MULTIPLY[myGlobals.user_editorsize.get()] * myGlobals.ZOOM_MULTIPLY[myGlobals.zoom]
+
+        ZOOM_VISIBLE_WIDTH = myGlobals.EDITOR_VISIBLE_WIDTH[myGlobals.user_editorsize.get()]
+        ZOOM_VISIBLE_HEIGHT = myGlobals.EDITOR_VISIBLE_HEIGHT[myGlobals.user_editorsize.get()]
+        #print('-------------------------')
+        start_x = myGlobals.editorimage_posx
+        start_y = myGlobals.editorimage_posy
+        #sanity checks
+        if (start_x < 0) : start_x = 0
+        if (start_y < 0) : start_y = 0
+        if (start_x+ZOOM_VISIBLE_WIDTH[myGlobals.zoom] > myGlobals.koala_photoimage.width()/4) : start_x = int(myGlobals.koala_photoimage.width()/4)-ZOOM_VISIBLE_WIDTH[myGlobals.zoom]
+        if (start_y+ZOOM_VISIBLE_HEIGHT[myGlobals.zoom] > myGlobals.koala_photoimage.height()/8) : start_y = int(myGlobals.koala_photoimage.height()/8)-ZOOM_VISIBLE_HEIGHT[myGlobals.zoom]
+
+        end_x = start_x+ZOOM_VISIBLE_WIDTH[myGlobals.zoom]
+        end_y = start_y+ZOOM_VISIBLE_HEIGHT[myGlobals.zoom]
+        #sanity checks
+        if (end_x > myGlobals.koala_photoimage.width()/4) : end_x = int(myGlobals.koala_photoimage.width()/4)
+        if (end_y > myGlobals.koala_photoimage.height()/8) : end_y = int(myGlobals.koala_photoimage.height()/8)
+
+        myGlobals.editorimage_posx = start_x
+        myGlobals.editorimage_posy = start_y
+        
+        
+        #https://tkdocs.com/pyref/photoimage.html
+        myGlobals.tmp_photoimage = myGlobals.koala_photoimage.copy(
+            zoom=(
+                myGlobals.ZOOM_MULTIPLY[myGlobals.zoom]*2,  #double pixels in multicolor koala mode
+                myGlobals.ZOOM_MULTIPLY[myGlobals.zoom]
+            ),
+            from_coords=(
+                start_x*4,    #x0 multicolor koala format holds 4 pixels in a char-column
+                start_y*8,    #y0 multicolor koala format holds 8 pixels in a char-row
+                end_x*4,      #x1 multicolor koala format holds 4 pixels in a char-column
+                end_y*8     #y1 multicolor koala format holds 8 pixels in a char-row
+            )
         )
 
-        editor_multi = 4 * myGlobals.EDITORSIZE_MULTIPLY[myGlobals.user_editorsize.get()] * myGlobals.ZOOM_MULTIPLY[myGlobals.zoom]
-        my_width   = scale_endx * editor_multi
-        my_height  = scale_endy * editor_multi
-        scale_startx = scale_startx * editor_multi
-        scale_starty = scale_starty * editor_multi
 
-        myGlobals.editor_image.paste( myGlobals.marker_image.crop(box).resize((my_width,my_height)).convert("RGB") , (scale_startx, scale_starty) )
+
+
+        #update image in canvas_editor
+        myGlobals.canvas_editor.itemconfigure('koala_image', image=myGlobals.tmp_photoimage, state='normal')
+
+        #hide all grids
+        #myGlobals.canvas_editor.itemconfigure('background', state='hidden')
+        myGlobals.canvas_editor.itemconfigure('koala_image', state='normal')
+        myGlobals.canvas_editor.itemconfigure('grid1', state='hidden')
+        myGlobals.canvas_editor.itemconfigure('grid2', state='hidden')
+        myGlobals.canvas_editor.itemconfigure('grid3', state='hidden')
+        myGlobals.canvas_editor.itemconfigure('grid4', state='hidden')
+
+        #show grid
+        if (myGlobals.zoom == 1) : myGlobals.canvas_editor.itemconfigure("grid1", state='normal')
+        if (myGlobals.zoom == 2) : myGlobals.canvas_editor.itemconfigure("grid2", state='normal')
+        if (myGlobals.zoom == 3) : myGlobals.canvas_editor.itemconfigure("grid3", state='normal')
+        if (myGlobals.zoom == 4) : myGlobals.canvas_editor.itemconfigure("grid4", state='normal')
         
-        #add grid
-        if (myGlobals.zoom==1) : myGlobals.editor_image.paste(myGlobals.grid1_image, (0,0), myGlobals.grid1_image)
-        if (myGlobals.zoom==2) : myGlobals.editor_image.paste(myGlobals.grid2_image, (0,0), myGlobals.grid2_image)
-        if (myGlobals.zoom==3) : myGlobals.editor_image.paste(myGlobals.grid3_image, (0,0), myGlobals.grid3_image)
-        if (myGlobals.zoom==4) : myGlobals.editor_image.paste(myGlobals.grid4_image, (0,0), myGlobals.grid4_image)
-        
-        #copy to label_edit_image
-        image_koalaTk = ImageTk.PhotoImage(myGlobals.editor_image)
-        myGlobals.label_editor_image.configure(image=image_koalaTk)
-        myGlobals.label_editor_image.image = image_koalaTk # keep a reference!
+        # put "background" at the bottom
+        myGlobals.canvas_editor.tag_lower("background")
 
-        #prepare preview image
-        preview_width   = myGlobals.KOALA_WIDTH * 2 * myGlobals.PREVIEWSIZE_MULTIPLY[myGlobals.user_previewsize.get()]
-        preview_height  = myGlobals.KOALA_HEIGHT * 1 * myGlobals.PREVIEWSIZE_MULTIPLY[myGlobals.user_previewsize.get()]
-        preview2_image = myGlobals.koala_image.resize((preview_width,preview_height)).convert("RGB")
-
-        #copy to label_preview_image
-        if ( myGlobals.preview_window_open == True ) :
-            image2_koalaTk = ImageTk.PhotoImage(preview2_image)
-            myGlobals.label_preview_image.configure(image=image2_koalaTk)
-            myGlobals.label_preview_image.image = image2_koalaTk # keep a reference!
-
-
-
-
+        #update image in label_preview image
+        if (myGlobals.preview_window_open == True) :
+            multiply_preview = myGlobals.PREVIEWSIZE_MULTIPLY[myGlobals.user_previewsize.get()]
+            myGlobals.tmp_preview_photoimage = myGlobals.preview_photoimage.copy(zoom=(multiply_preview*2,multiply_preview))
+            myGlobals.label_preview_image.configure(image=myGlobals.tmp_preview_photoimage)
 
 
 
@@ -219,9 +352,6 @@ def koala_index_to_colorindex(
         3 : myGlobals.koala_col3[location] & 0b00001111    #=koala_col3[(y*C64_CHAR_WIDTH)+x] and %00001111;
     }
     return switcher.get(index,0)
-
-
-
 
 
 def koala_to_image_single_block(x,y) :
@@ -249,8 +379,6 @@ def koala_to_image_single_block(x,y) :
             myGlobals.koala_colorindex_data[iy*myGlobals.KOALA_WIDTH+ix] = koala_index_to_colorindex(koalaindex,x,y)
 
 
-
-
 def koala_to_image(
 ):
     for y in range(0, myGlobals.C64_CHAR_HEIGHT):
@@ -268,12 +396,13 @@ def load_koala(
     * reads: filename
     * sets: koala_bitmap, koala_col12, koala_col3 and koala_bg
     """
-    #global koala_bitmap
-    #global koala_col12
-    #global koala_col3
-    #global koala_bg
+    #writes:
+    #myGlobals.koala_bitmap
+    #myGlobals.koala_col12
+    #myGlobals.koala_col3
+    #myGlobals.koala_bg
     
-#load a koala
+    #load a koala
     print ("Opening koala \"%s\"..." % filename_in)
     file_in = open(filename_in , "rb")
     # read file into buffer
@@ -285,22 +414,21 @@ def load_koala(
         buffer.append(temp[0])
     file_in.close()
 
-#parse koala
+    #parse koala
     myGlobals.koala_bitmap    = buffer[2                  :2+8000]
     myGlobals.koala_col12     = buffer[2+8000             :2+8000+1000]
     myGlobals.koala_col3      = buffer[2+8000+1000        :2+8000+1000+1000]
     myGlobals.koala_bg        = buffer[2+8000+1000+1000   :2+8000+1000+1000+1][0]
 
     koala_to_image()
-  
-    return None
 
 
     
 
 def update_infos_preview():
-    #global editorimage_posx, editorimage_posy
-    #global block_x, block_y
+    #writes:
+    #myGlobals.editorimage_posx, myGlobals.editorimage_posy
+    #myGlobals.block_x, myGlobals.block_y
     
     factor_x = myGlobals.GRID_SIZE[myGlobals.zoom_preview]/myGlobals.PREVIEWSIZE_DIV_X[myGlobals.user_previewsize.get()]
     factor_y = myGlobals.GRID_SIZE[myGlobals.zoom_preview]/myGlobals.PREVIEWSIZE_DIV_Y[myGlobals.user_previewsize.get()]
@@ -335,19 +463,23 @@ def update_infos_preview():
 
 
 def update_infos():
-    #global cursorx_variable, cursory_variable
-    #global blockx_variable, blocky_variable
-    #global editorimage_posx_variable, editorimage_posy_variable
-    #global mousex_variable, mousey_variable
-    #global used_color_bg, used_color_col1, used_color_col2, used_color_col3
-    #global editorimage_posx, editorimage_posy
-    #global block_x, block_y
-    #global radiobutton_replace_bg, radiobutton_replace_col1, radiobutton_replace_col2, radiobutton_replace_col3
-    #global radiobutton_current_bg, radiobutton_current_col1, radiobutton_current_col2, radiobutton_current_col3
-    #global undo_variable
+    #writes:
+    #myGlobals.cursorx_variable, myGlobals.cursory_variable
+    #myGlobals.blockx_variable, myGlobals.blocky_variable
+    #myGlobals.editorimage_posx_variable, myGlobals.editorimage_posy_variable
+    #myGlobals.mousex_variable, myGlobals.mousey_variable
+    #myGlobals.used_color_bg, myGlobals.used_color_col1, myGlobals.used_color_col2, myGlobals.used_color_col3
+    #myGlobals.editorimage_posx, myGlobals.editorimage_posy
+    #myGlobals.block_x, myGlobals.block_y
+    #myGlobals.radiobutton_replace_bg, myGlobals.radiobutton_replace_col1, myGlobals.radiobutton_replace_col2, myGlobals.radiobutton_replace_col3
+    #myGlobals.radiobutton_current_bg, myGlobals.radiobutton_current_col1, myGlobals.radiobutton_current_col2, myGlobals.radiobutton_current_col3
+    #myGlobals.undo_variable
 
     myGlobals.undo_variable.set(len(myGlobals.undo_stack))
 
+    #factor_x = myGlobals.GRID_SIZE[myGlobals.zoom] / myGlobals.EDITORSIZE_DIV_X[0]
+    #factor_y = myGlobals.GRID_SIZE[myGlobals.zoom] / myGlobals.EDITORSIZE_DIV_Y[0]
+    #debug
     factor_x = myGlobals.GRID_SIZE[myGlobals.zoom] / myGlobals.EDITORSIZE_DIV_X[myGlobals.user_editorsize.get()]
     factor_y = myGlobals.GRID_SIZE[myGlobals.zoom] / myGlobals.EDITORSIZE_DIV_Y[myGlobals.user_editorsize.get()]
 
@@ -450,8 +582,9 @@ def update_infos():
 
 
 
-def input_mouse_motion_edit_window(event):
-    #global mouse_posx, mouse_posy
+def mouse_motion_edit_window(event):
+    #writes:
+    #myGlobals.mouse_posx, myGlobals.mouse_posy
 
     myGlobals.mouse_posx, myGlobals.mouse_posy = event.x, event.y
 
@@ -484,8 +617,8 @@ def set_pixel_optimize_palette(my_block):
 
 
 def set_pixel_replace_colors(my_block, c, color):
-    #global koala_bg, koala_col12, koala_col3
-    # replace bg, screen or colorram
+    #myGlobals.koala_bg, myGlobals.koala_col12, myGlobals.koala_col3
+    # replace myGlobals.bg, myGlobals.screen or myGlobals.colorram
 
     #print("replace color: write color ",color, " to index ",c)
 
@@ -498,8 +631,8 @@ def set_pixel_replace_colors(my_block, c, color):
 
 
 def set_pixel_replace_bitmap(my_block,x,y,c) :
-    #global koala_bitmap
-    #update koala bitmap data
+    #myGlobals.koala_bitmap
+    #update myGlobals.koala myGlobals.bitmap myGlobals.data
     
     #print("replace bitmap with index=",c)
 
@@ -526,7 +659,7 @@ def set_pixel_replace_bitmap(my_block,x,y,c) :
 
 def set_pixel_update_preview_block (pos, old_color, color) :
     #replace all pixels with old_color with color in this block
-    #global koala_colorindex_data
+    #myGlobals.koala_colorindex_data
 
     for y in range(0,8) :
         for x in range(0,4) :
@@ -625,7 +758,7 @@ def set_pixel__select_mode(posx, posy, color):
     else :
         koala_to_image_single_block(myGlobals.block_x, myGlobals.block_y)   #update preview image only for this block (faster than converting whole koala to image again)
 
-    action_image_refresh_prepare()
+    refresh_prepare()
     update_infos()
 
 
@@ -650,7 +783,7 @@ def set_pixel__dye_mode(posx, posy, color):
     else :
         koala_to_image_single_block(myGlobals.block_x, myGlobals.block_y)   #update preview image only for this block (faster than converting whole koala to image again)
 
-    action_image_refresh_prepare()
+    refresh_prepare()
     update_infos()
 
 
@@ -699,7 +832,7 @@ def set_pixel_fill_used_array(my_block):
 
 
 def set_pixel__keep_mode(okay_to_overwrite, posx, posy, color):
-    #global user_replace_color
+    #writes: myGlobals.user_replace_color
     undo_save_already_done = False
 
     my_block = myGlobals.block_y*myGlobals.C64_CHAR_WIDTH+myGlobals.block_x
@@ -774,7 +907,7 @@ def set_pixel__keep_mode(okay_to_overwrite, posx, posy, color):
     
     #update preview
     koala_to_image_single_block(myGlobals.block_x, myGlobals.block_y)   #update preview image only for this block (faster than converting whole koala to image again)
-    action_image_refresh_prepare()
+    refresh_prepare()
     update_infos()
 
 
@@ -783,8 +916,8 @@ def set_pixel__keep_mode(okay_to_overwrite, posx, posy, color):
 
 
 
-def input_mouse_left_button_editor(event):
-    #global mouse_posx, mouse_posy
+def mouse_left_button_editor(event):
+    #writes: myGlobals.mouse_posx, myGlobals.mouse_posy
     myGlobals.mouse_posx, myGlobals.mouse_posy = event.x, event.y
     update_infos()
     
@@ -800,22 +933,22 @@ def input_mouse_left_button_editor(event):
         set_pixel__left(myGlobals.cursorx_variable.get(), myGlobals.cursory_variable.get(), myGlobals.user_drawcolor_left.get())
 
 
-def input_mouse_right_button(event):
-    #global mouse_posx, mouse_posy
+def mouse_right_button(event):
+    #writes: myGlobals.mouse_posx, myGlobals.mouse_posy
     myGlobals.mouse_posx, myGlobals.mouse_posy = event.x, event.y
     update_infos()
     set_pixel__right(myGlobals.cursorx_variable.get(), myGlobals.cursory_variable.get(), myGlobals.user_drawcolor_right.get())
 
 
-def input_mouse_middle_button_release(event):
-    #global label_editor_image
-    myGlobals.label_editor_image.config(cursor=myGlobals.CURSOR_EDIT)
+def mouse_middle_button_release(event):
+    #writes: myGlobals.label_editor_image
+    myGlobals.canvas_editor.config(cursor=myGlobals.CURSOR_EDIT)
     
-def input_mouse_middle_button_press(event):
-    #global block_x_absolute, block_y_absolute
-    #global label_editor_image
+def mouse_middle_button_press(event):
+    #writes: myGlobals.block_x_absolute, myGlobals.block_y_absolute
+    #writes: myGlobals.label_editor_image
     
-    myGlobals.label_editor_image.config(cursor=myGlobals.CURSOR_MOVE)
+    myGlobals.canvas_editor.config(cursor=myGlobals.CURSOR_MOVE)
 
     factor_x = myGlobals.GRID_SIZE[myGlobals.zoom] / myGlobals.EDITORSIZE_DIV_X[myGlobals.user_editorsize.get()]
     factor_y = myGlobals.GRID_SIZE[myGlobals.zoom] / myGlobals.EDITORSIZE_DIV_Y[myGlobals.user_editorsize.get()]
@@ -824,10 +957,10 @@ def input_mouse_middle_button_press(event):
     myGlobals.block_y_absolute = int( (myGlobals.mouse_posy / factor_y / myGlobals.BITMAP_PIXEL_Y) )
 
 
-def input_mouse_middle_button_motion(event):
-    #global mouse_posx, mouse_posy
-    #global editorimage_posx, editorimage_posy
-    #global block_x_absolute, block_y_absolute
+def mouse_middle_button_motion(event):
+    #writes: myGlobals.mouse_posx, myGlobals.mouse_posy
+    #writes: myGlobals.editorimage_posx, myGlobals.editorimage_posy
+    #writes: myGlobals.block_x_absolute, myGlobals.block_y_absolute
     
     myGlobals.mouse_posx, myGlobals.mouse_posy = event.x, event.y
     update_infos()
@@ -851,17 +984,16 @@ def input_mouse_middle_button_motion(event):
     ) :
         myGlobals.editorimage_posx += diff_x
         myGlobals.editorimage_posy += diff_y
-        action_image_refresh_show()
+        refresh_show()
         
 
-    return None
     
 
 
 
 
 def zoom_perform() :
-    #global editorimage_posx, editorimage_posy
+    #writes: myGlobals.editorimage_posx, myGlobals.editorimage_posy
 
     zoom_center_x = myGlobals.block_x
     zoom_center_y = myGlobals.block_y
@@ -882,14 +1014,14 @@ def zoom_perform() :
         myGlobals.editorimage_posx = int( zoom_center_x- myGlobals.C64_CHAR_WIDTH/16 )
         myGlobals.editorimage_posy = int( zoom_center_y- myGlobals.C64_CHAR_HEIGHT/16 )
 
-    action_image_refresh_prepare()
+    refresh_prepare()
     #print("zoom=",myGlobals.zoom)
     #print("block_x=",myGlobals.block_x," block_y=",myGlobals.block_y, "editorimage_posx=",myGlobals.editorimage_posx," editorimage_posy=",myGlobals.editorimage_posy)
     update_infos()
 
 
 def zoom_in(self) :
-    #global zoom
+    #writes: myGlobals.zoom
     
     if (myGlobals.zoom < 4) :
         myGlobals.zoom += 1
@@ -897,7 +1029,7 @@ def zoom_in(self) :
 
 
 def zoom_out(self) :
-    #global zoom
+    #writes: myGlobals.zoom
     
     if (myGlobals.zoom > 0) :
         myGlobals.zoom -= 1
@@ -905,7 +1037,7 @@ def zoom_out(self) :
 
 
 
-def input_mouse_wheel(event):
+def mouse_wheel(event):
     if (
         (event.num == 5) |
         (int(event.delta / 120) == -1) |
@@ -924,12 +1056,12 @@ def input_mouse_wheel(event):
 
 
 
-def action_OpenFile_from_menu():
-    action_OpenFile(None)
+def OpenFile_from_menu():
+    OpenFile(None)
     
-def action_OpenFile(self):
+def OpenFile(self):
     ftypes = [('Image Files', '*.koa *.kla')]
-    load_filename = askopenfilename(filetypes = ftypes)
+    load_filename = tkinter.filedialog.askopenfilename(filetypes = ftypes)
     if not load_filename : return None
     
     loadFile(load_filename)
@@ -946,19 +1078,19 @@ def set_title():
     myGlobals.root.title(myGlobals.PROGNAME+" \""+shorten_filename(myGlobals.current_filename)+"\"")
 
 def loadFile(filename):
-    #global current_filename
-    #global undo_stack
+    #writes: myGlobals.current_filename
+    #writes: myGlobals.undo_stack
     
     myGlobals.current_filename = filename
     set_title()
     load_koala(filename)
     myGlobals.undo_stack = []
     update_infos()
-    action_image_refresh_prepare()
+    refresh_prepare()
 
 
 def undo_save():
-    #global undo_stack
+    #writes: myGlobals.undo_stack
 
     my_block = myGlobals.block_y*myGlobals.C64_CHAR_WIDTH+myGlobals.block_x
     
@@ -978,7 +1110,7 @@ def undo_undo_from_menu():
     undo_undo(None)
     
 def undo_undo(self):
-    #global undo_stack
+    #writes: myGlobals.undo_stack
     
     if (len(myGlobals.undo_stack)>0) :
         value = myGlobals.undo_stack.pop()
@@ -996,7 +1128,7 @@ def undo_undo(self):
         for y in range(0,8) :
             myGlobals.koala_bitmap[(my_block*8)+y] = undo_bitmap[y]
         koala_to_image_single_block(undo_x,undo_y)
-        action_image_refresh_prepare()
+        refresh_prepare()
         update_infos()
 
 
@@ -1005,34 +1137,43 @@ def marker_select_from_menu () :
     marker_select(None)
 
 def marker_select(self):
-    #global editor_mode
+    #writes: myGlobals.editor_mode
     myGlobals.editor_mode = 'marker_start'
-    myGlobals.label_editor_image.config(cursor=myGlobals.CURSOR_MARKER_START)
+    myGlobals.canvas_editor.config(cursor=myGlobals.CURSOR_MARKER_START)
+
+    myGlobals.marker_height = 0
+    myGlobals.marker_width = 0
+    koala_to_image()
+    refresh_prepare()
+    refresh_show()
+
 
 
 def marker_start():
-    #global editor_mode
-    #global marker_posx, marker_posy
+    #writes: myGlobals.editor_mode
+    #writes: myGlobals.marker_posx, myGlobals.marker_posy
+
     myGlobals.editor_mode = 'marker_end'
-    myGlobals.label_editor_image.config(cursor=myGlobals.CURSOR_MARKER_END)
+    myGlobals.canvas_editor.config(cursor=myGlobals.CURSOR_MARKER_END)
     myGlobals.marker_posx = myGlobals.block_x
     myGlobals.marker_posy = myGlobals.block_y
 
 def marker_end():
-    #global editor_mode
-    #global marker_width, marker_height
+    #writes: myGlobals.editor_mode
+    #writes: myGlobals.marker_width, myGlobals.marker_height
     
     myGlobals.editor_mode = 'edit'
-    myGlobals.label_editor_image.config(cursor=myGlobals.CURSOR_EDIT)
+    myGlobals.canvas_editor.config(cursor=myGlobals.CURSOR_EDIT)
     
     myGlobals.marker_width = myGlobals.block_x - myGlobals.marker_posx
     myGlobals.marker_height = myGlobals.block_y - myGlobals.marker_posy
-    action_image_refresh_show()
+    refresh_prepare()
+    refresh_show()
 
 
 def buffer_copy_data():
-    #global buffer_bitmap, buffer_col12, buffer_col3
-    #global buffer_width, buffer_height, buffer_posx, buffer_posy
+    #writes: myGlobals.buffer_bitmap, myGlobals.buffer_col12, myGlobals.buffer_col3
+    #writes: myGlobals.buffer_width, myGlobals.buffer_height, myGlobals.buffer_posx, myGlobals.buffer_posy
     
     myGlobals.buffer_posx = myGlobals.marker_posx
     myGlobals.buffer_posy = myGlobals.marker_posy
@@ -1049,7 +1190,7 @@ def buffer_copy_data():
 
 
 def marker_reset():
-    #global marker_posx, marker_posy, marker_width, marker_height
+    #writes: myGlobals.marker_posx, myGlobals.marker_posy, myGlobals.marker_width, myGlobals.marker_height
     myGlobals.marker_posx = 0
     myGlobals.marker_posy = 0
     myGlobals.marker_width = 0
@@ -1062,14 +1203,14 @@ def buffer_copy(self):
     buffer_copy_data()
     marker_reset()
     koala_to_image()
-    action_image_refresh_prepare()
+    refresh_prepare()
 
 
 def buffer_paste_from_menu():
     buffer_paste(None)
     
 def buffer_paste(self):
-    #global koala_bitmap, koala_col12, koala_col3
+    #writes: myGlobals.koala_bitmap, myGlobals.koala_col12, myGlobals.koala_col3
 
     for y in range(0, myGlobals.buffer_height+1) :
         for x in range(0, myGlobals.buffer_width+1) :
@@ -1085,13 +1226,13 @@ def buffer_paste(self):
                     myGlobals.koala_bitmap[block_dst*8+c] = myGlobals.buffer_bitmap[block_src*8+c]
 
     koala_to_image()
-    action_image_refresh_prepare()
+    refresh_prepare()
 
 def buffer_cut_from_menu():
     buffer_cut(None)
     
 def buffer_cut(self):
-    #global koala_bitmap
+    #writes: myGlobals.koala_bitmap
     
     if (
      (myGlobals.marker_height == 0) | (myGlobals.marker_width == 0)
@@ -1107,13 +1248,13 @@ def buffer_cut(self):
 
     marker_reset()
     koala_to_image()
-    action_image_refresh_prepare()
+    refresh_prepare()
 
 
 
 def draw_new_image():
-    #global current_filename
-    #global koala_bitmap, koala_bg, koala_col12, koala_col3
+    #writes: myGlobals.current_filename
+    #writes: myGlobals.koala_bitmap, myGlobals.koala_bg, myGlobals.koala_col12, myGlobals.koala_col3
 
     current_filename = "new.koa"
 
@@ -1127,19 +1268,20 @@ def draw_new_image():
     koala_to_image()
 
     #create palette
-    myGlobals.koala_image.putpalette(myGlobals.PALETTEDATA_COLODORE)
-    myGlobals.koala_image.putdata(myGlobals.koala_colorindex_data)
+    #myGlobals.koala_image.putpalette(myGlobals.PALETTEDATA_COLODORE)
+    #myGlobals.koala_image.putdata(myGlobals.koala_colorindex_data)
 
-    action_image_refresh_show() 
+    refresh_prepare()
+    refresh_show() 
 
 
 
-def action_SaveFile_from_menu():
-    action_SaveFile(None)
+def SaveFile_from_menu():
+    SaveFile(None)
 
-def action_SaveFile(self):
-    #global user_filename_save
-    #global current_filename
+def SaveFile(self):
+    #writes: myGlobals.user_filename_save
+    #writes: myGlobals.current_filename
     
     user_filename_save = ""
 
@@ -1159,7 +1301,7 @@ def action_SaveFile(self):
         sanity_check = False
 
 
-    user_filename_save = asksaveasfilename(
+    user_filename_save = tkinter.filedialog.asksaveasfilename(
         defaultextension='.koa',
         filetypes=[("koala", '*.koa')],
         initialfile=os.path.basename(myGlobals.current_filename),
@@ -1170,7 +1312,7 @@ def action_SaveFile(self):
 
     if not user_filename_save : return None
 
-    #action_convert()
+    #convert()
 
     #write stuff...
     file_out = open(user_filename_save , "wb")
@@ -1203,7 +1345,7 @@ def action_SaveFile(self):
 
 
 def root_refresh() :
-    #global frame_replace_color
+    #writes: myGlobals.frame_replace_color
     
     if (myGlobals.user_drawmode.get() == 'select') : 
         myGlobals.frame_replace_color.grid()
@@ -1269,19 +1411,19 @@ def keyboard_quit(self):
 
 def scroll_right(self):
     myGlobals.editorimage_posx -= 1
-    action_image_refresh_show()
+    refresh_show()
     update_infos()
 def scroll_left(self):
     myGlobals.editorimage_posx += 1
-    action_image_refresh_show()
+    refresh_show()
     update_infos()
 def scroll_down(self):
     myGlobals.editorimage_posy -= 1
-    action_image_refresh_show()
+    refresh_show()
     update_infos()
 def scroll_up(self):
     myGlobals.editorimage_posy += 1
-    action_image_refresh_show()
+    refresh_show()
     update_infos()
 
 def keyboard_all(event):

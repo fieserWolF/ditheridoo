@@ -4,15 +4,11 @@ import code.gui_help as gui_help
 import code.gui_about as gui_about
 import code.gui_preferences as gui_preferences
 import code.gui_preview as gui_preview
-import tkinter as tk
-import tkinter.filedialog as filedialog
-
-
-
+import tkinter
 
 
 def create_gui_main ():
-    frame_top = tk.Frame(myGlobals.root, bg=myGlobals.BGCOLOR)
+    frame_top = tkinter.Frame(myGlobals.root, bg=myGlobals.BGCOLOR)
     frame_top.grid(
         row=0,
         column=0,
@@ -21,8 +17,8 @@ def create_gui_main ():
         ipadx=0,
         ipady=0,
     )
-    frame_top.grid_columnconfigure(0, weight=1)
-    frame_top.grid_rowconfigure(0, weight=1)
+    #frame_top.grid_columnconfigure(0, weight=1)
+    #frame_top.grid_rowconfigure(0, weight=1)
 
     #frame_top elements
     create_gui_top(
@@ -33,45 +29,45 @@ def create_gui_main ():
 
 
 
-    frame_bottom = tk.Frame(myGlobals.root, bg=myGlobals.BGCOLOR)
+    frame_bottom = tkinter.Frame(myGlobals.root, bg=myGlobals.BGCOLOR)
     frame_bottom.grid(
         row=1,
         column=0,
-        sticky=tk.N,
+        sticky=tkinter.N,
         padx=0,
         pady=0,
         ipadx=0,
         ipady=0,
     )
-    frame_bottom.grid_columnconfigure(0, weight=1)
-    frame_bottom.grid_rowconfigure(0, weight=1)
+    #frame_bottom.grid_columnconfigure(0, weight=1)
+    #frame_bottom.grid_rowconfigure(0, weight=1)
 
-    frame_left = tk.Frame(frame_bottom, bg=myGlobals.BGCOLOR)
+    frame_left = tkinter.Frame(frame_bottom, bg=myGlobals.BGCOLOR)
     frame_left.grid(
         row=0,
         column=0,
-        sticky=tk.N,
+        sticky=tkinter.N,
         padx=0,
         pady=0,
         ipadx=0,
         ipady=0,
 
     )
-    frame_left.grid_columnconfigure(0, weight=0)
-    frame_left.grid_rowconfigure(0, weight=0)
+    #frame_left.grid_columnconfigure(0, weight=0)
+    #frame_left.grid_rowconfigure(0, weight=0)
 
-    frame_right = tk.Frame(frame_bottom, bg=myGlobals.BGCOLOR)
+    frame_right = tkinter.Frame(frame_bottom, bg=myGlobals.BGCOLOR)
     frame_right.grid(
         row=0,
         column=1,
-        sticky=tk.N,
+        sticky=tkinter.N,
         padx=0,
         pady=0,
         ipadx=0,
         ipady=0,
     )
-    frame_right.grid_columnconfigure(0, weight=1)
-    frame_right.grid_rowconfigure(0, weight=1)
+    #frame_right.grid_columnconfigure(0, weight=1)
+    #frame_right.grid_rowconfigure(0, weight=1)
 
     #frame_left elements
     create_gui_editor_image(
@@ -132,7 +128,7 @@ def create_gui_drawmode (
     _row,
     _column
 ) :
-    frame_border = tk.Frame(
+    frame_border = tkinter.Frame(
         root,
         bg=myGlobals.BGCOLOR,
         bd=myGlobals._bd,
@@ -141,19 +137,19 @@ def create_gui_drawmode (
         row=_row,
         column=_column
     )
-    frame_inner = tk.Frame(
+    frame_inner = tkinter.Frame(
         frame_border,
         bg=myGlobals.BGCOLOR,
         bd=1,
         padx = myGlobals._padx,
         pady = myGlobals._pady,
-        relief=tk.RAISED
+        relief=tkinter.RAISED
         )
     frame_inner.grid()
-    frame_inner.grid_columnconfigure(0, weight=1)
-    frame_inner.grid_rowconfigure(0, weight=1)
+    #frame_inner.grid_columnconfigure(0, weight=1)
+    #frame_inner.grid_rowconfigure(0, weight=1)
 
-    label = tk.Label(
+    label = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
         text="draw mode:",
@@ -165,7 +161,7 @@ def create_gui_drawmode (
     label.grid(
         row=0,
         column=0,
-        sticky=tk.N,
+        sticky=tkinter.N,
         columnspan=2
     )
     MODES = [
@@ -176,7 +172,7 @@ def create_gui_drawmode (
         ]
 
     for text, mode, row, column in MODES:
-        radiobutton_user_mode = tk.Radiobutton(
+        radiobutton_user_mode = tkinter.Radiobutton(
             frame_inner,
             bg=myGlobals.BGCOLOR,
             activebackground=myGlobals.ACTIVECOLOR,
@@ -191,7 +187,7 @@ def create_gui_drawmode (
         radiobutton_user_mode.grid(
             row=row,
             column=column,
-            sticky=tk.W+tk.E
+            sticky=tkinter.W+tkinter.E
         )
         
         
@@ -201,7 +197,7 @@ def create_gui_pencil (
     _row,
     _column
 ) :
-    frame_border = tk.Frame(
+    frame_border = tkinter.Frame(
         root,
         bg=myGlobals.BGCOLOR,
         bd=myGlobals._bd,
@@ -210,19 +206,19 @@ def create_gui_pencil (
         row=_row,
         column=_column
     )
-    frame_inner = tk.Frame(
+    frame_inner = tkinter.Frame(
         frame_border,
         bg=myGlobals.BGCOLOR,
         bd=1,
         padx = myGlobals._padx,
         pady = myGlobals._pady,
-        relief=tk.RAISED
+        relief=tkinter.RAISED
         )
     frame_inner.grid()
-    frame_inner.grid_columnconfigure(0, weight=1)
-    frame_inner.grid_rowconfigure(0, weight=1)
+    #frame_inner.grid_columnconfigure(0, weight=1)
+    #frame_inner.grid_rowconfigure(0, weight=1)
 
-    label = tk.Label(
+    label = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
         text="pencil",
@@ -234,7 +230,7 @@ def create_gui_pencil (
     label.grid(
         row=0,
         column=0,
-        sticky=tk.W+tk.E,
+        sticky=tkinter.W+tkinter.E,
         columnspan=2
     )
 
@@ -248,7 +244,7 @@ def create_gui_pencil (
         ]
         
     for text, mode, row, col in MODES:
-        radiobutton_pencil = tk.Radiobutton(
+        radiobutton_pencil = tkinter.Radiobutton(
             frame_inner,
             bg=myGlobals.BGCOLOR,
             activebackground=myGlobals.ACTIVECOLOR,
@@ -258,12 +254,12 @@ def create_gui_pencil (
             indicatoron=0,
             variable=myGlobals.user_pencil,
             cursor=myGlobals.CURSOR_HAND,
-#            command=action_image_refresh_prepare
+#            command=refresh_prepare
         )
         radiobutton_pencil.grid(
             row=row,
             column=col,
-            sticky=tk.W+tk.E
+            sticky=tkinter.W+tkinter.E
         )
 
 
@@ -279,7 +275,7 @@ def create_gui_replace_color (
     #global frame_replace_color
     #global radiobutton_replace_bg, radiobutton_replace_col1, radiobutton_replace_col2, radiobutton_replace_col3
 
-    myGlobals.frame_replace_color = tk.Frame(
+    myGlobals.frame_replace_color = tkinter.Frame(
         root,
         bg=myGlobals.BGCOLOR,
         bd=myGlobals._bd,
@@ -288,21 +284,21 @@ def create_gui_replace_color (
         row=_row,
         column=_column
     )
-    frame_inner = tk.Frame(
+    frame_inner = tkinter.Frame(
         myGlobals.frame_replace_color,
         bg=myGlobals.BGCOLOR,
         bd=1,
         padx = myGlobals._padx,
         pady = myGlobals._pady,
-        relief=tk.RAISED
+        relief=tkinter.RAISED
         )
     frame_inner.grid()
-    frame_inner.grid_columnconfigure(0, weight=1)
-    frame_inner.grid_rowconfigure(0, weight=1)
+    #frame_inner.grid_columnconfigure(0, weight=1)
+    #frame_inner.grid_rowconfigure(0, weight=1)
 
     
 
-    label = tk.Label(
+    label = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
         text="select mode: replace",
@@ -313,20 +309,20 @@ def create_gui_replace_color (
     label.grid(
         row=0,
         column=0,
-        sticky=tk.W+tk.E,
+        sticky=tkinter.W+tkinter.E,
         columnspan=8
     )
 
 
     #replace color
-    label_none = tk.Label(
+    label_none = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
         text="none",
         anchor='c',
         fg="#000088"
     )
-    radiobutton_used_color_none = tk.Radiobutton(
+    radiobutton_used_color_none = tkinter.Radiobutton(
         frame_inner,
         value = 99,
         width=2,
@@ -337,12 +333,12 @@ def create_gui_replace_color (
         bg=myGlobals.BGCOLOR,
         cursor=myGlobals.CURSOR_HAND,
         bd=4,
-        relief=tk.GROOVE,
-        offrelief=tk.RAISED,
-        #command=action_debug
+        relief=tkinter.GROOVE,
+        offrelief=tkinter.RAISED,
+        #command=debug
     )
 
-    label_replace_color = tk.Label(
+    label_replace_color = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
         text="color",
@@ -350,7 +346,7 @@ def create_gui_replace_color (
         fg="#000088"
     )
     
-    myGlobals.radiobutton_replace_col1 = tk.Radiobutton(
+    myGlobals.radiobutton_replace_col1 = tkinter.Radiobutton(
         frame_inner,
         value = 1,
         width=2,
@@ -361,12 +357,12 @@ def create_gui_replace_color (
         selectcolor="#000000",
         cursor=myGlobals.CURSOR_HAND,
         bd=4,
-        relief=tk.GROOVE,
-        offrelief=tk.RAISED,
-        #command=action_debug
+        relief=tkinter.GROOVE,
+        offrelief=tkinter.RAISED,
+        #command=debug
     )
     
-    myGlobals.radiobutton_replace_col2 = tk.Radiobutton(
+    myGlobals.radiobutton_replace_col2 = tkinter.Radiobutton(
         frame_inner,
         value = 2,
         width=2,
@@ -377,12 +373,12 @@ def create_gui_replace_color (
         selectcolor="#000000",
         cursor=myGlobals.CURSOR_HAND,
         bd=4,
-        relief=tk.GROOVE,
-        offrelief=tk.RAISED,
-        #command=action_debug
+        relief=tkinter.GROOVE,
+        offrelief=tkinter.RAISED,
+        #command=debug
     )
     
-    myGlobals.radiobutton_replace_col3 = tk.Radiobutton(
+    myGlobals.radiobutton_replace_col3 = tkinter.Radiobutton(
         frame_inner,
         value = 3,
         width=2,
@@ -393,11 +389,11 @@ def create_gui_replace_color (
         selectcolor="#000000",
         cursor=myGlobals.CURSOR_HAND,
         bd=4,
-        relief=tk.GROOVE,
-        offrelief=tk.RAISED,
-        #command=action_debug
+        relief=tkinter.GROOVE,
+        offrelief=tkinter.RAISED,
+        #command=debug
     )
-    myGlobals.radiobutton_replace_bg = tk.Radiobutton(
+    myGlobals.radiobutton_replace_bg = tkinter.Radiobutton(
         frame_inner,
         value = 0,
         width=2,
@@ -408,9 +404,9 @@ def create_gui_replace_color (
         selectcolor="#000000",
         cursor=myGlobals.CURSOR_HAND,
         bd=4,
-        relief=tk.GROOVE,
-        offrelief=tk.RAISED,
-        #command=action_debug
+        relief=tkinter.GROOVE,
+        offrelief=tkinter.RAISED,
+        #command=debug
     )
     
 
@@ -418,39 +414,39 @@ def create_gui_replace_color (
     label_none.grid(
         row=1,
         column=0,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
     radiobutton_used_color_none.grid(
         row=1,
         column=1,
-        sticky=tk.W+tk.E,
+        sticky=tkinter.W+tkinter.E,
         columnspan=4
     )
 
     label_replace_color.grid(
         row=2,
         column=0,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
     myGlobals.radiobutton_replace_col1.grid(
         row=2,
         column=1,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
     myGlobals.radiobutton_replace_col2.grid(
         row=2,
         column=2,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
     myGlobals.radiobutton_replace_col3.grid(
         row=2,
         column=3,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
     myGlobals.radiobutton_replace_bg.grid(
         row=2,
         column=4,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
 
 
@@ -462,7 +458,7 @@ def create_gui_current_color (
 ) :
     #global radiobutton_current_bg, radiobutton_current_col1, radiobutton_current_col2, radiobutton_current_col3
 
-    frame_border = tk.Frame(
+    frame_border = tkinter.Frame(
         root,
         bd=myGlobals._bd,
     )
@@ -471,22 +467,22 @@ def create_gui_current_color (
         row=_row,
         column=_column
     )
-    frame_inner = tk.Frame(
+    frame_inner = tkinter.Frame(
         frame_border,
         bd=1,
         padx = myGlobals._padx,
         pady = myGlobals._pady,
-        relief=tk.RAISED
+        relief=tkinter.RAISED
         )
     frame_inner.configure(background=myGlobals.BGCOLOR)
     frame_inner.grid()
-    frame_inner.grid_columnconfigure(0, weight=1)
-    frame_inner.grid_rowconfigure(0, weight=1)
+    #frame_inner.grid_columnconfigure(0, weight=1)
+    #frame_inner.grid_rowconfigure(0, weight=1)
 
     
 
     #current color
-    label_current_color = tk.Label(
+    label_current_color = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
         text="block",
@@ -494,67 +490,67 @@ def create_gui_current_color (
         fg="#000088"
     )
     
-    myGlobals.radiobutton_current_col1 = tk.Radiobutton(
+    myGlobals.radiobutton_current_col1 = tkinter.Radiobutton(
         frame_inner,
         value = 1,
         width=2,
         indicatoron=0,
-        state=tk.DISABLED,
+        state=tkinter.DISABLED,
         variable=myGlobals.current_color,
         background="#000000",
         activebackground="#000000",
         selectcolor="#000000",
         bd=4,
-        relief=tk.GROOVE,
-        offrelief=tk.RAISED,
-        #command=action_debug
+        relief=tkinter.GROOVE,
+        offrelief=tkinter.RAISED,
+        #command=debug
     )
     
-    myGlobals.radiobutton_current_col2 = tk.Radiobutton(
+    myGlobals.radiobutton_current_col2 = tkinter.Radiobutton(
         frame_inner,
         value = 2,
         width=2,
         indicatoron=0,
-        state=tk.DISABLED,
+        state=tkinter.DISABLED,
         variable=myGlobals.current_color,
         background="#000000",
         activebackground="#000000",
         selectcolor="#000000",
         bd=4,
-        relief=tk.GROOVE,
-        offrelief=tk.RAISED,
-        #command=action_debug
+        relief=tkinter.GROOVE,
+        offrelief=tkinter.RAISED,
+        #command=debug
     )
     
-    myGlobals.radiobutton_current_col3 = tk.Radiobutton(
+    myGlobals.radiobutton_current_col3 = tkinter.Radiobutton(
         frame_inner,
         value = 3,
         width=2,
         indicatoron=0,
-        state=tk.DISABLED,
+        state=tkinter.DISABLED,
         variable=myGlobals.current_color,
         background="#000000",
         activebackground="#000000",
         selectcolor="#000000",
         bd=4,
-        relief=tk.GROOVE,
-        offrelief=tk.RAISED,
-        #command=action_debug
+        relief=tkinter.GROOVE,
+        offrelief=tkinter.RAISED,
+        #command=debug
     )
-    myGlobals.radiobutton_current_bg = tk.Radiobutton(
+    myGlobals.radiobutton_current_bg = tkinter.Radiobutton(
         frame_inner,
         value = 0,
         width=2,
         indicatoron=0,
-        state=tk.DISABLED,
+        state=tkinter.DISABLED,
         variable=myGlobals.current_color,
         background="#000000",
         activebackground="#000000",
         selectcolor="#000000",
         bd=4,
-        relief=tk.GROOVE,
-        offrelief=tk.RAISED,
-        #command=action_debug
+        relief=tkinter.GROOVE,
+        offrelief=tkinter.RAISED,
+        #command=debug
     )
 
 
@@ -565,27 +561,27 @@ def create_gui_current_color (
     label_current_color.grid(
         row=0,
         column=0,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
     myGlobals.radiobutton_current_col1.grid(
         row=0,
         column=1,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
     myGlobals.radiobutton_current_col2.grid(
         row=0,
         column=2,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
     myGlobals.radiobutton_current_col3.grid(
         row=0,
         column=3,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
     myGlobals.radiobutton_current_bg.grid(
         row=0,
         column=4,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
 
 
@@ -597,7 +593,7 @@ def create_gui_color_left (
     _row,
     _column
 ) :
-    frame_border = tk.Frame(
+    frame_border = tkinter.Frame(
         root,
         bd=myGlobals._bd,
         bg=myGlobals.BGCOLOR
@@ -606,20 +602,20 @@ def create_gui_color_left (
         row=_row,
         column=_column
     )
-    frame_inner = tk.Frame(
+    frame_inner = tkinter.Frame(
         frame_border,
         bd=1,
         bg=myGlobals.BGCOLOR,
         padx = myGlobals._padx,
         pady = myGlobals._pady,
-        relief=tk.RAISED
+        relief=tkinter.RAISED
         )
     frame_inner.grid()
-    frame_inner.grid_columnconfigure(0, weight=1)
-    frame_inner.grid_rowconfigure(0, weight=1)
+    #frame_inner.grid_columnconfigure(0, weight=1)
+    #frame_inner.grid_rowconfigure(0, weight=1)
 
     _row = 0
-    label = tk.Label(
+    label = tkinter.Label(
         frame_inner,
         text="left",
         anchor="c",
@@ -630,7 +626,7 @@ def create_gui_color_left (
     label.grid(
         row=_row,
         column=1,
-        sticky=tk.W+tk.E,
+        sticky=tkinter.W+tkinter.E,
         columnspan=8
     )
 
@@ -659,7 +655,7 @@ def create_gui_color_left (
             myGlobals.PALETTEDATA_PEPTO[(value*3)+1],
             myGlobals.PALETTEDATA_PEPTO[(value*3)+2]
         )
-        radiobutton_user_value = tk.Radiobutton(
+        radiobutton_user_value = tkinter.Radiobutton(
             frame_inner,
             value = value,
             width=2,
@@ -670,14 +666,14 @@ def create_gui_color_left (
             selectcolor=mycolor,
             cursor=myGlobals.CURSOR_HAND,
             bd=4,
-            relief=tk.GROOVE,
-            offrelief=tk.RAISED,
-            #command=action_debug
+            relief=tkinter.GROOVE,
+            offrelief=tkinter.RAISED,
+            #command=debug
         )
         radiobutton_user_value.grid(
             row=2+my_row,
             column=my_column,
-            sticky=tk.W+tk.E
+            sticky=tkinter.W+tkinter.E
         )
 
 def create_gui_color_right (
@@ -685,7 +681,7 @@ def create_gui_color_right (
     _row,
     _column
 ) :
-    frame_border = tk.Frame(
+    frame_border = tkinter.Frame(
         root,
         bd=myGlobals._bd,
     )
@@ -694,20 +690,20 @@ def create_gui_color_right (
         row=_row,
         column=_column
     )
-    frame_inner = tk.Frame(
+    frame_inner = tkinter.Frame(
         frame_border,
         bd=1,
         bg=myGlobals.BGCOLOR,
         padx = myGlobals._padx,
         pady = myGlobals._pady,
-        relief=tk.RAISED
+        relief=tkinter.RAISED
         )
     frame_inner.grid()
-    frame_inner.grid_columnconfigure(0, weight=1)
-    frame_inner.grid_rowconfigure(0, weight=1)
+    #frame_inner.grid_columnconfigure(0, weight=1)
+    #frame_inner.grid_rowconfigure(0, weight=1)
 
     _row = 0
-    label = tk.Label(
+    label = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
         text="right",
@@ -718,7 +714,7 @@ def create_gui_color_right (
     label.grid(
         row=_row,
         column=1,
-        sticky=tk.W+tk.E,
+        sticky=tkinter.W+tkinter.E,
         columnspan=8
     )
 
@@ -747,7 +743,7 @@ def create_gui_color_right (
             myGlobals.PALETTEDATA_PEPTO[(value*3)+1],
             myGlobals.PALETTEDATA_PEPTO[(value*3)+2]
         )
-        radiobutton_user_value = tk.Radiobutton(
+        radiobutton_user_value = tkinter.Radiobutton(
             frame_inner,
             value = value,
             width=2,
@@ -758,14 +754,14 @@ def create_gui_color_right (
             selectcolor=mycolor,
             cursor=myGlobals.CURSOR_HAND,
             bd=4,
-            relief=tk.GROOVE,
-            offrelief=tk.RAISED,
-            #command=action_convert
+            relief=tkinter.GROOVE,
+            offrelief=tkinter.RAISED,
+            #command=convert
         )
         radiobutton_user_value.grid(
             row=2+my_row,
             column=my_column,
-            sticky=tk.W+tk.E
+            sticky=tkinter.W+tkinter.E
         )
 
 
@@ -775,21 +771,22 @@ def create_gui_color_right (
 def create_drop_down_menu (
 	root
 ) :    
-    menu = tk.Menu(root)
+    menu = tkinter.Menu(root)
     myGlobals.root.config(menu=menu)
 
-    filemenu = tk.Menu(menu, tearoff=0)
+    filemenu = tkinter.Menu(menu, tearoff=0)
     filemenu.add_command(label="new", command=action.draw_new_image)
     filemenu.add_separator()
-    filemenu.add_command(label="open...", command=action.action_OpenFile_from_menu, underline=0, accelerator="Control+o")
-    filemenu.add_command(label="save...", command=action.action_SaveFile_from_menu, underline=0, accelerator="Control+s")
+    filemenu.add_command(label="open...", command=action.OpenFile_from_menu, underline=0, accelerator="Control+o")
+    filemenu.add_command(label="save...", command=action.SaveFile_from_menu, underline=0, accelerator="Control+s")
+    filemenu.add_command(label="export PPM image", command=save_as_ppm)
     filemenu.add_separator()
     filemenu.add_command(label="preferences", command=gui_preferences.create_gui_preferences_from_menu, underline=0, accelerator="Control+p")
-    filemenu.add_command(label="show preview", command=gui_preview.create_gui_preview_image_from_menu)
+    filemenu.add_command(label="show preview", command=gui_preview.create_gui_preview_image)
     filemenu.add_separator()
     filemenu.add_command(label="quit", command=root.quit, underline=0, accelerator="Control+q")
 
-    editmenu = tk.Menu(menu, tearoff=0)
+    editmenu = tkinter.Menu(menu, tearoff=0)
     editmenu.add_command(label="undo", command=action.undo_undo_from_menu, accelerator="Ctrl+z")
     editmenu.add_separator()
     editmenu.add_command(label="marker", command=action.marker_select_from_menu, underline=0, accelerator="m")
@@ -798,7 +795,7 @@ def create_drop_down_menu (
     editmenu.add_command(label="copy", command=action.buffer_copy_from_menu, accelerator="Ctrl+c")
     #editmenu.add_command(label="paste", command=action.buffer_paste_from_menu, accelerator="Ctrl+v")
 
-    infomenu = tk.Menu(menu, tearoff=0)
+    infomenu = tkinter.Menu(menu, tearoff=0)
     infomenu.add_command(label="about", command=gui_about.create_gui_about)
     infomenu.add_command(label="help", command=gui_help.create_gui_help_from_menu, underline=0, accelerator="Control+h")
 
@@ -808,6 +805,13 @@ def create_drop_down_menu (
     menu.add_cascade(label="Info", menu=infomenu)
 
 
+def save_as_ppm():    
+    ftypes = [('image', '*.ppm')]
+    user_filename_open = tkinter.filedialog.asksaveasfilename(filetypes = ftypes)
+    if not user_filename_open : return None
+    #myGlobals.petscii_bin_filename = user_filename_open
+    action.save_ppm(user_filename_open)
+
 
 def create_gui_info (
 	root,
@@ -815,7 +819,7 @@ def create_gui_info (
     _column
 ) :
     
-    frame_border = tk.Frame(
+    frame_border = tkinter.Frame(
         root,
         bg=myGlobals.BGCOLOR,
         bd=myGlobals._bd,
@@ -824,34 +828,34 @@ def create_gui_info (
         row=_row,
         column=_column
     )
-    frame_inner = tk.Frame(
+    frame_inner = tkinter.Frame(
         frame_border,
         bg=myGlobals.BGCOLOR,
         bd=1,
         padx = myGlobals._padx,
         pady = myGlobals._pady,
-        relief=tk.RAISED
+        relief=tkinter.RAISED
         )
     frame_inner.grid()
-    frame_inner.grid_columnconfigure(0, weight=1)
-    frame_inner.grid_rowconfigure(0, weight=1)
+    #frame_inner.grid_columnconfigure(0, weight=1)
+    #frame_inner.grid_rowconfigure(0, weight=1)
     
 
     #cursor
-    label_title_cursor = tk.Label(
+    label_title_cursor = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
         text="position:",
         anchor='ne',
         fg="#000088"
     )
-    label_cursor_posx = tk.Label(
+    label_cursor_posx = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
         textvariable = myGlobals.cursorx_variable,
         anchor='c'
     )
-    label_cursor_posy = tk.Label(
+    label_cursor_posy = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
         textvariable = myGlobals.cursory_variable,
@@ -859,20 +863,20 @@ def create_gui_info (
     )
     
     #block
-    label_title_block = tk.Label(
+    label_title_block = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
         text="block:",
         anchor='ne',
         fg="#000088"
     )
-    label_block_posx = tk.Label(
+    label_block_posx = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
         textvariable = myGlobals.blockx_variable,
         anchor='c'
     )
-    label_block_posy = tk.Label(
+    label_block_posy = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
         textvariable = myGlobals.blocky_variable,
@@ -880,14 +884,14 @@ def create_gui_info (
     )
 
     #undo
-    label_title_undo = tk.Label(
+    label_title_undo = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
         text="undo steps:",
         anchor='ne',
         fg="#000088"
     )
-    label_undo = tk.Label(
+    label_undo = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
         textvariable = myGlobals.undo_variable,
@@ -899,45 +903,45 @@ def create_gui_info (
     label_title_cursor.grid(
         row=0,
         column=0,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
     label_cursor_posx.grid(
         row=0,
         column=1,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
     label_cursor_posy.grid(
         row=0,
         column=2,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
 
     label_title_block.grid(
         row=1,
         column=0,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
     label_block_posx.grid(
         row=1,
         column=1,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
     label_block_posy.grid(
         row=1,
         column=2,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
 
 
     label_title_undo.grid(
         row=2,
         column=0,
-        sticky=tk.W+tk.E
+        sticky=tkinter.W+tkinter.E
     )
     label_undo.grid(
         row=2,
         column=1,
-        sticky=tk.W+tk.E,
+        sticky=tkinter.W+tkinter.E,
         columnspan=2
     )
 
@@ -949,7 +953,7 @@ def create_gui_top (
     _row,
     _column
 ) :
-    frame_border = tk.Frame(
+    frame_border = tkinter.Frame(
         root,
         bd=myGlobals._bd,
         bg=myGlobals.BGCOLOR
@@ -959,11 +963,13 @@ def create_gui_top (
         column=_column
     )
 
-    photo = tk.PhotoImage(file=myGlobals.RES_GFX_AC)
-    label_logo = tk.Label(frame_border, image = photo)
+    photo = tkinter.PhotoImage(file=myGlobals.RES_GFX_AC)
+    label_logo = tkinter.Label(frame_border, image = photo)
     label_logo.image = photo # keep a reference!
     label_logo.grid( row=0, column=0)
     label_logo.configure(background=myGlobals.BGCOLOR)
+
+
 
 
 
@@ -973,50 +979,46 @@ def create_gui_editor_image (
     _column
 ) :
     #global label_editor_image
-    
-    #creation of elements
-    myGlobals.label_editor_image = tk.Label(
-        root,
-        bg=myGlobals.BGCOLOR,
-        cursor=myGlobals.CURSOR_EDIT,
-    )
-    
-    #placement in grid layout
-    myGlobals.label_editor_image.grid(
+    myGlobals.canvas_editor = tkinter.Canvas(root, width=myGlobals.editor_width, height=myGlobals.editor_height, background="#000000", cursor=myGlobals.CURSOR_EDIT)
+    #myGlobals.canvas_editor.delete("all")
+
+    myGlobals.koala_image_id = myGlobals.canvas_editor.create_image(0, 0, anchor=tkinter.NW, tags='koala_image')
+
+    myGlobals.canvas_editor.grid(
         row=0,
         column=0,
         padx=0,
         pady=0,
         ipadx=0,
-        ipady=0
+        ipady=0,
+        sticky=tkinter.W+tkinter.E+tkinter.N+tkinter.S
     )
-
-
+    
     # mouse wheel
     #   (Windows)
-    myGlobals.label_editor_image.bind('<MouseWheel>' ,action.input_mouse_wheel)
+    myGlobals.canvas_editor.bind('<MouseWheel>' ,action.mouse_wheel)
     #   (Linux)
-    myGlobals.label_editor_image.bind('<Button-4>' ,action.input_mouse_wheel)
-    myGlobals.label_editor_image.bind('<Button-5>' ,action.input_mouse_wheel)
+    myGlobals.canvas_editor.bind('<Button-4>' ,action.mouse_wheel)
+    myGlobals.canvas_editor.bind('<Button-5>' ,action.mouse_wheel)
     # mouse wheel-button
-    myGlobals.label_editor_image.bind('<Motion>', action.input_mouse_motion_edit_window)
+    myGlobals.canvas_editor.bind('<Motion>', action.mouse_motion_edit_window)
     # mouse buttons
-    myGlobals.label_editor_image.bind('<Button-1>', action.input_mouse_left_button_editor)
-    myGlobals.label_editor_image.bind('<B1-Motion>', action.input_mouse_left_button_editor)
+    myGlobals.canvas_editor.bind('<Button-1>', action.mouse_left_button_editor)
+    myGlobals.canvas_editor.bind('<B1-Motion>', action.mouse_left_button_editor)
 
     #https://docs.python.org/3/library/platform.html
     #platform.system() : 'Linux', 'Darwin', 'Java', 'Windows'
     if (myGlobals.operating_system == 'Darwin') :
         #darwin macos
-        myGlobals.label_editor_image.bind('<Button-3>', action.input_mouse_middle_button_press)
-        myGlobals.label_editor_image.bind('<ButtonRelease-3>', action.input_mouse_middle_button_release)
-        myGlobals.label_editor_image.bind('<B3-Motion>', action.input_mouse_middle_button_motion)
-        myGlobals.label_editor_image.bind('<Button-2>', action.input_mouse_right_button)
-        myGlobals.label_editor_image.bind('<B2-Motion>', action.input_mouse_right_button)
+        myGlobals.canvas_editor.bind('<Button-3>', action.mouse_middle_button_press)
+        myGlobals.canvas_editor.bind('<ButtonRelease-3>', action.mouse_middle_button_release)
+        myGlobals.canvas_editor.bind('<B3-Motion>', action.mouse_middle_button_motion)
+        myGlobals.canvas_editor.bind('<Button-2>', action.mouse_right_button)
+        myGlobals.canvas_editor.bind('<B2-Motion>', action.mouse_right_button)
     else :
         #linux and windows
-        myGlobals.label_editor_image.bind('<Button-2>', action.input_mouse_middle_button_press)
-        myGlobals.label_editor_image.bind('<ButtonRelease-2>', action.input_mouse_middle_button_release)
-        myGlobals.label_editor_image.bind('<B2-Motion>', action.input_mouse_middle_button_motion)
-        myGlobals.label_editor_image.bind('<Button-3>', action.input_mouse_right_button)
-        myGlobals.label_editor_image.bind('<B3-Motion>', action.input_mouse_right_button)
+        myGlobals.canvas_editor.bind('<Button-2>', action.mouse_middle_button_press)
+        myGlobals.canvas_editor.bind('<ButtonRelease-2>', action.mouse_middle_button_release)
+        myGlobals.canvas_editor.bind('<B2-Motion>', action.mouse_middle_button_motion)
+        myGlobals.canvas_editor.bind('<Button-3>', action.mouse_right_button)
+        myGlobals.canvas_editor.bind('<B3-Motion>', action.mouse_right_button)

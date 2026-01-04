@@ -8,9 +8,8 @@ import code.action as action
 import code.gui_help as gui_help
 import code.gui_about as gui_about
 import sys
-import tkinter as tk
+import tkinter
 import argparse
-
 
 
 def _main_procedure() :
@@ -27,21 +26,20 @@ def _main_procedure() :
     #parser.add_argument('-f', '--font_file', dest='font_filename', help='name of font (2048 bytes) default: "'+myGlobals.CHARROM_UPPERCASE+'"', default=myGlobals.CHARROM_UPPERCASE)
     myGlobals.args = parser.parse_args()
 
-
     #print(RES_GFX_ICON)
     #while (1==1) :
     #    a=1
 
     myGlobals.root.configure(background=myGlobals.BGCOLOR)
-    myGlobals.root.grid_columnconfigure(0, weight=10)
-    myGlobals.root.grid_rowconfigure(0, weight=10)
+    #myGlobals.root.grid_columnconfigure(0, weight=10)
+    #myGlobals.root.grid_rowconfigure(0, weight=10)
     action.set_title()
-    myGlobals.root.iconphoto(False, tk.PhotoImage(file=myGlobals.RES_GFX_ICON))
-
-
+    myGlobals.root.iconphoto(False, tkinter.PhotoImage(file=myGlobals.RES_GFX_ICON))
+    myGlobals.root.resizable(0, 0)
+    
     gui.create_drop_down_menu(myGlobals.root)
     gui.create_gui_main()
-    gui_preview.create_gui_preview_image(None)
+    gui_preview.create_gui_preview_image()
 
     myGlobals.root.config(cursor=myGlobals.CURSOR_NOTHING)
 
@@ -54,8 +52,8 @@ def _main_procedure() :
     myGlobals.root.bind_all("<Control-l>", action.keyboard_control_l)
     myGlobals.root.bind_all("<Control-p>", gui_preferences.create_gui_preferences)
     myGlobals.root.bind_all("<Control-q>", action.keyboard_quit)
-    myGlobals.root.bind_all("<Control-o>", action.action_OpenFile)
-    myGlobals.root.bind_all("<Control-s>", action.action_SaveFile)
+    myGlobals.root.bind_all("<Control-o>", action.OpenFile)
+    myGlobals.root.bind_all("<Control-s>", action.SaveFile)
     myGlobals.root.bind_all("<Control-v>", action.buffer_paste)
     myGlobals.root.bind_all("<Control-x>", action.buffer_cut)
     myGlobals.root.bind_all("<Control-y>", action.keyboard_control_y)
@@ -78,15 +76,19 @@ def _main_procedure() :
     action.draw_grids()
     action.draw_background()
 
-
     if (myGlobals.args.image_filename) :
         action.loadFile(myGlobals.args.image_filename)
     else :
         #loadFile(resource_path('new.koa'))
         action.draw_new_image()
+        action.refresh_prepare()
         
     action.root_refresh()
-    tk.mainloop()
+
+    #myGlobals.canvas_editor.itemconfigure('koala_image', image=myGlobals.tmp_photoimage, state='normal')
+   
+   
+    tkinter.mainloop()
 
 
 

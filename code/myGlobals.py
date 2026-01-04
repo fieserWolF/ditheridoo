@@ -1,23 +1,12 @@
 import os
 import sys
-import tkinter as tk
-from PIL import ImageTk, ImageEnhance, ImageFilter, ImageDraw
-import PIL.Image as PilImage    #we need another name, as it collides with tkinter.Image otherwise
+import tkinter
 import platform
-
 
 
 #global constants
 def _global_constants():
         return None
-
-
-#https://stackoverflow.com/questions/48210090/how-to-use-bundled-program-after-pyinstaller-add-binary
-def resource_path(relative_path):
-    #Get absolute path to resource, works for dev and for PyInstaller
-    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
-    return os.path.join(base_path, relative_path)
-    
 
 
 #global constants
@@ -106,6 +95,40 @@ EDITORSIZE_TEXT    = (
     "1280x800"  #1 1280x800
 )
 
+EDITOR_VISIBLE_WIDTH = [
+    [   #640x400
+        40, #zoom = 0
+        40, #zoom = 1
+        20, #zoom = 2
+        10, #zoom = 3
+        5, #zoom = 4
+    ],
+    [   #1280x800
+        40, #zoom = 0
+        40, #zoom = 1
+        40, #zoom = 2
+        20, #zoom = 3
+        10, #zoom = 4
+    ]
+]
+EDITOR_VISIBLE_HEIGHT = [
+    [   #640x400
+        25, #zoom = 0
+        25, #zoom = 1
+        12, #zoom = 2
+        6, #zoom = 3
+        3, #zoom = 4
+    ],
+    [   #1280x800
+        25, #zoom = 0
+        25, #zoom = 1
+        25, #zoom = 2
+        12, #zoom = 3
+        6, #zoom = 4
+    ]
+]
+
+
 EDITORSIZE_MULTIPLY    = (
     2,  #0 640x400
     4   #1 1280x800
@@ -113,11 +136,11 @@ EDITORSIZE_MULTIPLY    = (
 
 EDITORSIZE_DIV_X  = (
     2,  #0 640x400
-    1   #1 1280x800
+    2   #1 1280x800
 )
 EDITORSIZE_DIV_Y  = (
     4,  #0 640x400
-    2   #1 1280x800
+    4   #1 1280x800
 )
 
 PREVIEWSIZE_DIV_X  = (
@@ -138,6 +161,7 @@ ZOOM_MULTIPLY    = (
     16   #4
 )
 
+"""
 ZOOM_WIDTH = (
     320,    #0
     160,    #1
@@ -152,7 +176,7 @@ ZOOM_HEIGHT = (
     50,     #3
     25      #4
 )
-
+"""
 
 GRID_SIZE = (
     4,  #0
@@ -187,7 +211,7 @@ CURSOR_MARKER_END = 'bottom_right_corner'
 def _global_variables():
         return None
         
-root = tk.Tk()
+root = tkinter.Tk()
 
 preview_window = None
 preview_window_open = False
@@ -198,7 +222,7 @@ help_window_open = False
 about_window = None
 about_window_open = False
 
-frame_replace_color = tk.Frame()
+frame_replace_color = tkinter.Frame()
 
 special_modifier_pressed = False
 
@@ -227,98 +251,34 @@ buffer_height = 0
 
 koala_colorindex_data = [0] * KOALA_WIDTH*KOALA_HEIGHT
 
-user_palette = tk.StringVar()
+user_palette = tkinter.StringVar()
 user_palette.set("pepto")   #default palette
 
-user_drawmode = tk.StringVar()
+user_drawmode = tkinter.StringVar()
 #user_drawmode.set("keep")
 #user_drawmode.set("dye")
 user_drawmode.set("replace")
 #user_drawmode.set("select")
 
-user_pencil = tk.StringVar()
+user_pencil = tkinter.StringVar()
 user_pencil.set("normal")
 
 
-user_editorsize = tk.IntVar()
+user_editorsize = tkinter.IntVar()
 user_editorsize.set(0)  #default editorsize
 editor_width   = KOALA_WIDTH*2 *EDITORSIZE_MULTIPLY[user_editorsize.get()]
 editor_height  = KOALA_HEIGHT *EDITORSIZE_MULTIPLY[user_editorsize.get()]
 
-user_previewsize = tk.IntVar()
+user_previewsize = tkinter.IntVar()
 user_previewsize.set(0)  #default previewsize
 preview_width   = KOALA_WIDTH*2 *PREVIEWSIZE_MULTIPLY[user_previewsize.get()]
 preview_height  = KOALA_HEIGHT *PREVIEWSIZE_MULTIPLY[user_previewsize.get()]
 
 
+undo_stack = []
 
-current_filename = ""
+args = []
 
-user_start_address = tk.StringVar()
-user_start_address.set("6000")
-user_start_address_checkbutton = tk.IntVar()
-user_start_address_checkbutton.set(1)
-
-user_drawcolor_left = tk.IntVar()
-user_drawcolor_left.set(0)
-user_drawcolor_right = tk.IntVar()
-user_drawcolor_right.set(1)
-
-used_color_bg = tk.IntVar()
-used_color_bg.set(1)
-used_color_col1 = tk.IntVar()
-used_color_col1.set(1)
-used_color_col2 = tk.IntVar()
-used_color_col2.set(1)
-used_color_col3 = tk.IntVar()
-used_color_col3.set(1)
-
-user_replace_color = tk.IntVar()
-user_replace_color.set(99)
-
-current_color = tk.IntVar()
-current_color.set(99)
-
-
-
-cursorx_variable = tk.IntVar()
-cursorx_variable.set(0)
-cursory_variable = tk.IntVar()
-cursory_variable.set(0)
-
-blockx_variable = tk.IntVar()
-blockx_variable.set(0)
-blocky_variable = tk.IntVar()
-blocky_variable.set(0)
-
-editorimage_posx_variable = tk.IntVar()
-editorimage_posx_variable.set(0)
-editorimage_posy_variable = tk.IntVar()
-editorimage_posy_variable.set(0)
-
-
-mousex_variable = tk.IntVar()
-mousex_variable.set(0)
-mousey_variable = tk.IntVar()
-mousey_variable.set(0)
-
-undo_variable = tk.IntVar()
-undo_variable.set(0)
-
-
-
-koala_image = PilImage.new("P", (KOALA_WIDTH,KOALA_HEIGHT))
-marker_image = PilImage.new("P", (KOALA_WIDTH,KOALA_HEIGHT))
-editor_image = PilImage.new("P", (editor_width, editor_height))
-background_image = PilImage.new("RGBA", (editor_width, editor_height))
-preview_image = PilImage.new("P", (preview_width, preview_height))
-grid1_image = PilImage.new("RGBA", (editor_width, editor_height))
-grid2_image = PilImage.new("RGBA", (editor_width, editor_height))
-grid3_image = PilImage.new("RGBA", (editor_width, editor_height))
-grid4_image = PilImage.new("RGBA", (editor_width, editor_height))
-
-label_editor_image = tk.Label()
-label_preview_image = tk.Label()
 
 mouse_posx  = 0
 mouse_posy  = 0
@@ -340,16 +300,82 @@ block_y = 0
 block_x_absolute = 0
 block_y_absolute = 0
 
-radiobutton_replace_bg = tk.Radiobutton()
-radiobutton_replace_col1 = tk.Radiobutton()
-radiobutton_replace_col2 = tk.Radiobutton()
-radiobutton_replace_col3 = tk.Radiobutton()
+current_filename = ""
 
-radiobutton_current_bg = tk.Radiobutton()
-radiobutton_current_col1 = tk.Radiobutton()
-radiobutton_current_col2 = tk.Radiobutton()
-radiobutton_current_col3 = tk.Radiobutton()
+user_start_address = tkinter.StringVar()
+user_start_address.set("6000")
+user_start_address_checkbutton = tkinter.IntVar()
+user_start_address_checkbutton.set(1)
 
-undo_stack = []
+user_drawcolor_left = tkinter.IntVar()
+user_drawcolor_left.set(0)
+user_drawcolor_right = tkinter.IntVar()
+user_drawcolor_right.set(1)
 
-args = []
+used_color_bg = tkinter.IntVar()
+used_color_bg.set(1)
+used_color_col1 = tkinter.IntVar()
+used_color_col1.set(1)
+used_color_col2 = tkinter.IntVar()
+used_color_col2.set(1)
+used_color_col3 = tkinter.IntVar()
+used_color_col3.set(1)
+
+user_replace_color = tkinter.IntVar()
+user_replace_color.set(99)
+
+current_color = tkinter.IntVar()
+current_color.set(99)
+
+
+
+cursorx_variable = tkinter.IntVar()
+cursorx_variable.set(0)
+cursory_variable = tkinter.IntVar()
+cursory_variable.set(0)
+
+blockx_variable = tkinter.IntVar()
+blockx_variable.set(0)
+blocky_variable = tkinter.IntVar()
+blocky_variable.set(0)
+
+editorimage_posx_variable = tkinter.IntVar()
+editorimage_posx_variable.set(0)
+editorimage_posy_variable = tkinter.IntVar()
+editorimage_posy_variable.set(0)
+
+
+mousex_variable = tkinter.IntVar()
+mousex_variable.set(0)
+mousey_variable = tkinter.IntVar()
+mousey_variable.set(0)
+
+undo_variable = tkinter.IntVar()
+undo_variable.set(0)
+
+
+label_preview_image = None   #tkinter.Label()
+#canvas_editor = tkinter.Canvas()
+canvas_editor = None
+
+preview_photoimage = tkinter.PhotoImage()
+koala_photoimage = tkinter.PhotoImage()
+editor_photoimage = None   #tkinter.PhotoImage()
+background_photoimage = None   #tkinter.PhotoImage()
+grid1_photoimage = None   #tkinter.PhotoImage()
+grid2_photoimage = None   #tkinter.PhotoImage()
+grid3_photoimage = None   #tkinter.PhotoImage()
+grid4_photoimage = None   #tkinter.PhotoImage()
+tmp_photoimage = tkinter.PhotoImage()
+tmp_preview_photoimage = tkinter.PhotoImage()
+
+radiobutton_replace_bg = None   #tkinter.Radiobutton()
+radiobutton_replace_col1 = None   #tkinter.Radiobutton()
+radiobutton_replace_col2 = None   #tkinter.Radiobutton()
+radiobutton_replace_col3 = None   #tkinter.Radiobutton()
+radiobutton_current_bg = None   #tkinter.Radiobutton()
+radiobutton_current_col1 = None   #tkinter.Radiobutton()
+radiobutton_current_col2 = None   #tkinter.Radiobutton()
+radiobutton_current_col3 = None   #tkinter.Radiobutton()
+
+koala_image_id = 0

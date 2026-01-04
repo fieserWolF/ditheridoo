@@ -101,7 +101,6 @@ Python3 is needed to run PetPet. Everything else needed should be provided in yo
 
 - tkinter
 - argparse
-- "The Python Imaging Library" (PIL)
 
 
 ### Install Python on Windows or Mac
@@ -114,12 +113,12 @@ Python3 is needed to run PetPet. Everything else needed should be provided in yo
 On my Debian GNU/Linux machine I use apt to install everything needed:
 ```
 apt update
-apt install python3 python3-tk python3-pil python3-pil.imagetk
+apt install python3 python3-tk
 ```
 
 Alternatively, you can use pip to install missing modules:
 ```
-pip3 install tk pillow argparse
+pip3 install tk argparse
 ```
 
 ### Download Ditheridoo
@@ -150,6 +149,16 @@ If you have a feature request, a bug report or if you want to offer help, please
 [http://csdb.dk/scener/?id=3623](http://csdb.dk/scener/?id=3623)
 or
 [wolf@abyss-connection.de](wolf@abyss-connection.de)
+
+
+## Changes in 1.2
+
+(next release candidate)
+
+- speed improvement
+- no Pillow libraries unsed any more
+- added: PPM image export
+- bug fixes
 
 
 ## Changes in 1.1 (at Dream210 Party 2025)
