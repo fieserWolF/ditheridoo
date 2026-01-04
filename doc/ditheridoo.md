@@ -153,10 +153,8 @@ or
 
 ## Changes in 1.2
 
-(next release candidate)
-
-- speed improvement
-- no Pillow libraries unsed any more
+- great speed improvement
+- no Pillow libraries used any more
 - added: PPM image export
 - bug fixes
 
