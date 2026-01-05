@@ -70,25 +70,7 @@ Ditheridoo comes in two flavors:
 
 ## Run the standalone executable
 
-Just download your bundle at [releases](https://github.com/fieserWolF/ditheridoo/releases) and enjoy.
-
-
-### Note for Windows users
-
-If some antivirus scanner puts Ditheridoo into quarantine because it suspects a trojan or virus, simply put it out there again.
-It isn`t harmful, I used PyInstaller to bundle the standalone executable for you.
-Unfortunately, the PyInstaller bootloader triggers a false alarm on some systems.
-I even tried my best and re-compiled the PyInstaller bootloader so that this should not happen anymore. Keep your fingers crossed ;)
-
-
-### Note for MacOS users
-
-Your system might complain that the code is not signed by a certificated developer. Well, I am not, so I signed the program on my own. 
-```
-"Ditheridoo" can`t be opened because it is from an unidentified developer.
-```
-You need to right-click or Control-click the app and select “Open”.
-
+Just download your bundle at [releases](https://github.com/fieserWolF/ditheridoo/releases), then extract it and enjoy.
 
 
 ## Run the Python3 script directly
@@ -97,13 +79,15 @@ Download _ditheridoo.py_ and the whole _resource_ - directory into the same fold
 
 ### Prerequisites
 
-Python3 is needed to run PetPet. Everything else needed should be provided in your Python3 installation by default:
+Python3 is needed to run this software. Everything else needed should be provided in your Python3 installation by default:
 
 - tkinter
 - argparse
 
 
 ### Install Python on Windows or Mac
+
+Be sure to have the latest version of Python installed.
 
 * Download Python from [https://www.python.org](https://www.python.org).
 * Install Python on your computer.
@@ -175,7 +159,7 @@ or
 
 _Ditheridoo multicolor bitmap editor for Commodore 64._
 
-_Copyright (C) 2025 fieserWolF / Abyss-Connection_
+_Copyright (C) 2026 fieserWolF / Abyss-Connection_
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
@@ -193,6 +177,6 @@ For further questions, please contact me at
 or
 [wolf@abyss-connection.de](wolf@abyss-connection.de)
 
-For Python3, The Python Imaging Library (PIL), Tcl/Tk and other used source licenses see file [LICENSE_OTHERS](LICENSE_OTHERS).
+For Python3 and Tcl/Tk licenses see file [LICENSE_OTHERS](LICENSE_OTHERS).
 
 

@@ -132,7 +132,7 @@ License
 
 *Ditheridoo multicolor bitmap editor for Commodore 64.*
 
-*Copyright (C) 2025 fieserWolF / Abyss-Connection*
+*Copyright (C) 2026 fieserWolF / Abyss-Connection*
 
 This program is free software: you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -153,8 +153,8 @@ For further questions, please contact me at
 http://csdb.dk/scener/?id=3623 or
 `wolf@abyss-connection.de <wolf@abyss-connection.de>`__
 
-For Python3, The Python Imaging Library (PIL), Tcl/Tk and other used
-source licenses see file `LICENSE_OTHERS <LICENSE_OTHERS>`__.
+For Python3 and Tcl/Tk licenses see file
+`LICENSE_OTHERS <LICENSE_OTHERS>`__.
 
 GNU General Public License
 ==========================
