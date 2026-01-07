@@ -135,6 +135,13 @@ or
 [wolf@abyss-connection.de](wolf@abyss-connection.de)
 
 
+## Changes in 1.3
+
+(next release candidate)
+
+- bug fixes
+
+
 ## Changes in 1.2
 
 - great speed improvement

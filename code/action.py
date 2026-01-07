@@ -278,10 +278,10 @@ def refresh_show():
         start_x = myGlobals.editorimage_posx
         start_y = myGlobals.editorimage_posy
         #sanity checks
-        if (start_x < 0) : start_x = 0
-        if (start_y < 0) : start_y = 0
         if (start_x+ZOOM_VISIBLE_WIDTH[myGlobals.zoom] > myGlobals.koala_photoimage.width()/4) : start_x = int(myGlobals.koala_photoimage.width()/4)-ZOOM_VISIBLE_WIDTH[myGlobals.zoom]
         if (start_y+ZOOM_VISIBLE_HEIGHT[myGlobals.zoom] > myGlobals.koala_photoimage.height()/8) : start_y = int(myGlobals.koala_photoimage.height()/8)-ZOOM_VISIBLE_HEIGHT[myGlobals.zoom]
+        if (start_x < 0) : start_x = 0
+        if (start_y < 0) : start_y = 0
 
         end_x = start_x+ZOOM_VISIBLE_WIDTH[myGlobals.zoom]
         end_y = start_y+ZOOM_VISIBLE_HEIGHT[myGlobals.zoom]
@@ -291,7 +291,6 @@ def refresh_show():
 
         myGlobals.editorimage_posx = start_x
         myGlobals.editorimage_posy = start_y
-        
         
         #https://tkdocs.com/pyref/photoimage.html
         myGlobals.tmp_photoimage = myGlobals.koala_photoimage.copy(
@@ -1378,13 +1377,13 @@ def keyboard_control_y(self):
 def keyboard_control_l(self):
     myGlobals.user_pencil.set("light")
 def keyboard_shift_f1(self):
-    myGlobals.user_set_drawcolor_right(1)
+    user_set_drawcolor_right(1)
 def keyboard_shift_f2(self):
-    myGlobals.user_set_drawcolor_right(2)
+    user_set_drawcolor_right(2)
 def keyboard_shift_f3(self):
-    myGlobals.user_set_drawcolor_right(3)
+    user_set_drawcolor_right(3)
 def keyboard_shift_f4(self):
-    myGlobals.user_set_drawcolor_right(0)
+    user_set_drawcolor_right(0)
 
 def keyboard_shift_f5(self):
     myGlobals.user_replace_color.set(1)

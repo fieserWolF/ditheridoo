@@ -67,7 +67,7 @@ def create_gui_preview_image () :
     myGlobals.label_preview_image.bind('<Button-1>', mouse_left_button_preview)
     #myGlobals.canvas_preview.bind('<Button-1>', mouse_left_button_preview)
             
-    #action.refresh_show()
+    action.refresh_show()
 
 
 
