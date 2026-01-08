@@ -139,6 +139,7 @@ or
 
 (next release candidate)
 
+- toggle grid
 - bug fixes
 
 

@@ -112,6 +112,7 @@ Changes in 1.3
 
 (next release candidate)
 
+-  toggle grid
 -  bug fixes
 
 Changes in 1.2
