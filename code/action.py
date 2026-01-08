@@ -253,6 +253,16 @@ def refresh_show():
         #myGlobals.label_editor_image, myGlobals.label_preview_image
         #myGlobals.marker_image
 
+        #sanity check
+        if (
+            (myGlobals.koala_photoimage.width() != myGlobals.KOALA_WIDTH) &
+            (myGlobals.koala_photoimage.height() != myGlobals.KOALA_HEIGHT)
+        ) :
+            #dimensions do not match koala format
+            return None
+
+
+
         # update dimensions
         # only if new editor size is selected in preferences window
         editor_width_old = myGlobals.editor_width
@@ -269,29 +279,25 @@ def refresh_show():
 
 
         #show correct offset
-        #https://ccia.ugr.es/mgsilvente/tkinterbook/canvas.htm#tkinter.Canvas.move-method
-        #editor_multi = 4 * myGlobals.EDITORSIZE_MULTIPLY[myGlobals.user_editorsize.get()] * myGlobals.ZOOM_MULTIPLY[myGlobals.zoom]
+        LIMIT_WIDTH = int((myGlobals.KOALA_WIDTH*myGlobals.EDITORSIZE_MULTIPLY[myGlobals.user_editorsize.get()])  / (myGlobals.ZOOM_MULTIPLY[myGlobals.zoom]*2*2))
+        LIMIT_HEIGHT = int((myGlobals.KOALA_HEIGHT*myGlobals.EDITORSIZE_MULTIPLY[myGlobals.user_editorsize.get()]) / (myGlobals.ZOOM_MULTIPLY[myGlobals.zoom]*4*2))
+        if (LIMIT_WIDTH > myGlobals.C64_CHAR_WIDTH) : LIMIT_WIDTH = myGlobals.C64_CHAR_WIDTH
+        if (LIMIT_HEIGHT > myGlobals.C64_CHAR_HEIGHT) : LIMIT_HEIGHT = myGlobals.C64_CHAR_HEIGHT
 
-        ZOOM_VISIBLE_WIDTH = myGlobals.EDITOR_VISIBLE_WIDTH[myGlobals.user_editorsize.get()]
-        ZOOM_VISIBLE_HEIGHT = myGlobals.EDITOR_VISIBLE_HEIGHT[myGlobals.user_editorsize.get()]
-        #print('-------------------------')
         start_x = myGlobals.editorimage_posx
         start_y = myGlobals.editorimage_posy
         #sanity checks
-        if (start_x+ZOOM_VISIBLE_WIDTH[myGlobals.zoom] > myGlobals.koala_photoimage.width()/4) : start_x = int(myGlobals.koala_photoimage.width()/4)-ZOOM_VISIBLE_WIDTH[myGlobals.zoom]
-        if (start_y+ZOOM_VISIBLE_HEIGHT[myGlobals.zoom] > myGlobals.koala_photoimage.height()/8) : start_y = int(myGlobals.koala_photoimage.height()/8)-ZOOM_VISIBLE_HEIGHT[myGlobals.zoom]
+        if (start_x+LIMIT_WIDTH > myGlobals.koala_photoimage.width()/4) : start_x = int(myGlobals.koala_photoimage.width()/4)-LIMIT_WIDTH
+        if (start_y+LIMIT_HEIGHT > myGlobals.koala_photoimage.height()/8) : start_y = int(myGlobals.koala_photoimage.height()/8)-LIMIT_HEIGHT
         if (start_x < 0) : start_x = 0
         if (start_y < 0) : start_y = 0
 
-        end_x = start_x+ZOOM_VISIBLE_WIDTH[myGlobals.zoom]
-        end_y = start_y+ZOOM_VISIBLE_HEIGHT[myGlobals.zoom]
-        #sanity checks
-        if (end_x > myGlobals.koala_photoimage.width()/4) : end_x = int(myGlobals.koala_photoimage.width()/4)
-        if (end_y > myGlobals.koala_photoimage.height()/8) : end_y = int(myGlobals.koala_photoimage.height()/8)
+        end_x = start_x+LIMIT_WIDTH
+        end_y = start_y+LIMIT_HEIGHT
 
         myGlobals.editorimage_posx = start_x
         myGlobals.editorimage_posy = start_y
-        
+
         #https://tkdocs.com/pyref/photoimage.html
         myGlobals.tmp_photoimage = myGlobals.koala_photoimage.copy(
             zoom=(
@@ -302,12 +308,9 @@ def refresh_show():
                 start_x*4,    #x0 multicolor koala format holds 4 pixels in a char-column
                 start_y*8,    #y0 multicolor koala format holds 8 pixels in a char-row
                 end_x*4,      #x1 multicolor koala format holds 4 pixels in a char-column
-                end_y*8     #y1 multicolor koala format holds 8 pixels in a char-row
+                end_y*8       #y1 multicolor koala format holds 8 pixels in a char-row
             )
         )
-
-
-
 
         #update image in canvas_editor
         myGlobals.canvas_editor.itemconfigure('koala_image', image=myGlobals.tmp_photoimage, state='normal')
@@ -321,10 +324,11 @@ def refresh_show():
         myGlobals.canvas_editor.itemconfigure('grid4', state='hidden')
 
         #show grid
-        if (myGlobals.zoom == 1) : myGlobals.canvas_editor.itemconfigure("grid1", state='normal')
-        if (myGlobals.zoom == 2) : myGlobals.canvas_editor.itemconfigure("grid2", state='normal')
-        if (myGlobals.zoom == 3) : myGlobals.canvas_editor.itemconfigure("grid3", state='normal')
-        if (myGlobals.zoom == 4) : myGlobals.canvas_editor.itemconfigure("grid4", state='normal')
+        if (myGlobals.grid_enabled) :
+            if (myGlobals.zoom == 1) : myGlobals.canvas_editor.itemconfigure("grid1", state='normal')
+            if (myGlobals.zoom == 2) : myGlobals.canvas_editor.itemconfigure("grid2", state='normal')
+            if (myGlobals.zoom == 3) : myGlobals.canvas_editor.itemconfigure("grid3", state='normal')
+            if (myGlobals.zoom == 4) : myGlobals.canvas_editor.itemconfigure("grid4", state='normal')
         
         # put "background" at the bottom
         myGlobals.canvas_editor.tag_lower("background")
@@ -335,6 +339,17 @@ def refresh_show():
             myGlobals.tmp_preview_photoimage = myGlobals.preview_photoimage.copy(zoom=(multiply_preview*2,multiply_preview))
             myGlobals.label_preview_image.configure(image=myGlobals.tmp_preview_photoimage)
 
+
+
+
+def toggle_grid(
+) :
+    if (myGlobals.grid_enabled) :
+        myGlobals.grid_enabled = False
+    else :
+        myGlobals.grid_enabled = True
+    refresh_show()
+        
 
 
 def koala_index_to_colorindex(
@@ -1366,25 +1381,7 @@ def user_set_drawcolor_right(number):
     if (number==2) : myGlobals.user_drawcolor_right.set(myGlobals.used_color_col2.get()); return None
     if (number==3) : myGlobals.user_drawcolor_right.set(myGlobals.used_color_col3.get()); return None
 
-def keyboard_control_n(self):
-    myGlobals.user_pencil.set("normal")
-def keyboard_control_b(self):
-    myGlobals.user_pencil.set("checkerboard")
-def keyboard_control_d(self):
-    myGlobals.user_pencil.set("xline")
-def keyboard_control_y(self):
-    myGlobals.user_pencil.set("yline")
-def keyboard_control_l(self):
-    myGlobals.user_pencil.set("light")
-def keyboard_shift_f1(self):
-    user_set_drawcolor_right(1)
-def keyboard_shift_f2(self):
-    user_set_drawcolor_right(2)
-def keyboard_shift_f3(self):
-    user_set_drawcolor_right(3)
-def keyboard_shift_f4(self):
-    user_set_drawcolor_right(0)
-
+"""
 def keyboard_shift_f5(self):
     myGlobals.user_replace_color.set(1)
 def keyboard_shift_f6(self):
@@ -1393,16 +1390,14 @@ def keyboard_shift_f7(self):
     myGlobals.user_replace_color.set(3)
 def keyboard_shift_f8(self):
     myGlobals.user_replace_color.set(0)
+"""
 
 def keyboard_special_modifier_pressed(self):
     myGlobals.special_modifier_pressed = True
 def keyboard_special_modifier_released(self):
     myGlobals.special_modifier_pressed = False
 
-
 #keyboard shortcuts
-def keyboard_quit(self):
-    myGlobals.root.quit()
 #def keyboard_space(self):
 #    if (str(myGlobals.my_focus) == ".!frame.!frame.!frame.!label2") :
 #        myGlobals.space_pressed = True

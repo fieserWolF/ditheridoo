@@ -783,6 +783,7 @@ def create_drop_down_menu (
     filemenu.add_separator()
     filemenu.add_command(label="preferences", command=gui_preferences.create_gui_preferences_from_menu, underline=0, accelerator="Control+p")
     filemenu.add_command(label="show preview", command=gui_preview.create_gui_preview_image)
+    filemenu.add_command(label="toggle grid", command=action.toggle_grid, underline=6, accelerator="g")
     filemenu.add_separator()
     filemenu.add_command(label="quit", command=root.quit, underline=0, accelerator="Control+q")
 

@@ -38,8 +38,8 @@ RES_DOC_HELP = resource_path(RESOURCES_PATH+'/help.txt')
 VERSION = open(RES_VERSION, encoding="utf_8").read().rstrip()
 
 
-C64_CHAR_HEIGHT=25  #200/8
 C64_CHAR_WIDTH=40   #320/8
+C64_CHAR_HEIGHT=25  #200/8
 
 BITMAP_PIXEL_X  = 4
 BITMAP_PIXEL_Y  = 8
@@ -94,40 +94,6 @@ EDITORSIZE_TEXT    = (
     "640x400",  #0 640x400
     "1280x800"  #1 1280x800
 )
-
-EDITOR_VISIBLE_WIDTH = [
-    [   #640x400
-        40, #zoom = 0
-        40, #zoom = 1
-        20, #zoom = 2
-        10, #zoom = 3
-        5, #zoom = 4
-    ],
-    [   #1280x800
-        40, #zoom = 0
-        40, #zoom = 1
-        40, #zoom = 2
-        20, #zoom = 3
-        10, #zoom = 4
-    ]
-]
-EDITOR_VISIBLE_HEIGHT = [
-    [   #640x400
-        25, #zoom = 0
-        25, #zoom = 1
-        12, #zoom = 2
-        6, #zoom = 3
-        3, #zoom = 4
-    ],
-    [   #1280x800
-        25, #zoom = 0
-        25, #zoom = 1
-        25, #zoom = 2
-        12, #zoom = 3
-        6, #zoom = 4
-    ]
-]
-
 
 EDITORSIZE_MULTIPLY    = (
     2,  #0 640x400
@@ -226,6 +192,7 @@ frame_replace_color = tkinter.Frame()
 
 special_modifier_pressed = False
 
+grid_enabled = True
 
 editor_mode = 'edit'
 
