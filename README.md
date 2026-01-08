@@ -120,7 +120,6 @@ pip3 install tk argparse
 - implement real undo for all functions
 - implement hires drawing mode
 - implement different pencil sizes
-- implement: freely adjustable edit window
 - maybe: preview window: indicate current view with a visible frame
 - maybe: preview window: move visible frame by dragging the mouse
 - maybe: "draw mode: select": avoid moving of the controls
@@ -139,6 +138,7 @@ or
 
 (next release candidate)
 
+- responsive GUI
 - toggle grid
 - bug fixes
 

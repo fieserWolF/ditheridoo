@@ -3,6 +3,18 @@ import struct
 import os
 import tkinter.filedialog
 
+
+def redraw_canvas (event):
+    #https://www.youtube.com/watch?v=oVueT2pkcOw
+    #c.coords(item, 0,0, event.width, event.height)
+    #print('w=%d / h=%d'%(event.width, event.height))
+    myGlobals.canvas_width = event.width
+    myGlobals.canvas_height = event.height
+    #print('redraw_canvas')
+    refresh_show()
+    
+
+
 def convert_to_photo_image(
     my_width,
     my_height,
@@ -91,17 +103,18 @@ def draw_background():
     #https://anzeljg.github.io/rin2/book2/2405/docs/tkinter/create_rectangle.html
     myGlobals.canvas_editor.create_rectangle(
         0,0,
-        myGlobals.editor_width,
-        myGlobals.editor_height,
+        myGlobals.canvas_width,
+        myGlobals.canvas_height,
         fill=CHECKER_COLOR2,
         width=0,
         tags='background',
         state=MY_STATE
     )
-
-    a = 0
-    for y in range(0,myGlobals.editor_height,CHECKER_SIZE) :
-        for x in range(0,myGlobals.editor_width,CHECKER_SIZE) :
+    
+    for y in range(0,myGlobals.canvas_height,CHECKER_SIZE) :
+        a=0
+        if (int(y%(CHECKER_SIZE*2)) != 0) : a=1
+        for x in range(0,myGlobals.canvas_width,CHECKER_SIZE) :
             if ( a%2 == 0) :
                 myGlobals.canvas_editor.create_rectangle(
                 x,y,
@@ -112,7 +125,6 @@ def draw_background():
                 tags='background',
                 state=MY_STATE)
             a += 1
-        a += 1
 
     
 def draw_marker(
@@ -134,6 +146,24 @@ def draw_marker(
     return colorindex_data
 
 
+def set_editor_dimensions():
+    
+    myGlobals.canvas_editor.configure(
+        width=myGlobals.EDITOR_PRE_WIDTH[myGlobals.user_editorsize.get()],
+        height=myGlobals.EDITOR_PRE_HEIGHT[myGlobals.user_editorsize.get()]
+    )
+
+    """
+    #https://stackoverflow.com/questions/66516760/get-height-width-of-tkinter-canvas
+    myGlobals.canvas_width = myGlobals.canvas_editor.winfo_width()
+    myGlobals.canvas_height = myGlobals.canvas_editor.winfo_height()
+    myGlobals.canvas_width_old = myGlobals.canvas_width
+    """
+    refresh_show()
+
+
+
+
 def draw_grids():
     #multi = myGlobals.EDITORSIZE_MULTIPLY[myGlobals.user_editorsize.get()]
     multi = 2
@@ -149,16 +179,16 @@ def draw_grids():
 
     #https://anzeljg.github.io/rin2/book2/2405/docs/tkinter/create_line.html
     #y-axis
-    for y in range(0,myGlobals.editor_height,(myGlobals.GRID_SIZE[1] * multi)) : myGlobals.canvas_editor.create_line(0,y,myGlobals.editor_width,y,fill=GRID_COLOR,tags='grid1', state=MY_STATE)
-    for y in range(0,myGlobals.editor_height,(myGlobals.GRID_SIZE[2] * multi)) : myGlobals.canvas_editor.create_line(0,y,myGlobals.editor_width,y,fill=GRID_COLOR,tags='grid2', state=MY_STATE)
-    for y in range(0,myGlobals.editor_height,(myGlobals.GRID_SIZE[3] * multi)) : myGlobals.canvas_editor.create_line(0,y,myGlobals.editor_width,y,fill=GRID_COLOR,tags='grid3', state=MY_STATE)
-    for y in range(0,myGlobals.editor_height,(myGlobals.GRID_SIZE[4] * multi)) : myGlobals.canvas_editor.create_line(0,y,myGlobals.editor_width,y,fill=GRID_COLOR,tags='grid4', state=MY_STATE)
+    for y in range(0,myGlobals.canvas_height,(myGlobals.GRID_SIZE[1] * multi)) : myGlobals.canvas_editor.create_line(0,y,myGlobals.canvas_width,y,fill=GRID_COLOR,tags='grid1', state=MY_STATE)
+    for y in range(0,myGlobals.canvas_height,(myGlobals.GRID_SIZE[2] * multi)) : myGlobals.canvas_editor.create_line(0,y,myGlobals.canvas_width,y,fill=GRID_COLOR,tags='grid2', state=MY_STATE)
+    for y in range(0,myGlobals.canvas_height,(myGlobals.GRID_SIZE[3] * multi)) : myGlobals.canvas_editor.create_line(0,y,myGlobals.canvas_width,y,fill=GRID_COLOR,tags='grid3', state=MY_STATE)
+    for y in range(0,myGlobals.canvas_height,(myGlobals.GRID_SIZE[4] * multi)) : myGlobals.canvas_editor.create_line(0,y,myGlobals.canvas_width,y,fill=GRID_COLOR,tags='grid4', state=MY_STATE)
 
     #x-axis
-    for x in range(0,myGlobals.editor_width,(myGlobals.GRID_SIZE[1] * multi)) : myGlobals.canvas_editor.create_line(x,0,x,myGlobals.editor_height,fill=GRID_COLOR,tags='grid1', state=MY_STATE)
-    for x in range(0,myGlobals.editor_width,(myGlobals.GRID_SIZE[2] * multi)) : myGlobals.canvas_editor.create_line(x,0,x,myGlobals.editor_height,fill=GRID_COLOR,tags='grid2', state=MY_STATE)
-    for x in range(0,myGlobals.editor_width,(myGlobals.GRID_SIZE[3] * multi)) : myGlobals.canvas_editor.create_line(x,0,x,myGlobals.editor_height,fill=GRID_COLOR,tags='grid3', state=MY_STATE)
-    for x in range(0,myGlobals.editor_width,(myGlobals.GRID_SIZE[4] * multi)) : myGlobals.canvas_editor.create_line(x,0,x,myGlobals.editor_height,fill=GRID_COLOR,tags='grid4', state=MY_STATE)
+    for x in range(0,myGlobals.canvas_width,(myGlobals.GRID_SIZE[1] * multi)) : myGlobals.canvas_editor.create_line(x,0,x,myGlobals.canvas_height,fill=GRID_COLOR,tags='grid1', state=MY_STATE)
+    for x in range(0,myGlobals.canvas_width,(myGlobals.GRID_SIZE[2] * multi)) : myGlobals.canvas_editor.create_line(x,0,x,myGlobals.canvas_height,fill=GRID_COLOR,tags='grid2', state=MY_STATE)
+    for x in range(0,myGlobals.canvas_width,(myGlobals.GRID_SIZE[3] * multi)) : myGlobals.canvas_editor.create_line(x,0,x,myGlobals.canvas_height,fill=GRID_COLOR,tags='grid3', state=MY_STATE)
+    for x in range(0,myGlobals.canvas_width,(myGlobals.GRID_SIZE[4] * multi)) : myGlobals.canvas_editor.create_line(x,0,x,myGlobals.canvas_height,fill=GRID_COLOR,tags='grid4', state=MY_STATE)
 
 
     
@@ -236,19 +266,12 @@ def editorimage_pos_sanity_check() :
         ) :
             myGlobals.editorimage_posx = 0
             myGlobals.editorimage_posy = 0
-        
-def resize_edit_window(
-):
-    myGlobals.editor_width   = myGlobals.KOALA_WIDTH*2 * myGlobals.EDITORSIZE_MULTIPLY[myGlobals.user_editorsize.get()]
-    myGlobals.editor_height  = myGlobals.KOALA_HEIGHT * myGlobals.EDITORSIZE_MULTIPLY[myGlobals.user_editorsize.get()]
-    myGlobals.user_editorsize.get()
-    
+
     
 
 def refresh_show():
         #copy, move and zoom: koala_image to editor_image
         #writes
-        #myGlobals.editor_width, myGlobals.editor_height
         #myGlobals.editor_image
         #myGlobals.label_editor_image, myGlobals.label_preview_image
         #myGlobals.marker_image
@@ -262,25 +285,23 @@ def refresh_show():
             return None
 
 
-
         # update dimensions
         # only if new editor size is selected in preferences window
-        editor_width_old = myGlobals.editor_width
-        myGlobals.editor_width   = myGlobals.KOALA_WIDTH*2 * myGlobals.EDITORSIZE_MULTIPLY[myGlobals.user_editorsize.get()]
-        myGlobals.editor_height  = myGlobals.KOALA_HEIGHT * myGlobals.EDITORSIZE_MULTIPLY[myGlobals.user_editorsize.get()]
-        if (myGlobals.editor_width != editor_width_old) :
+        editor_width = myGlobals.canvas_width-2
+        editor_height = myGlobals.canvas_height-2
+        if (myGlobals.canvas_width != myGlobals.canvas_width_old) :
             draw_background()
             draw_grids()
             myGlobals.canvas_editor.configure(
-                width=myGlobals.editor_width,
-                height=myGlobals.editor_height)
+                width=editor_width,
+                height=editor_height)
 
-
+        myGlobals.canvas_width_old = myGlobals.canvas_width
 
 
         #show correct offset
-        LIMIT_WIDTH = int((myGlobals.KOALA_WIDTH*myGlobals.EDITORSIZE_MULTIPLY[myGlobals.user_editorsize.get()])  / (myGlobals.ZOOM_MULTIPLY[myGlobals.zoom]*2*2))
-        LIMIT_HEIGHT = int((myGlobals.KOALA_HEIGHT*myGlobals.EDITORSIZE_MULTIPLY[myGlobals.user_editorsize.get()]) / (myGlobals.ZOOM_MULTIPLY[myGlobals.zoom]*4*2))
+        LIMIT_WIDTH = int(myGlobals.canvas_width  / (myGlobals.ZOOM_MULTIPLY[myGlobals.zoom]*8))
+        LIMIT_HEIGHT = int(myGlobals.canvas_height / (myGlobals.ZOOM_MULTIPLY[myGlobals.zoom]*8))
         if (LIMIT_WIDTH > myGlobals.C64_CHAR_WIDTH) : LIMIT_WIDTH = myGlobals.C64_CHAR_WIDTH
         if (LIMIT_HEIGHT > myGlobals.C64_CHAR_HEIGHT) : LIMIT_HEIGHT = myGlobals.C64_CHAR_HEIGHT
 

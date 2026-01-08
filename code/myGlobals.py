@@ -230,11 +230,21 @@ user_drawmode.set("replace")
 user_pencil = tkinter.StringVar()
 user_pencil.set("normal")
 
-
 user_editorsize = tkinter.IntVar()
 user_editorsize.set(0)  #default editorsize
-editor_width   = KOALA_WIDTH*2 *EDITORSIZE_MULTIPLY[user_editorsize.get()]
-editor_height  = KOALA_HEIGHT *EDITORSIZE_MULTIPLY[user_editorsize.get()]
+
+EDITOR_PRE_WIDTH = [
+    640,
+    1280
+]
+EDITOR_PRE_HEIGHT = [
+    400,
+    800
+]
+
+canvas_width_old = 0
+canvas_width = 0
+canvas_height = 0
 
 user_previewsize = tkinter.IntVar()
 user_previewsize.set(0)  #default previewsize

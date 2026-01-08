@@ -8,17 +8,19 @@ import tkinter
 
 
 def create_gui_main ():
+    myGlobals.root.columnconfigure(0, weight=1) #column 0: left
+    myGlobals.root.grid_rowconfigure(1, weight=1)   #row 1 frame_bottom
+
     frame_top = tkinter.Frame(myGlobals.root, bg=myGlobals.BGCOLOR)
     frame_top.grid(
         row=0,
         column=0,
+        sticky=tkinter.N,
         padx=0,
         pady=0,
         ipadx=0,
         ipady=0,
     )
-    #frame_top.grid_columnconfigure(0, weight=1)
-    #frame_top.grid_rowconfigure(0, weight=1)
 
     #frame_top elements
     create_gui_top(
@@ -28,46 +30,34 @@ def create_gui_main ():
     )
 
 
-
     frame_bottom = tkinter.Frame(myGlobals.root, bg=myGlobals.BGCOLOR)
     frame_bottom.grid(
         row=1,
         column=0,
-        sticky=tkinter.N,
+        sticky=tkinter.N+tkinter.S+tkinter.W+tkinter.E,
         padx=0,
         pady=0,
         ipadx=0,
         ipady=0,
     )
-    #frame_bottom.grid_columnconfigure(0, weight=1)
-    #frame_bottom.grid_rowconfigure(0, weight=1)
+    frame_bottom.columnconfigure(0, weight=1) #column 0: left
+    frame_bottom.grid_rowconfigure(0, weight=1)   #row 0 frame_top
+
 
     frame_left = tkinter.Frame(frame_bottom, bg=myGlobals.BGCOLOR)
     frame_left.grid(
         row=0,
         column=0,
-        sticky=tkinter.N,
+        sticky=tkinter.W+tkinter.N+tkinter.E+tkinter.S,
         padx=0,
         pady=0,
         ipadx=0,
         ipady=0,
 
     )
-    #frame_left.grid_columnconfigure(0, weight=0)
-    #frame_left.grid_rowconfigure(0, weight=0)
+    frame_left.grid_columnconfigure(0, weight=1)    #column 0: editor image
+    frame_left.grid_rowconfigure(0, weight=1)       #row 0: editor image
 
-    frame_right = tkinter.Frame(frame_bottom, bg=myGlobals.BGCOLOR)
-    frame_right.grid(
-        row=0,
-        column=1,
-        sticky=tkinter.N,
-        padx=0,
-        pady=0,
-        ipadx=0,
-        ipady=0,
-    )
-    #frame_right.grid_columnconfigure(0, weight=1)
-    #frame_right.grid_rowconfigure(0, weight=1)
 
     #frame_left elements
     create_gui_editor_image(
@@ -77,6 +67,16 @@ def create_gui_main ():
     )
 
     #frame_right elements
+
+    frame_right = tkinter.Frame(frame_bottom, bg=myGlobals.BGCOLOR)
+    frame_right.grid(
+        row=0,
+        column=1,
+        padx=0,
+        pady=0,
+        ipadx=0,
+        ipady=0,
+    )
 
     create_gui_drawmode(
         frame_right,
@@ -120,7 +120,18 @@ def create_gui_main ():
         6,  #row
         0   #column
     )
-    
+
+    """
+    myGlobals.root.update()
+    print('frame_bottom: w=%d / h=%d' % (
+        frame_bottom.winfo_reqwidth(),
+        frame_bottom.winfo_reqheight()
+    ))
+    print('frame_left: w=%d / h=%d' % (
+        frame_left.winfo_reqwidth(),
+        frame_left.winfo_reqheight()
+    ))
+    """
 
 
 def create_gui_drawmode (
@@ -980,8 +991,12 @@ def create_gui_editor_image (
     _column
 ) :
     #global label_editor_image
-    myGlobals.canvas_editor = tkinter.Canvas(root, width=myGlobals.editor_width, height=myGlobals.editor_height, background="#000000", cursor=myGlobals.CURSOR_EDIT)
+    myGlobals.canvas_editor = tkinter.Canvas(root, background="#000000", cursor=myGlobals.CURSOR_EDIT)
     #myGlobals.canvas_editor.delete("all")
+
+    #https://www.youtube.com/watch?v=oVueT2pkcOw
+    myGlobals.canvas_editor.bind("<Configure>", action.redraw_canvas)
+    #item = myGlobals.canvas_editor.create_line(0,0, 400,400)
 
     myGlobals.koala_image_id = myGlobals.canvas_editor.create_image(0, 0, anchor=tkinter.NW, tags='koala_image')
 
@@ -992,9 +1007,9 @@ def create_gui_editor_image (
         pady=0,
         ipadx=0,
         ipady=0,
-        sticky=tkinter.W+tkinter.E+tkinter.N+tkinter.S
+        sticky=tkinter.N+tkinter.S+tkinter.W+tkinter.E
     )
-    
+   
     # mouse wheel
     #   (Windows)
     myGlobals.canvas_editor.bind('<MouseWheel>' ,action.mouse_wheel)

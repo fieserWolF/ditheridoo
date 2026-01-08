@@ -35,7 +35,9 @@ def _main_procedure() :
     #myGlobals.root.grid_rowconfigure(0, weight=10)
     action.set_title()
     myGlobals.root.iconphoto(False, tkinter.PhotoImage(file=myGlobals.RES_GFX_ICON))
-    myGlobals.root.resizable(0, 0)
+    #myGlobals.root.resizable(False, False)
+    myGlobals.root.resizable(True, True)
+
     
     gui.create_drop_down_menu(myGlobals.root)
     gui.create_gui_main()
@@ -87,7 +89,8 @@ def _main_procedure() :
 
     #myGlobals.canvas_editor.itemconfigure('koala_image', image=myGlobals.tmp_photoimage, state='normal')
    
-   
+    action.set_editor_dimensions()
+    
     tkinter.mainloop()
 
 

@@ -108,8 +108,6 @@ def create_gui_preferences_editorsize (
         relief=tkinter.RAISED
         )
     frame_inner.grid()
-    #frame_inner.grid_columnconfigure(0, weight=1)
-    #frame_inner.grid_rowconfigure(0, weight=1)
 
     _row = 0
     label = tkinter.Label(
@@ -142,7 +140,7 @@ def create_gui_preferences_editorsize (
             indicatoron=0,
             variable=myGlobals.user_editorsize,
             cursor=myGlobals.CURSOR_HAND,
-            command=action.refresh_prepare
+            command=action.set_editor_dimensions
         )
         _row += 1
         radiobutton.grid(
@@ -176,8 +174,6 @@ def create_gui_preferences_previewsize (
         relief=tkinter.RAISED
         )
     frame_inner.grid()
-    #frame_inner.grid_columnconfigure(0, weight=1)
-    #frame_inner.grid_rowconfigure(0, weight=1)
 
     _row = 0
     label = tkinter.Label(
@@ -246,8 +242,6 @@ def create_gui_preferences_palette (
         relief=tkinter.RAISED
         )
     frame_inner.grid()
-    #frame_inner.grid_columnconfigure(0, weight=1)
-    #frame_inner.grid_rowconfigure(0, weight=1)
 
     _row = 0
     label = tkinter.Label(
@@ -315,8 +309,6 @@ def create_gui_preferences_startaddress (
         relief=tkinter.RAISED
         )
     frame_inner.grid()
-    #frame_inner.grid_columnconfigure(0, weight=1)
-    #frame_inner.grid_rowconfigure(0, weight=1)
     
     label_start_address_title = tkinter.Label(
         frame_inner,
@@ -366,5 +358,3 @@ def create_gui_preferences_startaddress (
         column=2,
         sticky=tkinter.E
     )
-
-
