@@ -29,7 +29,13 @@ def convert_to_photo_image(
     
     #https://www.programiz.com/python-programming/methods/string/encode
     #https://www.programiz.com/python-programming/methods/built-in/bytearray
-    tmp_ppm = ('P6 '+str(my_width)+' '+str(my_height)+' 255 ').encode(encoding='UTF-8',errors='strict') + bytearray(my_data)
+    #tmp_ppm = ('P6 '+str(my_width)+' '+str(my_height)+' 255 ').encode(encoding='UTF-8',errors='strict') + bytearray(my_data)
+
+    tmp_ppm = convert_to_photo_image_data(
+        my_width,
+        my_height,
+        my_data
+    )
 
     return tkinter.PhotoImage(width=my_width, height=my_height, data=tmp_ppm, format='PPM')
 
@@ -287,8 +293,10 @@ def refresh_show():
 
         # update dimensions
         # only if new editor size is selected in preferences window
-        editor_width = myGlobals.canvas_width-2
-        editor_height = myGlobals.canvas_height-2
+        #debug: automatic resize under windows?
+        #-2 for linux
+        editor_width = myGlobals.canvas_width-4
+        editor_height = myGlobals.canvas_height-4
         if (myGlobals.canvas_width != myGlobals.canvas_width_old) :
             draw_background()
             draw_grids()

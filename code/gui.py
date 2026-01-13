@@ -998,7 +998,7 @@ def create_gui_editor_image (
     myGlobals.canvas_editor.bind("<Configure>", action.redraw_canvas)
     #item = myGlobals.canvas_editor.create_line(0,0, 400,400)
 
-    myGlobals.koala_image_id = myGlobals.canvas_editor.create_image(0, 0, anchor=tkinter.NW, tags='koala_image')
+    myGlobals.koala_image_id = myGlobals.canvas_editor.create_image(1, 1, anchor=tkinter.NW, tags='koala_image')
 
     myGlobals.canvas_editor.grid(
         row=0,
