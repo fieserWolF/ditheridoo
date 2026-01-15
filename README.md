@@ -65,34 +65,30 @@ The multicolor bitmap is stored in the widely-spread KoalaPainter (C64) format:
 
 Ditheridoo comes in two flavors:
 
-- standalone executable for Linux, MacOS/Darwin and Windows (see [releases](https://github.com/fieserWolF/ditheridoo/releases))
+- standalone executable for 64-bit systems Linux and Windows (see [releases](https://github.com/fieserWolF/ditheridoo/releases))
 - Python3 script
 
 ## Run the standalone executable
 
-Just download your bundle at [releases](https://github.com/fieserWolF/ditheridoo/releases), then extract it and enjoy.
-
+Just download your bundle at [releases](https://github.com/fieserWolF/ditheridoo/releases), extract the zip file and enjoy.
 
 ## Run the Python3 script directly
 
-Download _ditheridoo.py_ and the whole _resource_ - directory into the same folder on your computer.
+### Install Python
 
-### Prerequisites
+#### Prerequisites
 
-Python3 is needed to run this software. Everything else needed should be provided in your Python3 installation by default:
+Python3 is needed to run PetPet. Everything else needed should be provided in your Python3 installation by default:
 
 - tkinter
 - argparse
 
-
-### Install Python on Windows or Mac
-
-Be sure to have the latest version of Python installed.
+#### Install Python on Windows or Mac
 
 * Download Python from [https://www.python.org](https://www.python.org).
 * Install Python on your computer.
 
-### Install Python on Linux
+#### Install Python on Linux
 
 On my Debian GNU/Linux machine I use apt to install everything needed:
 ```
@@ -102,7 +98,7 @@ apt install python3 python3-tk
 
 Alternatively, you can use pip to install missing modules:
 ```
-pip3 install tk argparse
+pip3 install argparse
 ```
 
 ### Download Ditheridoo
@@ -138,7 +134,8 @@ or
 
 (next release candidate)
 
-- responsive GUI
+- preview window zoom: more options, zoom with mouse wheel in preview window
+- responsive GUI, removed fixed editor dimensions from preferences window
 - toggle grid
 - bug fixes
 

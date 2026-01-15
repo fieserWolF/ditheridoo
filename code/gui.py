@@ -163,7 +163,7 @@ def create_gui_drawmode (
     label = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
-        text="draw mode:",
+        text="draw mode",
         wraplength=100,
         anchor='c',
         justify='left',
@@ -628,7 +628,7 @@ def create_gui_color_left (
     _row = 0
     label = tkinter.Label(
         frame_inner,
-        text="left",
+        text="left mouse button",
         anchor="c",
         justify='left',
         bg=myGlobals.BGCOLOR,
@@ -717,7 +717,7 @@ def create_gui_color_right (
     label = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
-        text="right",
+        text="right mouse button",
         anchor="c",
         justify='left',
         fg="#000088"
@@ -991,14 +991,11 @@ def create_gui_editor_image (
     _column
 ) :
     #global label_editor_image
-    myGlobals.canvas_editor = tkinter.Canvas(root, background="#000000", cursor=myGlobals.CURSOR_EDIT)
+    my_editorsize = myGlobals.user_editorsize.get()
+    my_width=myGlobals.EDITOR_PRE_WIDTH[my_editorsize]
+    my_height=myGlobals.EDITOR_PRE_HEIGHT[my_editorsize]
+    myGlobals.canvas_editor = tkinter.Canvas(root, background="#000000", width=my_width, height=my_height, cursor=myGlobals.CURSOR_EDIT)
     #myGlobals.canvas_editor.delete("all")
-
-    #https://www.youtube.com/watch?v=oVueT2pkcOw
-    myGlobals.canvas_editor.bind("<Configure>", action.redraw_canvas)
-    #item = myGlobals.canvas_editor.create_line(0,0, 400,400)
-
-    myGlobals.koala_image_id = myGlobals.canvas_editor.create_image(1, 1, anchor=tkinter.NW, tags='koala_image')
 
     myGlobals.canvas_editor.grid(
         row=0,
@@ -1009,6 +1006,15 @@ def create_gui_editor_image (
         ipady=0,
         sticky=tkinter.N+tkinter.S+tkinter.W+tkinter.E
     )
+
+
+
+    #https://www.youtube.com/watch?v=oVueT2pkcOw
+    #this causes a bug on macos : window does not open at all
+    myGlobals.canvas_editor.bind("<Configure>", action.redraw_canvas)
+    #myGlobals.canvas_editor.bind("<Configure>", lambda event: action.redraw_canvas(event.width, event.height))
+    #item = myGlobals.canvas_editor.create_line(0,0, 400,400)
+
    
     # mouse wheel
     #   (Windows)
@@ -1038,3 +1044,8 @@ def create_gui_editor_image (
         myGlobals.canvas_editor.bind('<B2-Motion>', action.mouse_middle_button_motion)
         myGlobals.canvas_editor.bind('<Button-3>', action.mouse_right_button)
         myGlobals.canvas_editor.bind('<B3-Motion>', action.mouse_right_button)
+
+
+
+    myGlobals.koala_image_id = myGlobals.canvas_editor.create_image(0,0, anchor=tkinter.NW, tags='koala_image')
+

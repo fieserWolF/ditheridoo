@@ -110,12 +110,36 @@ EDITORSIZE_DIV_Y  = (
 )
 
 PREVIEWSIZE_DIV_X  = (
+    2,  #0 320x200
+    2,  #1 640x400
+    2.8,  #2 1280x800
+    4.2,  #3 2560x1600
+    6.6  #4 5120x3200
+)
+
+PREVIEWSIZE_DIV_Y  = (
+    4,  #0 320x200
+    4,  #1 640x400
+    5.5,  #2 1280x800
+    8.5,  #3 2560x1600
+    13.5  #4 5120x3200
+)
+
+
+PREVIEWSIZE_DIV_X2  = (
     4,  #0 320x200
     2,  #1 640x400
+    1,  #2 1280x800
+    0.5,  #3 2560x1600
+    0.25  #4 5120x3200
 )
-PREVIEWSIZE_DIV_Y  = (
+
+PREVIEWSIZE_DIV_Y2  = (
     8,  #0 320x200
     4,  #1 640x400
+    2,  #2 1280x800
+    1,  #3 2560x1600
+    0.5  #4 5120x3200
 )
 
 
@@ -154,12 +178,18 @@ GRID_SIZE = (
 
 PREVIEWSIZE_MULTIPLY    = (
     1,  #0 320x200
-    2  #1 640x400
+    2,  #1 640x400
+    3,  #2 1280x800
+    4,  #3 2560x1600
+    5  #4 5120x3200
 )
 
 PREVIEWSIZE_TEXT    = (
     "320x200",  #0 320x200
-    "640x400"  #1 640x400
+    "640x400",  #1 640x400
+    "1280x800",  #2 1280x800
+    "2560x1600",  #3 2560x1600
+    "5120x3200"  #4 5120x3200
 )
 
 
@@ -197,6 +227,12 @@ grid_enabled = True
 editor_mode = 'edit'
 
 operating_system = platform.system()
+
+WINDOW_BORDER = {
+    'Linux' : 2,
+    'Windows' : 4,
+    'Darwin' : 4        #not tested
+}
 
 koala_bitmap=[0]*8000
 koala_col12=[0]*1000
@@ -260,7 +296,7 @@ args = []
 mouse_posx  = 0
 mouse_posy  = 0
 
-zoom_preview    = 1
+zoom_preview    = 0
 zoom    = 1
 my_focus = "unset"
 

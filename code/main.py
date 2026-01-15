@@ -41,6 +41,10 @@ def _main_procedure() :
     
     gui.create_drop_down_menu(myGlobals.root)
     gui.create_gui_main()
+    action.draw_grids()
+    action.draw_background()
+
+
     gui_preview.create_gui_preview_image()
 
     myGlobals.root.config(cursor=myGlobals.CURSOR_NOTHING)
@@ -75,8 +79,6 @@ def _main_procedure() :
     #myGlobals.root.bind( "<KeyPress-Win_L>", action.keyboard_special_modifier_pressed )
     #myGlobals.root.bind( "<KeyRelease-Win_L>", action.keyboard_special_modifier_released )
 
-    action.draw_grids()
-    action.draw_background()
 
     if (myGlobals.args.image_filename) :
         action.loadFile(myGlobals.args.image_filename)
@@ -89,7 +91,7 @@ def _main_procedure() :
 
     #myGlobals.canvas_editor.itemconfigure('koala_image', image=myGlobals.tmp_photoimage, state='normal')
    
-    action.set_editor_dimensions()
+    #action.set_editor_dimensions()
     
     tkinter.mainloop()
 

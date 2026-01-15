@@ -10,9 +10,8 @@ def redraw_canvas (event):
     #print('w=%d / h=%d'%(event.width, event.height))
     myGlobals.canvas_width = event.width
     myGlobals.canvas_height = event.height
-    #print('redraw_canvas')
     refresh_show()
-    
+
 
 
 def convert_to_photo_image(
@@ -151,23 +150,36 @@ def draw_marker(
     
     return colorindex_data
 
-
+"""
 def set_editor_dimensions():
-    
+    my_editorsize = myGlobals.user_editorsize.get()
+    my_width=myGlobals.EDITOR_PRE_WIDTH[my_editorsize]
+    my_height=myGlobals.EDITOR_PRE_HEIGHT[my_editorsize]
+    #print('set new dimensions. myGlobals.user_editorsize = %d (wxh %dx%d)'% (my_editorsize, my_width, my_height))
+    #myGlobals.canvas_editor.unbind("<Configure>")
+
+    #myGlobals.canvas_editor.bind("<Configure>", lambda event: redraw_canvas(my_width,my_height));
+
     myGlobals.canvas_editor.configure(
-        width=myGlobals.EDITOR_PRE_WIDTH[myGlobals.user_editorsize.get()],
-        height=myGlobals.EDITOR_PRE_HEIGHT[myGlobals.user_editorsize.get()]
+        width=my_width,
+        height=my_height
     )
 
-    """
+    #myGlobals.canvas_editor.bind("<Configure>", lambda event: redraw_canvas(event.width, event.height))
+    #myGlobals.canvas_editor.event_generate("<Configure>");
+    #myGlobals.canvas_editor.event_generate("<Configure>", lambda event: redraw_canvas(100,100));
+
+    #myGlobals.canvas_editor.bind("<Configure>", redraw_canvas)
+
     #https://stackoverflow.com/questions/66516760/get-height-width-of-tkinter-canvas
-    myGlobals.canvas_width = myGlobals.canvas_editor.winfo_width()
-    myGlobals.canvas_height = myGlobals.canvas_editor.winfo_height()
-    myGlobals.canvas_width_old = myGlobals.canvas_width
-    """
+    #myGlobals.canvas_width = myGlobals.canvas_editor.winfo_width()
+    #myGlobals.canvas_height = myGlobals.canvas_editor.winfo_height()
+    #myGlobals.canvas_width_old = myGlobals.canvas_width
+
+    #print('myGlobals.canvas_width x myGlobals.canvas_height = %dx%d'% (myGlobals.canvas_width,myGlobals.canvas_height))
+
     refresh_show()
-
-
+"""
 
 
 def draw_grids():
@@ -288,6 +300,7 @@ def refresh_show():
             (myGlobals.koala_photoimage.height() != myGlobals.KOALA_HEIGHT)
         ) :
             #dimensions do not match koala format
+            #print('Warning: action.refresh_show(): dimensions do not match koala format')
             return None
 
 
@@ -295,14 +308,28 @@ def refresh_show():
         # only if new editor size is selected in preferences window
         #debug: automatic resize under windows?
         #-2 for linux
-        editor_width = myGlobals.canvas_width-4
-        editor_height = myGlobals.canvas_height-4
+        #-4 for windows
+        #print('invoke action.refresh_show()')
+        """
+        my_border = 0
+        if (myGlobals.operating_system == 'Linux') :
+            my_border = myGlobals.WINDOW_BORDER['Linux']
+        if (myGlobals.operating_system == 'Windows') :
+            my_border = myGlobals.WINDOW_BORDER['Windows']
+        if (myGlobals.operating_system == 'Darwin') :
+            my_border = myGlobals.WINDOW_BORDER['Darwin']
+        print(my_border)
+        """
+        #my_border=0
+        #editor_width = myGlobals.canvas_width-my_border
+        #editor_height = myGlobals.canvas_height-my_border
         if (myGlobals.canvas_width != myGlobals.canvas_width_old) :
+            #print('redraw background and grid')
             draw_background()
             draw_grids()
-            myGlobals.canvas_editor.configure(
-                width=editor_width,
-                height=editor_height)
+            #myGlobals.canvas_editor.configure(
+            #    width=editor_width,
+            #    height=editor_height)
 
         myGlobals.canvas_width_old = myGlobals.canvas_width
 
@@ -1077,6 +1104,30 @@ def zoom_out(self) :
     if (myGlobals.zoom > 0) :
         myGlobals.zoom -= 1
         zoom_perform()
+
+
+def zoom_preview_perform() :
+    #print("zoom_preview=",myGlobals.zoom_preview)
+    myGlobals.user_previewsize.set(myGlobals.zoom_preview)
+    refresh_prepare()
+    #print("block_x=",myGlobals.block_x," block_y=",myGlobals.block_y, "editorimage_posx=",myGlobals.editorimage_posx," editorimage_posy=",myGlobals.editorimage_posy)
+    update_infos()
+
+
+def zoom_preview_in(self) :
+    #writes: myGlobals.zoom_preview
+    
+    if (myGlobals.zoom_preview < 4) :
+        myGlobals.zoom_preview += 1
+        zoom_preview_perform()
+
+
+def zoom_preview_out(self) :
+    #writes: myGlobals.zoom_preview
+    
+    if (myGlobals.zoom_preview > 0) :
+        myGlobals.zoom_preview -= 1
+        zoom_preview_perform()
 
 
 

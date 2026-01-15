@@ -111,7 +111,10 @@ Changes in 1.3
 
 (next release candidate)
 
--  responsive GUI
+-  preview window zoom: more options, zoom with mouse wheel in preview
+   window
+-  responsive GUI, removed fixed editor dimensions from preferences
+   window
 -  toggle grid
 -  bug fixes
 

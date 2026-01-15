@@ -66,9 +66,11 @@ def create_gui_preview_image () :
 
     myGlobals.label_preview_image.bind('<Button-1>', mouse_left_button_preview)
     #myGlobals.canvas_preview.bind('<Button-1>', mouse_left_button_preview)
+
+    myGlobals.label_preview_image.bind('<Button-4>', mouse_wheel_preview)
+    myGlobals.label_preview_image.bind('<Button-5>', mouse_wheel_preview)
             
     action.refresh_show()
-
 
 
 
@@ -78,3 +80,22 @@ def mouse_left_button_preview(event):
     action.update_infos_preview()
     action.zoom_perform()
     action.refresh_show()
+
+
+def mouse_wheel_preview(event):
+    if (
+        (event.num == 5) |
+        (int(event.delta / 120) == -1) |
+        (event.delta == -1)
+    ) :
+        #mouse wheel down
+        action.zoom_preview_out(0)
+
+    if (
+        (event.num == 4) |
+        (int(event.delta / 120) == 1) |
+        (event.delta == 1)
+    ) :
+        #mouse wheel up
+        action.zoom_preview_in(0)
+

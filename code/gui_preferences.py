@@ -51,16 +51,18 @@ def create_gui_preferences (self) :
         0   #column
     )
 
-
+    """
     create_gui_preferences_editorsize(
         myGlobals.preferences_window,
         0,  #row
         1   #column
     )
+    """
 
     create_gui_preferences_previewsize(
         myGlobals.preferences_window,
-        1,  #row
+        0,  #row
+        #1,  #row
         1   #column
     )
 
@@ -84,7 +86,7 @@ def create_gui_preferences (self) :
 
 
     
-
+"""
 def create_gui_preferences_editorsize (
 	root,
     _row,
@@ -148,7 +150,7 @@ def create_gui_preferences_editorsize (
             column=1,
             sticky=tkinter.W+tkinter.E
         )
-
+"""
 
 
 def create_gui_preferences_previewsize (
@@ -192,7 +194,10 @@ def create_gui_preferences_previewsize (
     )
     MODES = [
             (myGlobals.PREVIEWSIZE_TEXT[0], 0),
-            (myGlobals.PREVIEWSIZE_TEXT[1], 1)
+            (myGlobals.PREVIEWSIZE_TEXT[1], 1),
+            (myGlobals.PREVIEWSIZE_TEXT[2], 2),
+            (myGlobals.PREVIEWSIZE_TEXT[3], 3),
+            (myGlobals.PREVIEWSIZE_TEXT[4], 4)
         ]
 
     for text, mode in MODES:
