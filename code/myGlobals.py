@@ -209,6 +209,8 @@ def _global_variables():
         
 root = tkinter.Tk()
 
+image_is_saved = False
+
 preview_window = None
 preview_window_open = False
 preferences_window = None
@@ -218,7 +220,7 @@ help_window_open = False
 about_window = None
 about_window_open = False
 
-frame_replace_color = tkinter.Frame()
+#frame_replace_color = tkinter.Frame()
 
 special_modifier_pressed = False
 
@@ -335,7 +337,7 @@ used_color_col3 = tkinter.IntVar()
 used_color_col3.set(1)
 
 user_replace_color = tkinter.IntVar()
-user_replace_color.set(99)
+user_replace_color.set(1)
 
 current_color = tkinter.IntVar()
 current_color.set(99)

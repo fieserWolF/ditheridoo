@@ -136,7 +136,9 @@ or
 
 - preview window zoom: more options, zoom with mouse wheel in preview window
 - responsive GUI, removed fixed editor dimensions from preferences window
+- removed extra color selector when choosing draw mode "select", can be selected with radiobuttons next to the colors now
 - toggle grid
+- safety questions when quitting and creating new image
 - bug fixes
 
 

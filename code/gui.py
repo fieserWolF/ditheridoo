@@ -84,11 +84,13 @@ def create_gui_main ():
         0   #column
     )
 
+    """
     create_gui_replace_color(
         frame_right,
         1,  #row
         0   #column
     )
+    """
 
 
     create_gui_pencil(
@@ -277,7 +279,7 @@ def create_gui_pencil (
 
 
 
-
+"""
 def create_gui_replace_color (
 	root,
     _row,
@@ -459,7 +461,7 @@ def create_gui_replace_color (
         column=4,
         sticky=tkinter.W+tkinter.E
     )
-
+"""
 
 
 def create_gui_current_color (
@@ -478,6 +480,7 @@ def create_gui_current_color (
         row=_row,
         column=_column
     )
+
     frame_inner = tkinter.Frame(
         frame_border,
         bd=1,
@@ -496,17 +499,128 @@ def create_gui_current_color (
     label_current_color = tkinter.Label(
         frame_inner,
         bg=myGlobals.BGCOLOR,
-        text="block",
+        text="colors in block",
         anchor='c',
         fg="#000088"
     )
+
+
+    frame_colors = tkinter.Frame(
+        frame_inner,
+        bd=1,
+        padx = myGlobals._padx,
+        pady = myGlobals._pady,
+        relief=tkinter.RAISED,
+        bg=myGlobals.BGCOLOR,
+    )
+
+    #placement in frame_inner
+    label_current_color.grid(
+        row=0,
+        column=0,
+        sticky=tkinter.W+tkinter.E
+    )
+    frame_colors.grid(
+        row=1,
+        column=0,
+        sticky=tkinter.W+tkinter.E
+    )
+
+
+    #create labels and radiobuttons
+    label_type_color1 = tkinter.Label(
+        frame_colors,
+        bg=myGlobals.BGCOLOR,
+        text="screen 1",
+        anchor='c',
+        fg="#000088"
+    )
+    label_type_color2 = tkinter.Label(
+        frame_colors,
+        bg=myGlobals.BGCOLOR,
+        text="screen 2",
+        anchor='c',
+        fg="#000088"
+    )
+    label_type_color3 = tkinter.Label(
+        frame_colors,
+        bg=myGlobals.BGCOLOR,
+        text="colorram",
+        anchor='c',
+        fg="#000088"
+    )
+    label_type_color4 = tkinter.Label(
+        frame_colors,
+        bg=myGlobals.BGCOLOR,
+        text="background",
+        anchor='c',
+        fg="#000088"
+    )
+
+    myGlobals.radiobutton_replace_col1 = tkinter.Radiobutton(
+        frame_colors,
+        value = 1,
+        indicatoron=1,
+        variable=myGlobals.user_replace_color,
+        bg=myGlobals.BGCOLOR,
+        activebackground=myGlobals.BGCOLOR,
+        #selectcolor="#000000",
+        cursor=myGlobals.CURSOR_HAND,
+        #bd=4,
+        #relief=tkinter.GROOVE,
+        #offrelief=tkinter.RAISED,
+        #command=debug
+    )
+    myGlobals.radiobutton_replace_col2 = tkinter.Radiobutton(
+        frame_colors,
+        value = 2,
+        indicatoron=1,
+        variable=myGlobals.user_replace_color,
+        bg=myGlobals.BGCOLOR,
+        activebackground=myGlobals.BGCOLOR,
+        #selectcolor="#000000",
+        cursor=myGlobals.CURSOR_HAND,
+        #bd=4,
+        #relief=tkinter.GROOVE,
+        #offrelief=tkinter.RAISED,
+        #command=debug
+    )
+    myGlobals.radiobutton_replace_col3 = tkinter.Radiobutton(
+        frame_colors,
+        value = 3,
+        indicatoron=1,
+        variable=myGlobals.user_replace_color,
+        bg=myGlobals.BGCOLOR,
+        activebackground=myGlobals.BGCOLOR,
+        #selectcolor="#000000",
+        cursor=myGlobals.CURSOR_HAND,
+        #bd=4,
+        #relief=tkinter.GROOVE,
+        #offrelief=tkinter.RAISED,
+        #command=debug
+    )
+    myGlobals.radiobutton_replace_bg = tkinter.Radiobutton(
+        frame_colors,
+        value = 0,
+        indicatoron=1,
+        variable=myGlobals.user_replace_color,
+        bg=myGlobals.BGCOLOR,
+        activebackground=myGlobals.BGCOLOR,
+        #selectcolor="#000000",
+        cursor=myGlobals.CURSOR_HAND,
+        #bd=4,
+        #relief=tkinter.GROOVE,
+        #offrelief=tkinter.RAISED,
+        #command=debug
+    )
+
     
     myGlobals.radiobutton_current_col1 = tkinter.Radiobutton(
-        frame_inner,
+        frame_colors,
         value = 1,
-        width=2,
+        width = 2,
         indicatoron=0,
-        state=tkinter.DISABLED,
+        #state=tkinter.DISABLED,
         variable=myGlobals.current_color,
         background="#000000",
         activebackground="#000000",
@@ -518,11 +632,11 @@ def create_gui_current_color (
     )
     
     myGlobals.radiobutton_current_col2 = tkinter.Radiobutton(
-        frame_inner,
+        frame_colors,
         value = 2,
-        width=2,
+        width = 2,
         indicatoron=0,
-        state=tkinter.DISABLED,
+        #state=tkinter.DISABLED,
         variable=myGlobals.current_color,
         background="#000000",
         activebackground="#000000",
@@ -534,11 +648,11 @@ def create_gui_current_color (
     )
     
     myGlobals.radiobutton_current_col3 = tkinter.Radiobutton(
-        frame_inner,
+        frame_colors,
         value = 3,
-        width=2,
+        width = 2,
         indicatoron=0,
-        state=tkinter.DISABLED,
+        #state=tkinter.DISABLED,
         variable=myGlobals.current_color,
         background="#000000",
         activebackground="#000000",
@@ -549,11 +663,11 @@ def create_gui_current_color (
         #command=debug
     )
     myGlobals.radiobutton_current_bg = tkinter.Radiobutton(
-        frame_inner,
+        frame_colors,
         value = 0,
-        width=2,
+        width = 2,
         indicatoron=0,
-        state=tkinter.DISABLED,
+        #state=tkinter.DISABLED,
         variable=myGlobals.current_color,
         background="#000000",
         activebackground="#000000",
@@ -568,33 +682,71 @@ def create_gui_current_color (
 
     
 
-    #placement in grid
-    label_current_color.grid(
+
+    #placement in frame_colors
+    myGlobals.radiobutton_replace_col1.grid(
         row=0,
         column=0,
         sticky=tkinter.W+tkinter.E
     )
+    myGlobals.radiobutton_replace_col2.grid(
+        row=1,
+        column=0,
+        sticky=tkinter.W+tkinter.E
+    )
+    myGlobals.radiobutton_replace_col3.grid(
+        row=2,
+        column=0,
+        sticky=tkinter.W+tkinter.E
+    )
+    myGlobals.radiobutton_replace_bg.grid(
+        row=3,
+        column=0,
+        sticky=tkinter.W+tkinter.E
+    )
+
     myGlobals.radiobutton_current_col1.grid(
         row=0,
         column=1,
         sticky=tkinter.W+tkinter.E
     )
     myGlobals.radiobutton_current_col2.grid(
+        row=1,
+        column=1,
+        sticky=tkinter.W+tkinter.E
+    )
+    myGlobals.radiobutton_current_col3.grid(
+        row=2,
+        column=1,
+        sticky=tkinter.W+tkinter.E
+    )
+    myGlobals.radiobutton_current_bg.grid(
+        row=3,
+        column=1,
+        sticky=tkinter.W+tkinter.E
+    )
+
+    label_type_color1.grid(
         row=0,
         column=2,
         sticky=tkinter.W+tkinter.E
     )
-    myGlobals.radiobutton_current_col3.grid(
-        row=0,
-        column=3,
+    label_type_color2.grid(
+        row=1,
+        column=2,
         sticky=tkinter.W+tkinter.E
     )
-    myGlobals.radiobutton_current_bg.grid(
-        row=0,
-        column=4,
+    label_type_color3.grid(
+        row=2,
+        column=2,
         sticky=tkinter.W+tkinter.E
     )
-
+    label_type_color4.grid(
+        row=3,
+        column=2,
+        sticky=tkinter.W+tkinter.E
+    )
+    
 
 
 
@@ -776,7 +928,19 @@ def create_gui_color_right (
         )
 
 
+def quit_application():
+    if tkinter.messagebox.askokcancel("Quit", "Do you want to quit?"):
 
+        if (myGlobals.image_is_saved == False) :
+            if tkinter.messagebox.askokcancel("Save", "Do you want to save?"):
+                action.SaveFile_from_menu()
+
+        myGlobals.root.quit()
+
+
+
+def clear_image_ask_user():
+    if tkinter.messagebox.askokcancel("Are you sure?", "Do you want to clear the image?"): action.draw_new_image()
 	
 
 def create_drop_down_menu (
@@ -786,7 +950,7 @@ def create_drop_down_menu (
     myGlobals.root.config(menu=menu)
 
     filemenu = tkinter.Menu(menu, tearoff=0)
-    filemenu.add_command(label="new", command=action.draw_new_image)
+    filemenu.add_command(label="new", command=clear_image_ask_user)
     filemenu.add_separator()
     filemenu.add_command(label="open...", command=action.OpenFile_from_menu, underline=0, accelerator="Control+o")
     filemenu.add_command(label="save...", command=action.SaveFile_from_menu, underline=0, accelerator="Control+s")
@@ -796,7 +960,7 @@ def create_drop_down_menu (
     filemenu.add_command(label="show preview", command=gui_preview.create_gui_preview_image)
     filemenu.add_command(label="toggle grid", command=action.toggle_grid, underline=6, accelerator="g")
     filemenu.add_separator()
-    filemenu.add_command(label="quit", command=root.quit, underline=0, accelerator="Control+q")
+    filemenu.add_command(label="quit", command=quit_application, underline=0, accelerator="Control+q")
 
     editmenu = tkinter.Menu(menu, tearoff=0)
     editmenu.add_command(label="undo", command=action.undo_undo_from_menu, accelerator="Ctrl+z")

@@ -601,9 +601,9 @@ def update_infos():
         myGlobals.PALETTEDATA_PEPTO[col_bg*3+1],
         myGlobals.PALETTEDATA_PEPTO[col_bg*3+2]
     )
-    myGlobals.radiobutton_replace_bg.configure(background=mycolor)
-    myGlobals.radiobutton_replace_bg.configure(activebackground=mycolor)
-    myGlobals.radiobutton_replace_bg.configure(selectcolor=mycolor)
+    #myGlobals.radiobutton_replace_bg.configure(background=mycolor)
+    #myGlobals.radiobutton_replace_bg.configure(activebackground=mycolor)
+    #myGlobals.radiobutton_replace_bg.configure(selectcolor=mycolor)
     myGlobals.radiobutton_current_bg.configure(background=mycolor)
     myGlobals.radiobutton_current_bg.configure(activebackground=mycolor)
     myGlobals.radiobutton_current_bg.configure(selectcolor=mycolor)
@@ -613,9 +613,9 @@ def update_infos():
         myGlobals.PALETTEDATA_PEPTO[col1*3+1],
         myGlobals.PALETTEDATA_PEPTO[col1*3+2]
     )
-    myGlobals.radiobutton_replace_col1.configure(background=mycolor)
-    myGlobals.radiobutton_replace_col1.configure(activebackground=mycolor)
-    myGlobals.radiobutton_replace_col1.configure(selectcolor=mycolor)
+    #myGlobals.radiobutton_replace_col1.configure(background=mycolor)
+    #myGlobals.radiobutton_replace_col1.configure(activebackground=mycolor)
+    #myGlobals.radiobutton_replace_col1.configure(selectcolor=mycolor)
     myGlobals.radiobutton_current_col1.configure(background=mycolor)
     myGlobals.radiobutton_current_col1.configure(activebackground=mycolor)
     myGlobals.radiobutton_current_col1.configure(selectcolor=mycolor)
@@ -625,9 +625,9 @@ def update_infos():
         myGlobals.PALETTEDATA_PEPTO[col2*3+1],
         myGlobals.PALETTEDATA_PEPTO[col2*3+2]
     )
-    myGlobals.radiobutton_replace_col2.configure(background=mycolor)
-    myGlobals.radiobutton_replace_col2.configure(activebackground=mycolor)
-    myGlobals.radiobutton_replace_col2.configure(selectcolor=mycolor)
+    #myGlobals.radiobutton_replace_col2.configure(background=mycolor)
+    #myGlobals.radiobutton_replace_col2.configure(activebackground=mycolor)
+    #myGlobals.radiobutton_replace_col2.configure(selectcolor=mycolor)
     myGlobals.radiobutton_current_col2.configure(background=mycolor)
     myGlobals.radiobutton_current_col2.configure(activebackground=mycolor)
     myGlobals.radiobutton_current_col2.configure(selectcolor=mycolor)
@@ -637,9 +637,9 @@ def update_infos():
         myGlobals.PALETTEDATA_PEPTO[col3*3+1],
         myGlobals.PALETTEDATA_PEPTO[col3*3+2]
     )
-    myGlobals.radiobutton_replace_col3.configure(background=mycolor)
-    myGlobals.radiobutton_replace_col3.configure(activebackground=mycolor)
-    myGlobals.radiobutton_replace_col3.configure(selectcolor=mycolor)
+    #myGlobals.radiobutton_replace_col3.configure(background=mycolor)
+    #myGlobals.radiobutton_replace_col3.configure(activebackground=mycolor)
+    #myGlobals.radiobutton_replace_col3.configure(selectcolor=mycolor)
     myGlobals.radiobutton_current_col3.configure(background=mycolor)
     myGlobals.radiobutton_current_col3.configure(activebackground=mycolor)
     myGlobals.radiobutton_current_col3.configure(selectcolor=mycolor)
@@ -818,6 +818,7 @@ def set_pixel__select_mode(posx, posy, color):
     if (flag_new_colors == False) & (flag_new_bitmap == False) : return None
 
     # update colors and bitmap
+    myGlobals.image_is_saved = False
     undo_save();
     if (flag_new_colors == True) : set_pixel_replace_colors(my_block, replace_this, color) # replace bg, screen or colorram
     if (flag_new_bitmap == True) : set_pixel_replace_bitmap(my_block, posx, posy, replace_this)   #update koala bitmap data
@@ -844,6 +845,7 @@ def set_pixel__dye_mode(posx, posy, color):
     if (color == set_pixel_get_color_by_index(my_block, replace_this)) : return None
 
     # update colors
+    myGlobals.image_is_saved = False
     undo_save();
     set_pixel_replace_colors(my_block, replace_this, color) # replace bg, screen or colorram
     
@@ -971,6 +973,7 @@ def set_pixel__keep_mode(okay_to_overwrite, posx, posy, color):
         #print ("Nothing to do")
         return None
 
+    myGlobals.image_is_saved = False
     undo_save();
     if (flag_new_colors == True): set_pixel_replace_colors(my_block, index_new, color) # replace bg, screen or colorram
     if (flag_new_bitmap == True): set_pixel_replace_bitmap(my_block, posx, posy ,index_new)
@@ -1179,6 +1182,7 @@ def loadFile(filename):
     set_title()
     load_koala(filename)
     myGlobals.undo_stack = []
+    myGlobals.image_is_saved = True
     update_infos()
     refresh_prepare()
 
@@ -1319,6 +1323,8 @@ def buffer_paste(self):
                 for c in range(0,8) :
                     myGlobals.koala_bitmap[block_dst*8+c] = myGlobals.buffer_bitmap[block_src*8+c]
 
+    myGlobals.image_is_saved = False
+
     koala_to_image()
     refresh_prepare()
 
@@ -1340,6 +1346,8 @@ def buffer_cut(self):
                 block = (myGlobals.marker_posy+y)*myGlobals.C64_CHAR_WIDTH+(myGlobals.marker_posx+x)
                 myGlobals.koala_bitmap[block*8+c] = 0  #background color
 
+    myGlobals.image_is_saved = False
+    
     marker_reset()
     koala_to_image()
     refresh_prepare()
@@ -1364,6 +1372,8 @@ def draw_new_image():
     #create palette
     #myGlobals.koala_image.putpalette(myGlobals.PALETTEDATA_COLODORE)
     #myGlobals.koala_image.putdata(myGlobals.koala_colorindex_data)
+
+    myGlobals.image_is_saved = True
 
     refresh_prepare()
     refresh_show() 
@@ -1434,6 +1444,8 @@ def SaveFile(self):
     
     myGlobals.current_filename = user_filename_save
     set_title()
+
+    myGlobals.image_is_saved = True
     
     return None
 
@@ -1441,11 +1453,12 @@ def SaveFile(self):
 def root_refresh() :
     #writes: myGlobals.frame_replace_color
     
+    """
     if (myGlobals.user_drawmode.get() == 'select') : 
         myGlobals.frame_replace_color.grid()
     else :
         myGlobals.frame_replace_color.grid_remove()
-    
+    """
 
 
 

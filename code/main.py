@@ -57,7 +57,7 @@ def _main_procedure() :
     myGlobals.root.bind_all("<Control-b>", lambda event: myGlobals.user_pencil.set("checkerboard"))
     myGlobals.root.bind_all("<Control-y>", lambda event: myGlobals.user_pencil.set("yline"))
     myGlobals.root.bind_all("<Control-p>", gui_preferences.create_gui_preferences)
-    myGlobals.root.bind_all("<Control-q>", lambda event: myGlobals.root.quit())
+    myGlobals.root.bind_all("<Control-q>", lambda event: gui.quit_application())
     myGlobals.root.bind_all("<Control-o>", action.OpenFile)
     myGlobals.root.bind_all("<Control-s>", action.SaveFile)
     myGlobals.root.bind_all("<Control-v>", action.buffer_paste)
